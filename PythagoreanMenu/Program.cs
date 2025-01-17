@@ -31,13 +31,16 @@
                     case MENU_TWO_SIDES:
                         CalculateHypoteneuse();
                         break;
+                    
                     case MENU_ONE_SIDE_AND_HYPOTENEUSE:
                         CalculateSide();
                         break;
+                    
                     case MENU_CLOSE:
                         Console.WriteLine(TEXT_CLOSING);
                         runProgram = false;
                         break;
+                    
                     default:
                         Console.WriteLine(WARNING_UNEXPECTED_INPUT);
                         break;
@@ -46,7 +49,7 @@
         }
 
         // ============================== METOD ===============================
-        // ShowMenu. Visar programmets huvudmeny.
+        // ShowMenu. Visar programmets huvudmeny. Returnerar ingenting.
         // ====================================================================
         private static void ShowMenu()
         {
