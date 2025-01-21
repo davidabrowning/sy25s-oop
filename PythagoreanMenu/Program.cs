@@ -3,6 +3,7 @@
     internal class Program
     {
 
+        private const string PROGRAM_TITLE = "PYTHAGOREAN MENU";
         private const string TEXT_MENU = "\n\n========== Meny ==========" +
             "\n[1] Du har båda sidorna och vill ha hypotenusan" +
             "\n[2] Du har en sida och hypotenusan och vill räkna ut den andra sidan" +
@@ -23,6 +24,8 @@
 
         static void Main(string[] args)
         {
+            Console.WriteLine(PROGRAM_TITLE);
+
             bool runProgram = true;
             while (runProgram)
             {
@@ -65,6 +68,7 @@
         // ====================================================================
         private static void PrintMenuSelection(string menuSelection)
         {
+            Console.Clear();
             Console.WriteLine(MENU_SELECTION_START + menuSelection);
         }
 
