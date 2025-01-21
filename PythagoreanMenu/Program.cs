@@ -8,6 +8,7 @@
             "\n[2] Du har en sida och hypotenusan och vill räkna ut den andra sidan" +
             "\n[0] Avsluta";
         private const string TEXT_CLOSING = "Avslutar programmet.";
+        private const string MENU_SELECTION_START = "Du valde: ";
         private const string TEXT_LENGTH_HYPOTENEUSE = "Hypotenusans längd: ";
         private const string TEXT_LENGTH_SIDE = "Sidans längd: ";
         private const string WARNING_UNEXPECTED_INPUT = "Varning: Ogiltigt val.";
@@ -26,7 +27,9 @@
             while (runProgram)
             {
                 ShowMenu();
-                switch(Console.ReadLine())
+                string menuSelection = Console.ReadLine();
+                PrintMenuSelection(menuSelection);
+                switch(menuSelection)
                 {
                     case MENU_TWO_SIDES:
                         CalculateHypoteneuse();
@@ -55,6 +58,14 @@
         {
             Console.WriteLine(TEXT_MENU);
             Console.Write(MENU_PROMPT);
+        }
+
+        // ============================== METOD ===============================
+        // PrintMenuSelection. Skriver ut bekräftelse på användarens menyval.
+        // ====================================================================
+        private static void PrintMenuSelection(string menuSelection)
+        {
+            Console.WriteLine(MENU_SELECTION_START + menuSelection);
         }
 
         // ============================== METOD ===============================
