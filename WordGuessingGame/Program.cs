@@ -4,7 +4,10 @@
     {
         static void Main(string[] args)
         {
-            TestRunner.RunTests();
+            // TestRunner.RunTests();
+
+            GameLauncher gameLauncher = new GameLauncher();
+            gameLauncher.Go();
         }
     }
 }
