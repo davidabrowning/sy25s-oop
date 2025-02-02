@@ -26,7 +26,7 @@ namespace WordGuessingGame
         }
         public override string ToString()
         {
-            return $"\"{Phrase}\" guessed by {Guesser} in {Guesses} guesses (written by {Writer}) {DateOfGame.Day} {GetShortMonth(DateOfGame.Month)} {DateOfGame.Year}";
+            return $"\"{Phrase}\" guessed by {Guesser} with {Misses} misses (written by {Writer}) {DateOfGame.Day} {GetShortMonth(DateOfGame.Month)} {DateOfGame.Year}";
         }
         private string GetShortMonth(int monthNum)
         {

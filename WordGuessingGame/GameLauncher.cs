@@ -89,7 +89,7 @@ namespace WordGuessingGame
         {
             int resultCounter = 1;
             List<Result> results = resultLoader.Results;
-            IEnumerable<Result> sortedResults = results.AsQueryable().OrderBy(result => result.Guesses);
+            IEnumerable<Result> sortedResults = results.AsQueryable().OrderBy(result => result.Misses);
 
             Console.WriteLine("===== High scores =====");
             foreach(Result result in sortedResults)
