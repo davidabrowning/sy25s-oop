@@ -75,9 +75,9 @@ namespace WordGuessingGame
             game.Guess('B');
             AssertTrue(title, game.PhraseWithGuessedLettersOnly.ToCharArray().Contains('B'));
 
-            title = "Various print tests";
-            game = new Game("John Doe", "Jane Doe", "Osage oil boom");
-            game.Start();
+            //title = "Various print tests";
+            //game = new Game("John Doe", "Jane Doe", "Osage oil boom");
+            //game.Start();
         }
         private static void PrintSuccess(string title)
         {

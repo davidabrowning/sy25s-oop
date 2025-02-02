@@ -12,7 +12,7 @@ namespace WordGuessingGame
         private string Guesser;
         private string Phrase;
         internal string PhraseWithGuessedLettersOnly {  get { return GetPhraseWithGuessedLettersOnly(); } }
-        internal int Guesses;
+        internal int Guesses { get { return GuessedLetters.Count; } }
         internal List<char> GuessedLetters;
         public bool IsOver { get { return CheckForGameOver(); } }
         public Result Result { get { return new Result(Writer, Guesser, Phrase, Guesses); } }
@@ -21,7 +21,6 @@ namespace WordGuessingGame
             Writer = writer;
             Guesser = guesser;
             Phrase = phrase.ToUpper();
-            Guesses = 0;
             GuessedLetters = new List<char>();
         }
         public void Start()
@@ -40,7 +39,6 @@ namespace WordGuessingGame
             if (GuessedLetters.Contains(letter) == false)
             {
                 GuessedLetters.Add(letter);
-                Guesses++;
             }
         }
         private bool CheckForGameOver()
