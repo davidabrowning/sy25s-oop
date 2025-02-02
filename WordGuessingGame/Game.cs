@@ -17,7 +17,7 @@ namespace WordGuessingGame
 
         internal List<char> GuessedLetters;
         public bool IsOver { get { return CheckForGameOver(); } }
-        public Result Result { get { return new Result(Writer, Guesser, Phrase, Guesses); } }
+        public Result Result { get { return new Result(Writer, Guesser, Phrase, Guesses, Misses); } }
         public Game(string writer, string guesser, string phrase)
         {
             Writer = writer;
