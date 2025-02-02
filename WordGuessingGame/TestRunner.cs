@@ -18,7 +18,7 @@ namespace WordGuessingGame
             Game game;
 
             title = "Result equals result's phrase";
-            result = new Result("John", "Jane", "TEST PHRASE", 10);
+            result = new Result("John", "Jane", "TEST PHRASE", 10, 1);
             AssertTrue(title, result.Phrase.Equals("TEST PHRASE"));
 
             title = "ResultHelper.Filename is correct";
@@ -26,13 +26,13 @@ namespace WordGuessingGame
 
             title = "ResultHelper.Results does not initially contain result";
             resultLoader.DeleteFile();
-            result = new Result("John", "Jane", "Test", 5);
+            result = new Result("John", "Jane", "Test", 5, 1);
             results = resultLoader.Results;
             AssertFalse(title, results.Contains(result));
 
             title = "ResultHelper.Results contains added result";
             resultLoader.DeleteFile();
-            result = new Result("John", "Jane", "Test", 5);
+            result = new Result("John", "Jane", "Test", 5, 1);
             resultLoader.AddResult(result);
             results = resultLoader.Results;
             AssertTrue(title, resultLoader.Results.Contains(result));
