@@ -61,20 +61,20 @@ namespace WordGuessingGame
             string phrase = "";
 
             Console.WriteLine("===== Game setup =====");
-            while (writer.Length < 2)
+            while (writer.Length < 1)
             {
                 Console.Write("Writer's name: ");
-                writer = Console.ReadLine() ?? "";
+                writer = Console.ReadLine().Trim() ?? "";
             }
-            while (guesser.Length < 2)
+            while (guesser.Length < 1)
             {
                 Console.Write("Guesser's name: ");
-                guesser = Console.ReadLine() ?? "";
+                guesser = Console.ReadLine().Trim() ?? "";
             }
             while (phrase.Length < 5)
             {
                 Console.Write("Word or phrase to guess (at least 5 letters, guesser please look away): ");
-                phrase = Console.ReadLine() ?? "";
+                phrase = Console.ReadLine().Trim() ?? "";
             }
 
             Game game = new Game(writer, guesser, phrase);

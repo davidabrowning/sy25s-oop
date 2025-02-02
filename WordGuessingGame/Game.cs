@@ -118,7 +118,14 @@ namespace WordGuessingGame
             StringBuilder guessedLetters = new StringBuilder();
             foreach(char letter in GuessedLetters)
             {
-                guessedLetters.Append(letter);
+                if (Phrase.Contains(letter))
+                {
+                    guessedLetters.Append(Char.ToUpper(letter));
+                }
+                else
+                {
+                    guessedLetters.Append(Char.ToLower(letter));
+                }
             }
             return guessedLetters.ToString();
         }
@@ -129,14 +136,7 @@ namespace WordGuessingGame
             {
                 if (GuessedLetters.Contains(letter) == false)
                 {
-                    if (Phrase.Contains(letter))
-                    {
-                        remainingLetters.Append(Char.ToUpper(letter));
-                    }
-                    else
-                    {
-                        remainingLetters.Append(Char.ToLower(letter));
-                    }
+                    remainingLetters.Append(letter);
                 }
             }
             return remainingLetters.ToString();
