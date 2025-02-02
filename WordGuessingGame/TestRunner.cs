@@ -79,6 +79,12 @@ namespace WordGuessingGame
             game = new Game("Writer", "Guesser", "ABC DEFG");
             AssertEquals(title, 0, game.Misses);
 
+            title = "Game.Misses is 1 after a miss";
+            game = new Game("Writer", "Guesser", "ABC DEFG");
+            game.Guess('G');
+            game.Guess('H');
+            AssertEquals(title, 1, game.Misses);
+
             //title = "Various print tests";
             //game = new Game("John Doe", "Jane Doe", "Osage oil boom");
             //game.Start();
