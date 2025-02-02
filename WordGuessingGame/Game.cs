@@ -91,7 +91,7 @@ namespace WordGuessingGame
             Console.Clear();
             Console.WriteLine("===== Word guessing game =====");
             Console.WriteLine($"Word(s) to guess: {PhraseWithGuessedLettersOnly}");
-            Console.WriteLine($"Total guesses: {Guesses}");
+            Console.WriteLine($"Total misses: {Misses}");
             Console.WriteLine($"Guessed letters: {ShowGuessedLetters()}");
             Console.WriteLine($"Remaining letters: {ShowRemainingLetters()}");
         }
@@ -109,7 +109,7 @@ namespace WordGuessingGame
         }
         private void PrintCongratulations()
         {
-            Console.WriteLine($"Congratulations, {Guesser}! You solved the puzzle in {Guesses} guesses.");
+            Console.WriteLine($"Congratulations, {Guesser}! You solved the puzzle with {Misses} misses.");
             Console.WriteLine("Press ENTER to return to the main menu.");
             Console.ReadLine();
         }
@@ -129,7 +129,14 @@ namespace WordGuessingGame
             {
                 if (GuessedLetters.Contains(letter) == false)
                 {
-                    remainingLetters.Append(letter);
+                    if (Phrase.Contains(letter))
+                    {
+                        remainingLetters.Append(Char.ToUpper(letter));
+                    }
+                    else
+                    {
+                        remainingLetters.Append(Char.ToLower(letter));
+                    }
                 }
             }
             return remainingLetters.ToString();
