@@ -13,6 +13,8 @@ namespace WordGuessingGame
         private string Phrase;
         internal string PhraseWithGuessedLettersOnly {  get { return GetPhraseWithGuessedLettersOnly(); } }
         internal int Guesses { get { return GuessedLetters.Count; } }
+        internal int Misses { get { return CalculateMisses();  } }
+
         internal List<char> GuessedLetters;
         public bool IsOver { get { return CheckForGameOver(); } }
         public Result Result { get { return new Result(Writer, Guesser, Phrase, Guesses); } }
@@ -40,6 +42,18 @@ namespace WordGuessingGame
             {
                 GuessedLetters.Add(letter);
             }
+        }
+        private int CalculateMisses()
+        {
+            int misses = 0;
+            foreach (char c in GuessedLetters)
+            {
+                if(Phrase.Contains(c) == false)
+                {
+                    misses++;
+                }
+            }
+            return misses;
         }
         private bool CheckForGameOver()
         {

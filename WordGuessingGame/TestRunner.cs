@@ -75,6 +75,10 @@ namespace WordGuessingGame
             game.Guess('B');
             AssertTrue(title, game.PhraseWithGuessedLettersOnly.ToCharArray().Contains('B'));
 
+            title = "Game.Misses is initially 0";
+            game = new Game("Writer", "Guesser", "ABC DEFG");
+            AssertEquals(title, 0, game.Misses);
+
             //title = "Various print tests";
             //game = new Game("John Doe", "Jane Doe", "Osage oil boom");
             //game.Start();
