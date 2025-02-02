@@ -13,13 +13,15 @@ namespace WordGuessingGame
         public string Guesser { get; private set; }
         public string Phrase { get; private set; }
         public int Guesses { get; private set; }
+        public int Misses { get; private set; }
         public DateTime DateOfGame { get; private set; }
-        public Result(string writer, string guesser, string phrase, int guesses)
+        public Result(string writer, string guesser, string phrase, int guesses, int misses)
         {
             Writer = writer;
             Guesser = guesser;
             Phrase = phrase;
             Guesses = guesses;
+            Misses = misses;
             DateOfGame = DateTime.Now;
         }
         public override string ToString()
@@ -61,6 +63,7 @@ namespace WordGuessingGame
                 || this.Guesser != r2.Guesser
                 || this.Phrase != r2.Phrase
                 || this.Guesses != r2.Guesses
+                || this.Misses != r2.Misses
                 || this.DateOfGame.Equals(r2.DateOfGame))
             {
                 return false;
