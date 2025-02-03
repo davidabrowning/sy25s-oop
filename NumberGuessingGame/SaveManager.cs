@@ -10,12 +10,23 @@ namespace NumberGuessingGame
 {
     public class SaveManager
     {
+        // Private constants
+        private static string DefaultFilename = "SavedGames.json";
+        private static string WarningUnableToSaveGame = "Unable to save game.";
+
+        // Private variables
         private string filename;
-        public SaveManager() : this("SavedGames.json") { }
+
+        // Public properties
+
+        // Constructors
+        public SaveManager() : this(DefaultFilename) { }
         public SaveManager(string filename)
         {
             this.filename = filename;
         }
+
+        // Methods
         public void Save(Game game)
         {
             List<Game> savedGames = LoadSavedGames();
@@ -27,7 +38,7 @@ namespace NumberGuessingGame
             }
             catch (Exception e)
             {
-                Console.WriteLine("Unable to save game.");
+                Console.WriteLine(WarningUnableToSaveGame);
                 Console.WriteLine(e.Message);
             }
         }
@@ -52,24 +63,24 @@ namespace NumberGuessingGame
         public static void RunTests()
         {
             // Variables to reuse
-            //string title;
-            //Game game = new Game();
-            //List<Game> savedGames = new List<Game>();
-            //SaveManager saveManager = new SaveManager("SavedGames_Test.json");
+            string title;
+            Game game = new Game();
+            List<Game> savedGames = new List<Game>();
+            SaveManager saveManager = new SaveManager("SavedGames_Test.json");
 
-            //Console.WriteLine("Running SaveManager tests...");
+            Console.WriteLine("Running SaveManager tests...");
 
-            //title = "New file has list size of 0";
-            //saveManager.DeleteSavedGames();
-            //savedGames = saveManager.LoadSavedGames();
-            //TestHelper.AssertEquals(title, 0, savedGames.Count);
+            title = "New file has list size of 0";
+            saveManager.DeleteSavedGames();
+            savedGames = saveManager.LoadSavedGames();
+            TestHelper.AssertEquals(title, 0, savedGames.Count);
 
-            //title = "File with two saved games has size of 2";
-            //saveManager.DeleteSavedGames();
-            //saveManager.Save(new Game());
-            //saveManager.Save(new Game());
-            //savedGames = saveManager.LoadSavedGames();
-            //TestHelper.AssertEquals(title, 2, savedGames.Count);
+            title = "File with two saved games has size of 2";
+            saveManager.DeleteSavedGames();
+            saveManager.Save(new Game());
+            saveManager.Save(new Game());
+            savedGames = saveManager.LoadSavedGames();
+            TestHelper.AssertEquals(title, 2, savedGames.Count);
 
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,8 +9,25 @@ namespace NumberGuessingGame
 {
     public class Menu
     {
+        // Private constants
+        private const string PageTitle = "Main menu";
+        private const string MenuTextPlay = "[P]lay game: Guess a number from 1 to 100";
+        private const string MenuTextList = "[L]ist high scores";
+        private const string MenuTextQuit = "[Q]uit";
+        private const string MenuKeyPlay = "P";
+        private const string MenuKeyList = "L";
+        private const string MenuKeyQuit = "Q";
+        private const string PromptMenuChoice = "Your choice:";
+
+        // Private variables
         private bool run = true;
         private UserInputRetriever userInputRetriever = new UserInputRetriever();
+
+        // Public properties
+
+        // Constructors
+
+        // Methods
         public void Display()
         {
             while(run)
@@ -20,23 +38,22 @@ namespace NumberGuessingGame
         }
         private void PrintMenu()
         {
-            Console.Clear();
-            Console.WriteLine("===== Main menu =====");
-            Console.WriteLine("[P]lay game: Guess a number from 1 to 100");
-            Console.WriteLine("[L]ist high scores");
-            Console.WriteLine("[Q]uit");
+            FormatHelper.PrintTitle(PageTitle);
+            Console.WriteLine(MenuTextPlay);
+            Console.WriteLine(MenuTextList);
+            Console.WriteLine(MenuTextQuit);
         }
         private void ProcessMenuSelection()
         {
-            switch (userInputRetriever.GetStringInput("Your choice: ", 1, 1).ToUpper())
+            switch (userInputRetriever.GetStringInput(PromptMenuChoice, 1, 1).ToUpper())
             {
-                case "P":
+                case MenuKeyPlay:
                     StartGame();
                     break;
-                case "L":
+                case MenuKeyList:
                     PrintHighScores();
                     break;
-                case "Q":
+                case MenuKeyQuit:
                     run = false;
                     break;
                 default:
@@ -59,8 +76,7 @@ namespace NumberGuessingGame
             {
                 Console.WriteLine(game);
             }
-            Console.WriteLine("ENTER to return to main menu.");
-            Console.ReadLine();
+            FormatHelper.PrintMenuReturnConfirmation();
         }
     }
 }
