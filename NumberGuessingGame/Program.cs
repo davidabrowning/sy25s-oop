@@ -8,7 +8,7 @@
             menu.Display();
 
             TestRunner testRunner = new TestRunner();
-            // testRunner.RunTests();
+            testRunner.RunTests();
         }
     }
 }

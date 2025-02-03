@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace NumberGuessingGame
 {
@@ -16,12 +17,19 @@ namespace NumberGuessingGame
         private UserInputRetriever uIR = new UserInputRetriever();
 
         // Public properties
-        public int LatestGuess { get; private set; } = targetMin - 1;
+        public int LatestGuess { get; private set; }
         public int Guesses { get; private set; } = 0;
-        public int TargetNumber { get; private set; }
+        public int TargetNumber { get; private set; } = targetMin - 1;
         public bool IsOver {  get { return LatestGuess == TargetNumber; } }
 
         // Constructors
+        [JsonConstructor]
+        public Game(int latestGuess, int guesses, int targetNumber)
+        {
+            LatestGuess = latestGuess;
+            Guesses = guesses;
+            TargetNumber = targetNumber;
+        }
         public Game()
         {
             TargetNumber = GenerateTargetNumber();
@@ -38,6 +46,7 @@ namespace NumberGuessingGame
                 Guess(nextGuess);
                 Console.WriteLine(GetStatus());
             }
+            Save();
             Console.WriteLine("ENTER to return to main menu");
             Console.ReadLine();
         }
@@ -63,7 +72,15 @@ namespace NumberGuessingGame
             }
             return "You guessed it!";
         }
-
+        private void Save()
+        {
+            SaveManager saveManager = new SaveManager();
+            saveManager.Save(this);
+        }
+        public override string? ToString()
+        {
+            return $"Guessed {TargetNumber} in {Guesses} guesses";
+        }
         public static void RunTests()
         {
             // Variables that can be reused
