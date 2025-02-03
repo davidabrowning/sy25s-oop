@@ -10,13 +10,13 @@ namespace NumberGuessingGame
     public class Game
     {
         // Private constants
-        private static int TargetMin = 1;
-        private static int TargetMax = 100;
-        private static string PageTitle = "Play game";
-        private static string GuessPrompt = "Your guess";
-        private static string GuessWasTooLow = "Too low!";
-        private static string GuessWasTooHigh = "Too high!";
-        private static string GuessWasJustRight = "You guessed it!";
+        private const int TargetMin = 1;
+        private const int TargetMax = 100;
+        private const string PageTitle = "Play game";
+        private const string GuessPrompt = "Your guess";
+        private const string GuessWasTooLow = "Too low!";
+        private const string GuessWasTooHigh = "Too high!";
+        private const string GuessWasJustRight = "You guessed it!";
 
         // Private instance variables
         private UserInputRetriever uIR = new UserInputRetriever();

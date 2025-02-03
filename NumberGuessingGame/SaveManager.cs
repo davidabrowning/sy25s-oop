@@ -11,8 +11,8 @@ namespace NumberGuessingGame
     public class SaveManager
     {
         // Private constants
-        private static string DefaultFilename = "SavedGames.json";
-        private static string WarningUnableToSaveGame = "Unable to save game.";
+        private const string DefaultFilename = "SavedGames.json";
+        private const string WarningUnableToSaveGame = "Unable to save game.";
 
         // Private variables
         private string filename;
