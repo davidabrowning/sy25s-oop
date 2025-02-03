@@ -54,7 +54,8 @@ namespace NumberGuessingGame
             Console.Clear();
             SaveManager saveManager = new SaveManager();
             List<Game> savedGames = saveManager.LoadSavedGames();
-            foreach (Game game in savedGames)
+            List<Game> sortedSavedGames = savedGames.OrderBy(game => game.Guesses).ToList();
+            foreach (Game game in sortedSavedGames)
             {
                 Console.WriteLine(game);
             }
