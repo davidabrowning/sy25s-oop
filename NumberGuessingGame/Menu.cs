@@ -17,7 +17,7 @@ namespace NumberGuessingGame
         private const string MenuKeyPlay = "P";
         private const string MenuKeyList = "L";
         private const string MenuKeyQuit = "Q";
-        private const string PromptMenuChoice = "Your choice:";
+        private const string PromptMenuChoice = "Your choice";
 
         // Private variables
         private bool run = true;

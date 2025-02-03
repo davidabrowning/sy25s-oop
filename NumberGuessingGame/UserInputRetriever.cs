@@ -13,7 +13,7 @@ namespace NumberGuessingGame
             string input = "";
             do
             {
-                Console.Write(prompt);
+                FormatHelper.PrintPrompt(prompt);
                 input = Console.ReadLine().Trim();
             } while (input.Length < min || input.Length > max);
             return input;
@@ -23,7 +23,7 @@ namespace NumberGuessingGame
             int input = 0;
             do
             {
-                Console.Write(prompt);
+                FormatHelper.PrintPrompt(prompt);
                 try
                 {
                     input = Convert.ToInt32(Console.ReadLine());

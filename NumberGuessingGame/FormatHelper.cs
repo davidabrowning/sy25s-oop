@@ -13,6 +13,10 @@ namespace NumberGuessingGame
             Console.Clear();
             Console.WriteLine($"===== {title} =====");
         }
+        public static void PrintPrompt(string prompt)
+        {
+            Console.Write($"{prompt}: ");
+        }
         public static void PrintMenuReturnConfirmation()
         {
             Console.WriteLine("Press ENTER to return.");
