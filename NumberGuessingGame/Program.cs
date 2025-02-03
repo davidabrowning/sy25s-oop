@@ -5,10 +5,10 @@
         static void Main(string[] args)
         {
             Menu menu = new Menu();
-            // menu.Display();
+            menu.Display();
 
             TestRunner testRunner = new TestRunner();
-            testRunner.RunTests();
+            // testRunner.RunTests();
         }
     }
 }

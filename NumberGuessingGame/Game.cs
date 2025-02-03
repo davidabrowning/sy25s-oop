@@ -9,16 +9,17 @@ namespace NumberGuessingGame
     public class Game
     {
         // Private constants
-        private static int targetNumberMin = 1;
-        private static int targetNumberMax = 100;
+        private static int targetMin = 1;
+        private static int targetMax = 100;
 
         // Private instance variables
-        private UserInputRetriever userInputRetriever = new UserInputRetriever();
+        private UserInputRetriever uIR = new UserInputRetriever();
 
         // Public properties
-        public int LatestGuess { get; private set; } = targetNumberMin - 1;
+        public int LatestGuess { get; private set; } = targetMin - 1;
         public int Guesses { get; private set; } = 0;
         public int TargetNumber { get; private set; }
+        public bool IsOver {  get { return LatestGuess == TargetNumber; } }
 
         // Constructors
         public Game()
@@ -27,10 +28,23 @@ namespace NumberGuessingGame
         }
 
         // Methods
+        public void Start()
+        {
+            Console.Clear();
+            Console.WriteLine("===== Play game =====");
+            while (IsOver == false)
+            {
+                int nextGuess = uIR.GetIntInput("Your guess: ", targetMin, targetMax);
+                Guess(nextGuess);
+                Console.WriteLine(GetStatus());
+            }
+            Console.WriteLine("ENTER to return to main menu");
+            Console.ReadLine();
+        }
         private int GenerateTargetNumber()
         {
             Random rand = new Random();
-            return rand.Next(targetNumberMin, targetNumberMax + 1);
+            return rand.Next(targetMin, targetMax + 1);
         }
         private void Guess(int guess)
         {
@@ -49,6 +63,7 @@ namespace NumberGuessingGame
             }
             return "You guessed it!";
         }
+
         public static void RunTests()
         {
             // Variables that can be reused
@@ -88,6 +103,12 @@ namespace NumberGuessingGame
             game.TargetNumber = 5;
             game.Guess(5);
             TestHelper.AssertFalse(title, game.GetStatus().ToLower().Contains("too low") || game.GetStatus().ToLower().Contains("too high"));
+
+            title = "Game is over if LatestGuess == TargetNumber";
+            game = new Game();
+            game.TargetNumber = 5;
+            game.Guess(5);
+            TestHelper.AssertTrue(title, game.IsOver);
         }
     }
 }

@@ -46,7 +46,8 @@ namespace NumberGuessingGame
         }
         private void StartGame()
         {
-            Console.WriteLine("Starting game...");
+            Game game = new Game();
+            game.Start();
         }
         private void PrintHighScores()
         {
