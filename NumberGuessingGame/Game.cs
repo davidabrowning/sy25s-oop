@@ -10,8 +10,13 @@ namespace NumberGuessingGame
     public class Game
     {
         // Private constants
-        private static int targetMin = 1;
-        private static int targetMax = 100;
+        private static int TargetMin = 1;
+        private static int TargetMax = 100;
+        private static string PageTitle = "Play game";
+        private static string GuessPrompt = "Your guess";
+        private static string GuessWasTooLow = "Too low!";
+        private static string GuessWasTooHigh = "Too high!";
+        private static string GuessWasJustRight = "You guessed it!";
 
         // Private instance variables
         private UserInputRetriever uIR = new UserInputRetriever();
@@ -19,7 +24,7 @@ namespace NumberGuessingGame
         // Public properties
         public int LatestGuess { get; private set; }
         public int Guesses { get; private set; } = 0;
-        public int TargetNumber { get; private set; } = targetMin - 1;
+        public int TargetNumber { get; private set; } = TargetMin - 1;
         public bool IsOver {  get { return LatestGuess == TargetNumber; } }
 
         // Constructors
@@ -38,22 +43,20 @@ namespace NumberGuessingGame
         // Methods
         public void Start()
         {
-            Console.Clear();
-            Console.WriteLine("===== Play game =====");
+            FormatHelper.PrintTitle(PageTitle);
             while (IsOver == false)
             {
-                int nextGuess = uIR.GetIntInput("Your guess: ", targetMin, targetMax);
+                int nextGuess = uIR.GetIntInput(GuessPrompt, TargetMin, TargetMax);
                 Guess(nextGuess);
                 Console.WriteLine(GetStatus());
             }
             Save();
-            Console.WriteLine("ENTER to return to main menu");
-            Console.ReadLine();
+            FormatHelper.PrintMenuReturnConfirmation();
         }
         private int GenerateTargetNumber()
         {
             Random rand = new Random();
-            return rand.Next(targetMin, targetMax + 1);
+            return rand.Next(TargetMin, TargetMax + 1);
         }
         private void Guess(int guess)
         {
@@ -64,13 +67,13 @@ namespace NumberGuessingGame
         {
             if (LatestGuess < TargetNumber)
             {
-                return "Too low!";
+                return GuessWasTooLow;
             }
             if (LatestGuess > TargetNumber)
             {
-                return "Too high";
+                return GuessWasTooHigh;
             }
-            return "You guessed it!";
+            return GuessWasJustRight;
         }
         private void Save()
         {
