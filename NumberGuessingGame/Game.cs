@@ -37,6 +37,18 @@ namespace NumberGuessingGame
             LatestGuess = guess;
             Guesses++;
         }
+        private string GetStatus()
+        {
+            if (LatestGuess < TargetNumber)
+            {
+                return "Too low!";
+            }
+            if (LatestGuess > TargetNumber)
+            {
+                return "Too high";
+            }
+            return "You guessed it!";
+        }
         public static void RunTests()
         {
             // Variables that can be reused
@@ -58,6 +70,24 @@ namespace NumberGuessingGame
             game = new Game();
             game.Guess(7);
             TestHelper.AssertEquals(title, 7, game.LatestGuess);
+
+            title = "Status includes too low when guess is too low";
+            game = new Game();
+            game.TargetNumber = 5;
+            game.Guess(3);
+            TestHelper.AssertTrue(title, game.GetStatus().ToLower().Contains("too low"));
+
+            title = "Status includes too high when guess is too high";
+            game = new Game();
+            game.TargetNumber = 5;
+            game.Guess(7);
+            TestHelper.AssertTrue(title, game.GetStatus().ToLower().Contains("too high"));
+
+            title = "Status includes neither too low nor too high when guess is correct";
+            game = new Game();
+            game.TargetNumber = 5;
+            game.Guess(5);
+            TestHelper.AssertFalse(title, game.GetStatus().ToLower().Contains("too low") || game.GetStatus().ToLower().Contains("too high"));
         }
     }
 }
