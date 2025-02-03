@@ -4,11 +4,15 @@
     {
         static void Main(string[] args)
         {
+            #region Menu: For running program
             Menu menu = new Menu();
             menu.Display();
+            #endregion
 
-            TestRunner testRunner = new TestRunner();
-            testRunner.RunTests();
+            #region Test: For running program tests
+            //TestRunner testRunner = new TestRunner();
+            //testRunner.RunTests();
+            #endregion
         }
     }
 }
