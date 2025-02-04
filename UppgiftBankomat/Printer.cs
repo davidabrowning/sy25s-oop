@@ -8,6 +8,8 @@ namespace UppgiftBankomat
 {
     internal static class Printer
     {
+        private const string TitleBorder = "==========";
+        private const string ReturnConfirmText = "Tryck på ENTER för att fortsätta.";
         internal static void ResetConsoleColor()
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -17,7 +19,7 @@ namespace UppgiftBankomat
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Clear();
-            Console.WriteLine($"\n\t========== {title} ==========");
+            Console.WriteLine($"\n\t{TitleBorder} {title} {TitleBorder}");
         }
         internal static void PrintSubtitle(string subtitle)
         {
@@ -42,7 +44,7 @@ namespace UppgiftBankomat
         internal static void PrintReturnConfirmation()
         {
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine("\n\tTryck på ENTER för att fortsätta.");
+            Console.WriteLine($"\n\t{ReturnConfirmText}");
             Console.Write("\n\t");
             Console.ReadLine();
         }
