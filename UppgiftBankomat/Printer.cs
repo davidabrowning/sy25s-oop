@@ -48,7 +48,7 @@ namespace UppgiftBankomat
         }
         internal static void PrintPrompt(string prompt)
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write($"\t{prompt} ");
         }
         internal static void PrintTab()

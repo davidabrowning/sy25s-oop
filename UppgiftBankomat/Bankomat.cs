@@ -10,11 +10,31 @@ namespace UppgiftBankomat
 {
     public class Bankomat
     {
-        // Constants
-        private const string WarningNoAccountsToPrint = "Det finns inga konton att skriva ut.";
+        // Menu text
+        private string MenuTitleMain = "Bankomat huvudmeny";
+        private string MenuTitleDeposit = "Insättning på ett konto";
+        private string MenuTitleWithdraw = "Uttag på ett konto";
+        private string MenuTitleDisplayOne = "Visa saldot på ett konto";
+        private string MenuTitleDisplayAll = "Lista på alla konton";
+        private string MenuTextDeposit = "Gör en insättning på ett konto";
+        private string MenuTextWithdraw = "Gör ett uttag på ett konto";
+        private string MenuTextDisplayOne = "Visa saldot på ett konto";
+        private string MenuTextDisplayAll = "Skriv ut en lista på alla kontonr och saldon";
+        private string MenuTextQuit = "Avsluta";
+        private string MenuTextGoodbye = "Programmet avslutas. Tack och hej då!";
+        private string PromptYourSelection = "Ditt val:";
+        private string PromptAccountNumber = "Ange kontonummer:";
+        private string PromptDepositAmount = "Ange summa att sätta in:";
+        private string PromptWithdrawalAmount = "Ange summa att ta ut:";
+        private string WarningNoAccountsToPrint = "Det finns inga konton att skriva ut.";
+        private string WarningIllegalSelection = "Ogiltigt menyval. Försök igen.";
+        private string WarningIllegalAccountNumber = "Lyckades inte hitta konto med det kontonumret. Försök igen.";
+        private string WarningIllegalDepositAmount = "Ogiltig inmatning av summa at sätta in. Försök igen.";
+        private string WarningIllegalWithdrawalAmount = "Ogiltig inmatning av summa at ta ut. Försök igen.";
 
         // Private variables
-        Menu menu;
+        bool run;
+        UserInputRetriever userInputRetriever;
 
         // Public properties
         internal Account[] Accounts { get; private set; }
@@ -23,7 +43,8 @@ namespace UppgiftBankomat
         public Bankomat() : this(0) { }
         public Bankomat(int accountsToCreate)
         {
-            menu = new Menu();
+            run = true;
+            userInputRetriever = new UserInputRetriever();
             Accounts = new Account[accountsToCreate];
             for (int i = 0; i < Accounts.Length; i++)
             {
@@ -34,38 +55,56 @@ namespace UppgiftBankomat
         // Methods
         public void Start()
         {
+            Startup();
             do
             {
-                ShowMainMenu();
-            } while (menu.Run);
+                ShowMenuOptions();
+                HandleMenuSelection();
+            } while (run);
+            Shutdown();
         }
 
-        private void ShowMainMenu()
+        private void Startup()
         {
-            menu.ShowMainMenu();
-            switch (menu.GetMenuSelectionAsInt("Ditt val:"))
+            Printer.ResetConsoleColor();
+            Console.Clear();
+        }
+
+        private void ShowMenuOptions()
+        {
+            Printer.PrintTitle(MenuTitleMain);
+            Printer.PrintInfo($"{(int)MainMenuOption.Deposit}. {MenuTextDeposit}");
+            Printer.PrintInfo($"{(int)MainMenuOption.Withdraw}. {MenuTextWithdraw}");
+            Printer.PrintInfo($"{(int)MainMenuOption.DisplayAccount}. {MenuTextDisplayOne}");
+            Printer.PrintInfo($"{(int)MainMenuOption.DisplayAllAcounts}. {MenuTextDisplayAll}");
+            Printer.PrintInfo($"{(int)MainMenuOption.Quit}. {MenuTextQuit}");
+        }
+
+        private void HandleMenuSelection()
+        {
+            switch (userInputRetriever.GetIntInput(PromptYourSelection))
             {
-                case Menu.OptionDeposit:
+                case (int)MainMenuOption.Deposit:
                     ShowDepositMenu();
                     Printer.PrintReturnConfirmation();
                     break;
-                case Menu.OptionWithdraw:
+                case (int)MainMenuOption.Withdraw:
                     ShowWithdrawalMenu();
                     Printer.PrintReturnConfirmation();
                     break;
-                case Menu.OptionDisplayAccount:
+                case (int)MainMenuOption.DisplayAccount:
                     ShowDisplayAccountMenu();
                     Printer.PrintReturnConfirmation();
                     break;
-                case Menu.OptionDisplayAllAccounts:
+                case (int)MainMenuOption.DisplayAllAcounts:
                     DisplayAllAccounts();
                     Printer.PrintReturnConfirmation();
                     break;
-                case Menu.OptionQuit:
-                    menu.Run = false;
+                case (int)MainMenuOption.Quit:
+                    run = false;
                     break;
                 default:
-                    Printer.PrintWarning("Ogiltigt menyval. Försök igen.");
+                    Printer.PrintWarning(WarningIllegalSelection);
                     Printer.PrintReturnConfirmation();
                     break;
                 }
@@ -73,22 +112,22 @@ namespace UppgiftBankomat
 
         private void ShowDepositMenu()
         {
-            Printer.PrintTitle(Menu.TitleDeposit);
+            Printer.PrintTitle(MenuTitleDeposit);
 
             // Collect and validate account number
-            int accountNumber = menu.GetMenuSelectionAsInt("Ange kontonummer:");
+            int accountNumber = userInputRetriever.GetIntInput(PromptAccountNumber);
             Account account = GetAccount(accountNumber);
             if (account == null)
             {
-                Printer.PrintWarning("Lyckades inte hitta konto med det kontonumret. Försök igen.");
+                Printer.PrintWarning(WarningIllegalAccountNumber);
                 return;
             }
 
             // Collect and validate amount to deposit
-            Decimal amount = menu.GetMenuSelectionAsDecimal("Ange summa att sätta in:");
+            Decimal amount = userInputRetriever.GetDecimalInput(PromptDepositAmount);
             if (amount == (Decimal)0)
             {
-                Printer.PrintWarning("Ogiltig inmatning av summa at sätta in. Försök igen.");
+                Printer.PrintWarning(WarningIllegalDepositAmount);
                 return;
             }
 
@@ -98,22 +137,22 @@ namespace UppgiftBankomat
 
         private void ShowWithdrawalMenu()
         {
-            Printer.PrintTitle(Menu.TitleWithdraw);
+            Printer.PrintTitle(MenuTitleWithdraw);
 
             // Collect and validate account number
-            int accountNumber = menu.GetMenuSelectionAsInt("Ange kontonummer:");
+            int accountNumber = userInputRetriever.GetIntInput(PromptAccountNumber);
             Account account = GetAccount(accountNumber);
             if (account == null)
             {
-                Printer.PrintWarning("Lyckades inte hitta konto med det kontonumret. Försök igen.");
+                Printer.PrintWarning(WarningIllegalAccountNumber);
                 return;
             }
 
             // Collect and validate amount to withdraw
-            Decimal amount = menu.GetMenuSelectionAsDecimal("Ange summa att ta ut:");
+            Decimal amount = userInputRetriever.GetDecimalInput(PromptWithdrawalAmount);
             if (amount == (Decimal)0)
             {
-                Printer.PrintWarning("Ogiltig inmatning av summa at ta ut. Försök igen.");
+                Printer.PrintWarning(WarningIllegalWithdrawalAmount);
                 return;
             }
 
@@ -123,14 +162,14 @@ namespace UppgiftBankomat
 
         private void ShowDisplayAccountMenu()
         {
-            Printer.PrintTitle(Menu.TitleDisplayAccount);
+            Printer.PrintTitle(MenuTitleDisplayOne);
 
             // Collect and validate account number
-            int accountNumber = menu.GetMenuSelectionAsInt("Ange kontonummer:");
+            int accountNumber = userInputRetriever.GetIntInput(PromptAccountNumber);
             Account account = GetAccount(accountNumber);
             if (account == null)
             {
-                Printer.PrintWarning("Lyckades inte hitta konto med det kontonumret. Försök igen.");
+                Printer.PrintWarning(WarningIllegalAccountNumber);
                 return;
             }
 
@@ -140,7 +179,7 @@ namespace UppgiftBankomat
 
         private void DisplayAllAccounts()
         {
-            Printer.PrintTitle(Menu.TitleDisplayAllAccounts);
+            Printer.PrintTitle(MenuTitleDisplayAll);
             if (Accounts.Length == 0)
             {
                 Printer.PrintWarning(WarningNoAccountsToPrint);
@@ -150,6 +189,15 @@ namespace UppgiftBankomat
             {
                 Printer.PrintInfo(account.ToString());
             }
+        }
+
+        private void Shutdown()
+        {
+            Printer.PrintTitle(MenuTitleMain);
+            Printer.PrintInfo(MenuTextGoodbye);
+            Printer.PrintReturnConfirmation();
+            Printer.ResetConsoleColor();
+            Console.Clear();
         }
 
         private Account GetAccount(int accountNumber)
