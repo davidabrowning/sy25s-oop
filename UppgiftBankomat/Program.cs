@@ -17,7 +17,7 @@
             Bankomat bankomat = new Bankomat(AccountsToCreate);
             bankomat.Start();
 
-            // The below TestRunner and RunAllTests() call can be uncommented
+            // The below TestRunner and RunAllTests() calls can be uncommented
             // to run unit tests. In that case you probably want to comment out
             // the new Bankomat() and bankomat.Start() lines above.
             //TestRunner testRunner = new TestRunner();
