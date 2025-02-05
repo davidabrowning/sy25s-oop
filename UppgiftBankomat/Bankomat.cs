@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace UppgiftBankomat
 {
+    // ================================ CLASS =================================
+    // Bankomat. Machine with a menu where users can interact with bank
+    // accounts (deposit, withdraw, display one, and display all).
+    // ========================================================================
     public class Bankomat
     {
         // Constants
@@ -47,12 +51,10 @@ namespace UppgiftBankomat
             = "Lyckades inte hitta konto med det kontonumret. Försök igen.";
 
         // Fields
-        bool run;
-        InputKeypad inputKeypad;
-        OutputScreen outputScreen;
-
-        // Properties
-        internal Account[] Accounts { get; private set; }
+        private bool run;
+        private InputKeypad inputKeypad;
+        private OutputScreen outputScreen;
+        private Account[] Accounts;
 
         // Constructors
         public Bankomat() : this(0) { }
@@ -85,12 +87,11 @@ namespace UppgiftBankomat
         }
 
         // ============================== METHOD ==============================
-        // Startup. Prepares the Console screen for the Bankomat program.
+        // Startup. Resets the Console screen.
         // ====================================================================
         private void Startup()
         {
-            outputScreen.ResetConsoleColor();
-            Console.Clear();
+            outputScreen.Reset();
         }
 
         // ============================== METHOD ==============================
@@ -100,9 +101,8 @@ namespace UppgiftBankomat
         {
             outputScreen.PrintTitle(MenuTitleMain);
             outputScreen.PrintInfo(MenuTextGoodbye);
-            outputScreen.PrintReturnConfirmation();
-            outputScreen.ResetConsoleColor();
-            Console.Clear();
+            outputScreen.PrintContinueConfirmation();
+            outputScreen.Reset();
         }
 
         // ============================== METHOD ==============================
@@ -147,26 +147,26 @@ namespace UppgiftBankomat
             {
                 case (int)MenuOption.Deposit:
                     ProcessDeposit();
-                    outputScreen.PrintReturnConfirmation();
+                    outputScreen.PrintContinueConfirmation();
                     break;
                 case (int)MenuOption.Withdraw:
                     ProcessWithdrawal();
-                    outputScreen.PrintReturnConfirmation();
+                    outputScreen.PrintContinueConfirmation();
                     break;
                 case (int)MenuOption.DisplayAccount:
                     DisplayOne();
-                    outputScreen.PrintReturnConfirmation();
+                    outputScreen.PrintContinueConfirmation();
                     break;
                 case (int)MenuOption.DisplayAllAcounts:
                     DisplayAll();
-                    outputScreen.PrintReturnConfirmation();
+                    outputScreen.PrintContinueConfirmation();
                     break;
                 case (int)MenuOption.Quit:
                     run = false;
                     break;
                 default:
                     outputScreen.PrintWarning(WarningIllegalSelection);
-                    outputScreen.PrintReturnConfirmation();
+                    outputScreen.PrintContinueConfirmation();
                     break;
                 }
         }
@@ -202,7 +202,7 @@ namespace UppgiftBankomat
 
             // Ask for and deposit desired amount
             outputScreen.PrintPrompt(PromptDepositAmount);
-            Decimal amount = inputKeypad.GetDecimalInput();
+            decimal amount = inputKeypad.GetdecimalInput();
             Result depositResult = account.Deposit(amount);
             if (depositResult.IsSuccessful) {
                 outputScreen.PrintSuccess(String.Format(depositResult.Message));
@@ -232,7 +232,7 @@ namespace UppgiftBankomat
 
             // Ask for and withdraw desired amount
             outputScreen.PrintPrompt(PromptWithdrawalAmount);
-            Decimal amount = inputKeypad.GetDecimalInput();
+            decimal amount = inputKeypad.GetdecimalInput();
             Result withdrawalResult = account.Withdraw(amount);
             if (withdrawalResult.IsSuccessful)
             {

@@ -1,10 +1,17 @@
 ﻿namespace UppgiftBankomat
 {
+    // ================================ CLASS =================================
+    // Program. Contains Main method.
+    // ========================================================================
     public class Program
     {
         // Constants
         private const int AccountsToCreate = 10;
 
+        // ============================== METHOD ==============================
+        // Main. Entry point for overall program. Creates and starts the
+        // Bankomat object.
+        // ====================================================================
         static void Main(string[] args)
         {
             Bankomat bankomat = new Bankomat(AccountsToCreate);
