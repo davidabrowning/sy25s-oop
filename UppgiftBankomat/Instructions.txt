@@ -1,0 +1,10 @@
+﻿Skapa ett konsolprogram som håller koll på tio bankkonton. Kontona ska vara
+baserade på en konto klass. Objekten ska vara lagrade i en array av konton.
+Kontona ska inte kunna ha ett negativt värde, dvs det ska inte gå att ta ut mer
+pengar än vad som finns på kontot.
+
+Ha valen:
+ - Gör en insättning på ett konto
+ - Gör ett uttag på ett konto
+ - Visa saldot på ett konto
+ - Skriv ut en lista på alla kontonr och saldon
