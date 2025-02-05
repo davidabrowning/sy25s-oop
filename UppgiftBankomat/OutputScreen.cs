@@ -8,8 +8,11 @@ namespace UppgiftBankomat
 {
     internal class OutputScreen
     {
+        // Constants
         private const string TitleBorder = "==========";
-        private const string ReturnConfirmText = "Tryck på ENTER för att fortsätta.";
+        private const string ReturnConfirmText = "Tryck ENTER för att fortsätta.";
+
+        // Methods
         internal void ResetConsoleColor()
         {
             Console.ForegroundColor = ConsoleColor.White;

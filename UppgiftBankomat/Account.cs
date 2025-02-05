@@ -8,22 +8,20 @@ namespace UppgiftBankomat
 {
     internal class Account
     {
-        // Success and error messages
+        // Constants
         private const string DepositSuccessful = "Du har satt in {0} på konto #{1}. Nuvarande saldo är {2}.";
         private const string DepositMustBeGreaterThanZero = "Insättning måste vara större än {0}.";
         private const string WithdrawalSuccessful = "Du har tagit ut {0} från konto #{1}. Nuvarande saldo är {2}.";
         private const string WithdrawalMustBeGreaterThanZero = "Summa måsta vara större än {0}.";
         private const string BalanceCannotBeLowerThanMinimum = "Saldo får inte bli mindre än {0}."; 
-
-        // Constants
         private const Decimal MinBalance = 0;
         private const Decimal MinDeposit = 0;
         private const Decimal MinWithdrawal = 0;
 
-        // Private variables
+        // Fields
         private static int highestAccountNumber = 0;
 
-        // Public properties
+        // Properties
         internal int AccountNumber { get; private set; }
         internal Decimal Balance { get; private set; }
 

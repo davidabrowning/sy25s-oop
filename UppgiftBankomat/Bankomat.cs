@@ -8,32 +8,32 @@ namespace UppgiftBankomat
 {
     public class Bankomat
     {
-        // Menu text
-        private string MenuTitleMain = "Bankomat huvudmeny";
-        private string MenuTitleDeposit = "Insättning på ett konto";
-        private string MenuTitleWithdraw = "Uttag på ett konto";
-        private string MenuTitleDisplayOne = "Visa saldot på ett konto";
-        private string MenuTitleDisplayAll = "Lista på alla konton";
-        private string MenuTextDeposit = "Gör en insättning på ett konto";
-        private string MenuTextWithdraw = "Gör ett uttag på ett konto";
-        private string MenuTextDisplayOne = "Visa saldot på ett konto";
-        private string MenuTextDisplayAll = "Skriv ut en lista på alla kontonr och saldon";
-        private string MenuTextQuit = "Avsluta";
-        private string MenuTextGoodbye = "Programmet avslutas. Tack och hej då!";
-        private string PromptYourSelection = "Ditt val:";
-        private string PromptAccountNumber = "Ange kontonummer:";
-        private string PromptDepositAmount = "Ange summa att sätta in:";
-        private string PromptWithdrawalAmount = "Ange summa att ta ut:";
-        private string WarningNoAccountsToPrint = "Det finns inga konton att skriva ut.";
-        private string WarningIllegalSelection = "Ogiltigt menyval. Försök igen.";
-        private string WarningIllegalAccountNumber = "Lyckades inte hitta konto med det kontonumret. Försök igen.";
+        // Constants
+        private const string MenuTitleMain = "Bankomat huvudmeny";
+        private const string MenuTitleDeposit = "Insättning på ett konto";
+        private const string MenuTitleWithdraw = "Uttag på ett konto";
+        private const string MenuTitleDisplayOne = "Visa saldot på ett konto";
+        private const string MenuTitleDisplayAll = "Lista på alla konton";
+        private const string MenuTextDeposit = "Gör en insättning på ett konto";
+        private const string MenuTextWithdraw = "Gör ett uttag på ett konto";
+        private const string MenuTextDisplayOne = "Visa saldot på ett konto";
+        private const string MenuTextDisplayAll = "Skriv ut en lista på alla kontonr och saldon";
+        private const string MenuTextQuit = "Avsluta";
+        private const string MenuTextGoodbye = "Programmet avslutas. Tack och hej då!";
+        private const string PromptYourSelection = "Ditt val:";
+        private const string PromptAccountNumber = "Ange kontonummer:";
+        private const string PromptDepositAmount = "Ange summa att sätta in:";
+        private const string PromptWithdrawalAmount = "Ange summa att ta ut:";
+        private const string WarningNoAccountsToPrint = "Det finns inga konton att skriva ut.";
+        private const string WarningIllegalSelection = "Ogiltigt menyval. Försök igen.";
+        private const string WarningIllegalAccountNumber = "Lyckades inte hitta konto med det kontonumret. Försök igen.";
 
-        // Private variables
+        // Fields
         bool run;
         InputKeypad inputKeypad;
         OutputScreen outputScreen;
 
-        // Public properties
+        // Properties
         internal Account[] Accounts { get; private set; }
 
         // Constructors
