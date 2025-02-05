@@ -33,6 +33,8 @@ namespace UppgiftBankomat
             = "Skriv ut en lista på alla kontonr och saldon";
         private const string MenuTextQuit 
             = "Avsluta";
+        private const string MenuTextHello
+            = "Hej och välkommen till Bankomaten.";
         private const string MenuTextGoodbye 
             = "Programmet avslutas. Tack och hej då!";
         private const string PromptYourSelection
@@ -87,10 +89,13 @@ namespace UppgiftBankomat
         }
 
         // ============================== METHOD ==============================
-        // Startup. Resets the Console screen.
+        // Startup. Prints a hello message and resets the Console screen.
         // ====================================================================
         private void Startup()
         {
+            outputScreen.PrintTitle(MenuTitleMain);
+            outputScreen.PrintInfo(MenuTextHello);
+            outputScreen.PrintContinueConfirmation();
             outputScreen.Reset();
         }
 
