@@ -8,8 +8,17 @@ namespace UppgiftBankomat
 {
     internal class Account
     {
+        // Success and error messages
+        private const string DepositSuccessful = "Du har satt in {0} på konto #{1}. Nuvarande saldo är {2}.";
+        private const string DepositMustBeGreaterThanZero = "Insättning måste vara större än {0}.";
+        private const string WithdrawalSuccessful = "Du har tagit ut {0} från konto #{1}. Nuvarande saldo är {2}.";
+        private const string WithdrawalMustBeGreaterThanZero = "Summa måsta vara större än {0}.";
+        private const string BalanceCannotBeLowerThanMinimum = "Saldo får inte bli mindre än {0}."; 
+
         // Constants
-        private const int MinBalance = 0;
+        private const Decimal MinBalance = 0;
+        private const Decimal MinDeposit = 0;
+        private const Decimal MinWithdrawal = 0;
 
         // Private variables
         private static int highestAccountNumber = 0;
@@ -26,31 +35,39 @@ namespace UppgiftBankomat
         }
         
         // Methods
-        internal bool Deposit(Decimal amount)
+        internal Result Deposit(Decimal amount)
         {
-            if (amount <= 0)
+            string resultMessage;
+            if (amount <= MinDeposit)
             {
-                return false;
+                resultMessage = String.Format(DepositMustBeGreaterThanZero, MinDeposit);
+                return new Result(false, resultMessage);
             }
             Balance += amount;
-            return true;
+            resultMessage = String.Format(DepositSuccessful, amount, AccountNumber, Balance);
+            return new Result(true, resultMessage);
         }
-        internal bool Withdraw(Decimal amount)
+        internal Result Withdraw(Decimal amount)
         {
-            if (amount <= 0)
+            string resultMessage ;
+            if (amount <= MinWithdrawal)
             {
-                return false;
+                resultMessage = String.Format(WithdrawalMustBeGreaterThanZero, MinWithdrawal);
+                return new Result(false, resultMessage);
             }
             if (Balance - amount < MinBalance)
             {
-                return false;
+                resultMessage = String.Format(BalanceCannotBeLowerThanMinimum, MinBalance);
+                return new Result(false, resultMessage);
             }
             Balance -= amount;
-            return true;
+            resultMessage = String.Format(WithdrawalSuccessful, amount, AccountNumber, Balance);
+            return new Result(true, resultMessage);
         }
         public override string ToString()
         {
-            return $"Konto #{AccountNumber}\t Saldo {Balance}";
+            string accountNumberString = String.Format("{0:D6}", AccountNumber);
+            return $"Konto: #{accountNumberString}, saldo: {Balance}";
         }
         internal static void RunTests()
         {
@@ -60,7 +77,7 @@ namespace UppgiftBankomat
 
             Console.WriteLine("Kör tester på Konto-klassen.");
 
-            title = "Saldo är 0.00 i början";
+            title = "Saldo är 0 i början";
             account = new Account();
             TestHelper.AssertEquals(title, (Decimal)0, account.Balance);
 

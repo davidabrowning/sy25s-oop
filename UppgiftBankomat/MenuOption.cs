@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UppgiftBankomat
 {
-    internal enum MainMenuOption
+    internal enum MenuOption
     {
         Deposit = 1,
         Withdraw = 2,

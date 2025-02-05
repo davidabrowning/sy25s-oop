@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace UppgiftBankomat
 {
@@ -26,15 +24,9 @@ namespace UppgiftBankomat
         private string PromptAccountNumber = "Ange kontonummer:";
         private string PromptDepositAmount = "Ange summa att sätta in:";
         private string PromptWithdrawalAmount = "Ange summa att ta ut:";
-        private string SuccessDeposit = "Du har satt in {0} på konto #{1}. Nuvarande saldo är {2}.";
-        private string SuccessWithdrawal = "Du har tagit ut {0}. Nuvarande saldo är {1}.";
         private string WarningNoAccountsToPrint = "Det finns inga konton att skriva ut.";
         private string WarningIllegalSelection = "Ogiltigt menyval. Försök igen.";
         private string WarningIllegalAccountNumber = "Lyckades inte hitta konto med det kontonumret. Försök igen.";
-        private string WarningIllegalDepositAmount = "Ogiltig inmatning av summa at sätta in. Försök igen.";
-        private string WarningIllegalWithdrawalAmount = "Ogiltig inmatning av summa at ta ut. Försök igen.";
-        private string WarningDepositFailure = "Lyckades inte sätta in {0}. Nuvarande saldo är {1}. Försök igen.";
-        private string WarningWithdrawalFailure = "Lyckades inte ta ut {0}. Nuvarande saldo är {1}. Försök igen.";
 
         // Private variables
         bool run;
@@ -79,11 +71,11 @@ namespace UppgiftBankomat
         private void ShowMenuOptions()
         {
             outputScreen.PrintTitle(MenuTitleMain);
-            outputScreen.PrintInfo($"{(int)MainMenuOption.Deposit}. {MenuTextDeposit}");
-            outputScreen.PrintInfo($"{(int)MainMenuOption.Withdraw}. {MenuTextWithdraw}");
-            outputScreen.PrintInfo($"{(int)MainMenuOption.DisplayAccount}. {MenuTextDisplayOne}");
-            outputScreen.PrintInfo($"{(int)MainMenuOption.DisplayAllAcounts}. {MenuTextDisplayAll}");
-            outputScreen.PrintInfo($"{(int)MainMenuOption.Quit}. {MenuTextQuit}");
+            outputScreen.PrintInfo($"{(int)MenuOption.Deposit}. {MenuTextDeposit}");
+            outputScreen.PrintInfo($"{(int)MenuOption.Withdraw}. {MenuTextWithdraw}");
+            outputScreen.PrintInfo($"{(int)MenuOption.DisplayAccount}. {MenuTextDisplayOne}");
+            outputScreen.PrintInfo($"{(int)MenuOption.DisplayAllAcounts}. {MenuTextDisplayAll}");
+            outputScreen.PrintInfo($"{(int)MenuOption.Quit}. {MenuTextQuit}");
         }
 
         private void GetMenuSelection()
@@ -91,23 +83,23 @@ namespace UppgiftBankomat
             outputScreen.PrintPrompt(PromptYourSelection);
             switch (inputKeypad.GetIntInput())
             {
-                case (int)MainMenuOption.Deposit:
+                case (int)MenuOption.Deposit:
                     ShowDepositMenu();
                     outputScreen.PrintReturnConfirmation();
                     break;
-                case (int)MainMenuOption.Withdraw:
+                case (int)MenuOption.Withdraw:
                     ShowWithdrawalMenu();
                     outputScreen.PrintReturnConfirmation();
                     break;
-                case (int)MainMenuOption.DisplayAccount:
+                case (int)MenuOption.DisplayAccount:
                     ShowDisplayAccountMenu();
                     outputScreen.PrintReturnConfirmation();
                     break;
-                case (int)MainMenuOption.DisplayAllAcounts:
+                case (int)MenuOption.DisplayAllAcounts:
                     DisplayAllAccounts();
                     outputScreen.PrintReturnConfirmation();
                     break;
-                case (int)MainMenuOption.Quit:
+                case (int)MenuOption.Quit:
                     run = false;
                     break;
                 default:
@@ -131,23 +123,16 @@ namespace UppgiftBankomat
                 return;
             }
 
-            // Collect and validate amount to deposit
+            // Ask for and deposit desired amount
             outputScreen.PrintPrompt(PromptDepositAmount);
             Decimal amount = inputKeypad.GetDecimalInput();
-            if (amount == (Decimal)0)
-            {
-                outputScreen.PrintWarning(WarningIllegalDepositAmount);
-                return;
-            }
-
-            // Deposit said amount
-            bool depositSuccessful = account.Deposit(amount);
-            if (depositSuccessful) {
-                outputScreen.PrintSuccess(String.Format(SuccessDeposit, amount, account.AccountNumber, account.Balance));
+            Result depositResult = account.Deposit(amount);
+            if (depositResult.IsSuccessful) {
+                outputScreen.PrintSuccess(String.Format(depositResult.Message));
             }
             else
             {
-                outputScreen.PrintWarning(String.Format(WarningWithdrawalFailure, amount, account.Balance));
+                outputScreen.PrintWarning(String.Format(depositResult.Message));
             }
         }
 
@@ -155,7 +140,7 @@ namespace UppgiftBankomat
         {
             outputScreen.PrintTitle(MenuTitleWithdraw);
 
-            // Collect and validate account number
+            // Ask for account number
             outputScreen.PrintPrompt(PromptAccountNumber);
             int accountNumber = inputKeypad.GetIntInput();
             Account account = GetAccount(accountNumber);
@@ -165,24 +150,17 @@ namespace UppgiftBankomat
                 return;
             }
 
-            // Collect and validate amount to withdraw
+            // Ask for and withdraw desired amount
             outputScreen.PrintPrompt(PromptWithdrawalAmount);
             Decimal amount = inputKeypad.GetDecimalInput();
-            if (amount == (Decimal)0)
+            Result withdrawalResult = account.Withdraw(amount);
+            if (withdrawalResult.IsSuccessful)
             {
-                outputScreen.PrintWarning(WarningIllegalWithdrawalAmount);
-                return;
-            }
-
-            // Withdraw said amount
-            bool withdrawalSuccessful = account.Withdraw(amount);
-            if (withdrawalSuccessful)
-            {
-                outputScreen.PrintSuccess(String.Format(SuccessWithdrawal, amount, account.Balance));
+                outputScreen.PrintSuccess(withdrawalResult.Message);
             }
             else
             {
-                outputScreen.PrintWarning(String.Format(WarningWithdrawalFailure, amount, account.Balance));
+                outputScreen.PrintWarning(withdrawalResult.Message);
             }
         }
 
