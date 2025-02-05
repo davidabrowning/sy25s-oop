@@ -10,13 +10,16 @@ namespace UppgiftBankomat
     {
         // Constants
         private const string DepositSuccessful = "Du har satt in {0} på konto #{1}. Nuvarande saldo är {2}.";
-        private const string DepositMustBeGreaterThanZero = "Insättning måste vara större än {0}.";
+        private const string DepositMustBeGreaterThanZero = "Insättning måste vara minst {0}.";
         private const string WithdrawalSuccessful = "Du har tagit ut {0} från konto #{1}. Nuvarande saldo är {2}.";
-        private const string WithdrawalMustBeGreaterThanZero = "Summa måsta vara större än {0}.";
-        private const string BalanceCannotBeLowerThanMinimum = "Saldo får inte bli mindre än {0}."; 
-        private const Decimal MinBalance = 0;
-        private const Decimal MinDeposit = 0;
-        private const Decimal MinWithdrawal = 0;
+        private const string WithdrawalMustBeGreaterThanZero = "Summa måsta vara minst {0}.";
+        private const string BalanceCannotBeLowerThanMinimum = "Saldo får inte bli mindre än {0}.";
+        private const string AccountSummaryString = "Konto: #{0} Saldo: {1}";
+        private const Decimal MinBalance = (Decimal)0.00;
+        private const Decimal MinDeposit = (Decimal)0.01;
+        private const Decimal MinWithdrawal = (Decimal)0.01;
+        private const string AccountNumberFormat = "D6";
+        private const string CurrencyFormat = "C";
 
         // Fields
         private static int highestAccountNumber = 0;
@@ -36,36 +39,46 @@ namespace UppgiftBankomat
         internal Result Deposit(Decimal amount)
         {
             string resultMessage;
-            if (amount <= MinDeposit)
+            if (amount < MinDeposit)
             {
-                resultMessage = String.Format(DepositMustBeGreaterThanZero, MinDeposit);
+                resultMessage = String.Format(DepositMustBeGreaterThanZero,
+                    MinDeposit.ToString(CurrencyFormat));
                 return new Result(false, resultMessage);
             }
             Balance += amount;
-            resultMessage = String.Format(DepositSuccessful, amount, AccountNumber, Balance);
+            resultMessage = String.Format(DepositSuccessful, 
+                amount.ToString(CurrencyFormat), 
+                AccountNumber.ToString(AccountNumberFormat), 
+                Balance.ToString(CurrencyFormat));
             return new Result(true, resultMessage);
         }
         internal Result Withdraw(Decimal amount)
         {
             string resultMessage ;
-            if (amount <= MinWithdrawal)
+            if (amount < MinWithdrawal)
             {
-                resultMessage = String.Format(WithdrawalMustBeGreaterThanZero, MinWithdrawal);
+                resultMessage = String.Format(WithdrawalMustBeGreaterThanZero, 
+                    MinWithdrawal.ToString(CurrencyFormat));
                 return new Result(false, resultMessage);
             }
             if (Balance - amount < MinBalance)
             {
-                resultMessage = String.Format(BalanceCannotBeLowerThanMinimum, MinBalance);
+                resultMessage = String.Format(BalanceCannotBeLowerThanMinimum, 
+                    MinBalance.ToString(CurrencyFormat));
                 return new Result(false, resultMessage);
             }
             Balance -= amount;
-            resultMessage = String.Format(WithdrawalSuccessful, amount, AccountNumber, Balance);
+            resultMessage = String.Format(WithdrawalSuccessful, 
+                amount.ToString("C"), 
+                AccountNumber.ToString(AccountNumberFormat), 
+                Balance.ToString(CurrencyFormat));
             return new Result(true, resultMessage);
         }
         public override string ToString()
         {
-            string accountNumberString = String.Format("{0:D6}", AccountNumber);
-            return $"Konto: #{accountNumberString}, saldo: {Balance}";
+            return String.Format(AccountSummaryString, 
+                AccountNumber.ToString(AccountNumberFormat), 
+                Balance.ToString(CurrencyFormat));
         }
         internal static void RunTests()
         {
