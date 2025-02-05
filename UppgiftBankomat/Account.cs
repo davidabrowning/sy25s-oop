@@ -10,12 +10,6 @@ namespace UppgiftBankomat
     {
         // Constants
         private const int MinBalance = 0;
-        private const string SuccessAccountCreated = "Du har skapat konto #{0} med saldo {1}.";
-        private const string SuccessDeposit = "Du har satt in {0} på konto #{1}. Nuvarande saldo är {2}.";
-        private const string SuccessWithdrawal = "Du har tagit ut {0}. Nuvarande saldo är {1}.";
-        private const string WarningDepositMustBeGreaterThanZero = "Insättning måste vara större än 0.00.";
-        private const string WarningWithdrawalMustBeGreaterThanZero = "Uttag måste vara större än 0.00.";
-        private const string WarningWithdrawalTooLarge = "Detta uttag skulle göra saldo mindre än minimum saldo-värdet.";
 
         // Private variables
         private static int highestAccountNumber = 0;
@@ -29,34 +23,30 @@ namespace UppgiftBankomat
         {
             AccountNumber = ++highestAccountNumber;
             Balance = 0;
-            Printer.PrintSuccess(String.Format(SuccessAccountCreated, AccountNumber, Balance));
         }
         
         // Methods
-        internal void Deposit(Decimal amount)
+        internal bool Deposit(Decimal amount)
         {
             if (amount <= 0)
             {
-                Printer.PrintWarning(WarningDepositMustBeGreaterThanZero);
-                return;
+                return false;
             }
             Balance += amount;
-            Printer.PrintSuccess(String.Format(SuccessDeposit, amount, AccountNumber, Balance));
+            return true;
         }
-        internal void Withdraw(Decimal amount)
+        internal bool Withdraw(Decimal amount)
         {
             if (amount <= 0)
             {
-                Printer.PrintWarning(WarningWithdrawalMustBeGreaterThanZero);
-                return;
+                return false;
             }
             if (Balance - amount < MinBalance)
             {
-                Printer.PrintWarning(WarningWithdrawalTooLarge);
-                return;
+                return false;
             }
             Balance -= amount;
-            Printer.PrintSuccess(String.Format(SuccessWithdrawal, amount, Balance));
+            return true;
         }
         public override string ToString()
         {
@@ -68,7 +58,7 @@ namespace UppgiftBankomat
             Account account;
             string title;
 
-            Printer.PrintSubtitle("Kör tester på Konto-klassen.");
+            Console.WriteLine("Kör tester på Konto-klassen.");
 
             title = "Saldo är 0.00 i början";
             account = new Account();

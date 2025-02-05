@@ -10,7 +10,7 @@ namespace UppgiftBankomat
     {
         internal void RunAllTests()
         {
-            Printer.PrintTitle ("Kör alla tester.");
+            Console.WriteLine("Kör alla tester.");
             Bankomat.RunTests();
             Account.RunTests();
         }

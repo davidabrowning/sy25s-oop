@@ -10,11 +10,11 @@ namespace UppgiftBankomat
     {
         private static void PrintSuccess(string title)
         {
-            Printer.PrintInfo($"[Success] {title}");
+            Console.WriteLine($"[Success] {title}");
         }
         private static void PrintFailure(string title, object expected, object actual)
         {
-            Printer.PrintWarning($"[Failure] {title} | Expected: {expected} | Actual: {actual}");
+            Console.WriteLine($"[Failure] {title} | Expected: {expected} | Actual: {actual}");
         }
         internal static void AssertEquals(string title, object expected, object actual)
         {

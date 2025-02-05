@@ -6,17 +6,15 @@ using System.Threading.Tasks;
 
 namespace UppgiftBankomat
 {
-    internal class UserInputRetriever
+    internal class InputKeypad
     {
-        internal int GetIntInput(string prompt)
+        internal int GetIntInput()
         {
-            Printer.PrintPrompt(prompt);
             Int32.TryParse(Console.ReadLine().Trim(), out int userInput);
             return userInput;
         }
-        internal Decimal GetDecimalInput(string prompt)
+        internal Decimal GetDecimalInput()
         {
-            Printer.PrintPrompt(prompt);
             Decimal.TryParse(Console.ReadLine().Trim(), out Decimal userInput);
             return userInput;
         }

@@ -26,15 +26,20 @@ namespace UppgiftBankomat
         private string PromptAccountNumber = "Ange kontonummer:";
         private string PromptDepositAmount = "Ange summa att sätta in:";
         private string PromptWithdrawalAmount = "Ange summa att ta ut:";
+        private string SuccessDeposit = "Du har satt in {0} på konto #{1}. Nuvarande saldo är {2}.";
+        private string SuccessWithdrawal = "Du har tagit ut {0}. Nuvarande saldo är {1}.";
         private string WarningNoAccountsToPrint = "Det finns inga konton att skriva ut.";
         private string WarningIllegalSelection = "Ogiltigt menyval. Försök igen.";
         private string WarningIllegalAccountNumber = "Lyckades inte hitta konto med det kontonumret. Försök igen.";
         private string WarningIllegalDepositAmount = "Ogiltig inmatning av summa at sätta in. Försök igen.";
         private string WarningIllegalWithdrawalAmount = "Ogiltig inmatning av summa at ta ut. Försök igen.";
+        private string WarningDepositFailure = "Lyckades inte sätta in {0}. Nuvarande saldo är {1}. Försök igen.";
+        private string WarningWithdrawalFailure = "Lyckades inte ta ut {0}. Nuvarande saldo är {1}. Försök igen.";
 
         // Private variables
         bool run;
-        UserInputRetriever userInputRetriever;
+        InputKeypad inputKeypad;
+        OutputScreen outputScreen;
 
         // Public properties
         internal Account[] Accounts { get; private set; }
@@ -44,7 +49,8 @@ namespace UppgiftBankomat
         public Bankomat(int accountsToCreate)
         {
             run = true;
-            userInputRetriever = new UserInputRetriever();
+            inputKeypad = new InputKeypad();
+            outputScreen = new OutputScreen();
             Accounts = new Account[accountsToCreate];
             for (int i = 0; i < Accounts.Length; i++)
             {
@@ -59,144 +65,165 @@ namespace UppgiftBankomat
             do
             {
                 ShowMenuOptions();
-                HandleMenuSelection();
+                GetMenuSelection();
             } while (run);
             Shutdown();
         }
 
         private void Startup()
         {
-            Printer.ResetConsoleColor();
+            outputScreen.ResetConsoleColor();
             Console.Clear();
         }
 
         private void ShowMenuOptions()
         {
-            Printer.PrintTitle(MenuTitleMain);
-            Printer.PrintInfo($"{(int)MainMenuOption.Deposit}. {MenuTextDeposit}");
-            Printer.PrintInfo($"{(int)MainMenuOption.Withdraw}. {MenuTextWithdraw}");
-            Printer.PrintInfo($"{(int)MainMenuOption.DisplayAccount}. {MenuTextDisplayOne}");
-            Printer.PrintInfo($"{(int)MainMenuOption.DisplayAllAcounts}. {MenuTextDisplayAll}");
-            Printer.PrintInfo($"{(int)MainMenuOption.Quit}. {MenuTextQuit}");
+            outputScreen.PrintTitle(MenuTitleMain);
+            outputScreen.PrintInfo($"{(int)MainMenuOption.Deposit}. {MenuTextDeposit}");
+            outputScreen.PrintInfo($"{(int)MainMenuOption.Withdraw}. {MenuTextWithdraw}");
+            outputScreen.PrintInfo($"{(int)MainMenuOption.DisplayAccount}. {MenuTextDisplayOne}");
+            outputScreen.PrintInfo($"{(int)MainMenuOption.DisplayAllAcounts}. {MenuTextDisplayAll}");
+            outputScreen.PrintInfo($"{(int)MainMenuOption.Quit}. {MenuTextQuit}");
         }
 
-        private void HandleMenuSelection()
+        private void GetMenuSelection()
         {
-            switch (userInputRetriever.GetIntInput(PromptYourSelection))
+            outputScreen.PrintPrompt(PromptYourSelection);
+            switch (inputKeypad.GetIntInput())
             {
                 case (int)MainMenuOption.Deposit:
                     ShowDepositMenu();
-                    Printer.PrintReturnConfirmation();
+                    outputScreen.PrintReturnConfirmation();
                     break;
                 case (int)MainMenuOption.Withdraw:
                     ShowWithdrawalMenu();
-                    Printer.PrintReturnConfirmation();
+                    outputScreen.PrintReturnConfirmation();
                     break;
                 case (int)MainMenuOption.DisplayAccount:
                     ShowDisplayAccountMenu();
-                    Printer.PrintReturnConfirmation();
+                    outputScreen.PrintReturnConfirmation();
                     break;
                 case (int)MainMenuOption.DisplayAllAcounts:
                     DisplayAllAccounts();
-                    Printer.PrintReturnConfirmation();
+                    outputScreen.PrintReturnConfirmation();
                     break;
                 case (int)MainMenuOption.Quit:
                     run = false;
                     break;
                 default:
-                    Printer.PrintWarning(WarningIllegalSelection);
-                    Printer.PrintReturnConfirmation();
+                    outputScreen.PrintWarning(WarningIllegalSelection);
+                    outputScreen.PrintReturnConfirmation();
                     break;
                 }
         }
 
         private void ShowDepositMenu()
         {
-            Printer.PrintTitle(MenuTitleDeposit);
+            outputScreen.PrintTitle(MenuTitleDeposit);
 
             // Collect and validate account number
-            int accountNumber = userInputRetriever.GetIntInput(PromptAccountNumber);
+            outputScreen.PrintPrompt(PromptAccountNumber);
+            int accountNumber = inputKeypad.GetIntInput();
             Account account = GetAccount(accountNumber);
             if (account == null)
             {
-                Printer.PrintWarning(WarningIllegalAccountNumber);
+                outputScreen.PrintWarning(WarningIllegalAccountNumber);
                 return;
             }
 
             // Collect and validate amount to deposit
-            Decimal amount = userInputRetriever.GetDecimalInput(PromptDepositAmount);
+            outputScreen.PrintPrompt(PromptDepositAmount);
+            Decimal amount = inputKeypad.GetDecimalInput();
             if (amount == (Decimal)0)
             {
-                Printer.PrintWarning(WarningIllegalDepositAmount);
+                outputScreen.PrintWarning(WarningIllegalDepositAmount);
                 return;
             }
 
             // Deposit said amount
-            account.Deposit(amount);
+            bool depositSuccessful = account.Deposit(amount);
+            if (depositSuccessful) {
+                outputScreen.PrintSuccess(String.Format(SuccessDeposit, amount, account.AccountNumber, account.Balance));
+            }
+            else
+            {
+                outputScreen.PrintWarning(String.Format(WarningWithdrawalFailure, amount, account.Balance));
+            }
         }
 
         private void ShowWithdrawalMenu()
         {
-            Printer.PrintTitle(MenuTitleWithdraw);
+            outputScreen.PrintTitle(MenuTitleWithdraw);
 
             // Collect and validate account number
-            int accountNumber = userInputRetriever.GetIntInput(PromptAccountNumber);
+            outputScreen.PrintPrompt(PromptAccountNumber);
+            int accountNumber = inputKeypad.GetIntInput();
             Account account = GetAccount(accountNumber);
             if (account == null)
             {
-                Printer.PrintWarning(WarningIllegalAccountNumber);
+                outputScreen.PrintWarning(WarningIllegalAccountNumber);
                 return;
             }
 
             // Collect and validate amount to withdraw
-            Decimal amount = userInputRetriever.GetDecimalInput(PromptWithdrawalAmount);
+            outputScreen.PrintPrompt(PromptWithdrawalAmount);
+            Decimal amount = inputKeypad.GetDecimalInput();
             if (amount == (Decimal)0)
             {
-                Printer.PrintWarning(WarningIllegalWithdrawalAmount);
+                outputScreen.PrintWarning(WarningIllegalWithdrawalAmount);
                 return;
             }
 
             // Withdraw said amount
-            account.Withdraw(amount);
+            bool withdrawalSuccessful = account.Withdraw(amount);
+            if (withdrawalSuccessful)
+            {
+                outputScreen.PrintSuccess(String.Format(SuccessWithdrawal, amount, account.Balance));
+            }
+            else
+            {
+                outputScreen.PrintWarning(String.Format(WarningWithdrawalFailure, amount, account.Balance));
+            }
         }
 
         private void ShowDisplayAccountMenu()
         {
-            Printer.PrintTitle(MenuTitleDisplayOne);
+            outputScreen.PrintTitle(MenuTitleDisplayOne);
 
             // Collect and validate account number
-            int accountNumber = userInputRetriever.GetIntInput(PromptAccountNumber);
+            outputScreen.PrintPrompt(PromptAccountNumber);
+            int accountNumber = inputKeypad.GetIntInput();
             Account account = GetAccount(accountNumber);
             if (account == null)
             {
-                Printer.PrintWarning(WarningIllegalAccountNumber);
+                outputScreen.PrintWarning(WarningIllegalAccountNumber);
                 return;
             }
 
             // Display account
-            Printer.PrintInfo(account.ToString());
+            outputScreen.PrintInfo(account.ToString());
         }
 
         private void DisplayAllAccounts()
         {
-            Printer.PrintTitle(MenuTitleDisplayAll);
+            outputScreen.PrintTitle(MenuTitleDisplayAll);
             if (Accounts.Length == 0)
             {
-                Printer.PrintWarning(WarningNoAccountsToPrint);
+                outputScreen.PrintWarning(WarningNoAccountsToPrint);
                 return;
             }
             foreach (Account account in Accounts)
             {
-                Printer.PrintInfo(account.ToString());
+                outputScreen.PrintInfo(account.ToString());
             }
         }
 
         private void Shutdown()
         {
-            Printer.PrintTitle(MenuTitleMain);
-            Printer.PrintInfo(MenuTextGoodbye);
-            Printer.PrintReturnConfirmation();
-            Printer.ResetConsoleColor();
+            outputScreen.PrintTitle(MenuTitleMain);
+            outputScreen.PrintInfo(MenuTextGoodbye);
+            outputScreen.PrintReturnConfirmation();
+            outputScreen.ResetConsoleColor();
             Console.Clear();
         }
 
@@ -218,7 +245,7 @@ namespace UppgiftBankomat
             Bankomat bankomat;
             string title;
 
-            Printer.PrintSubtitle("Kör tester på Bankomat-klassen.");
+            Console.WriteLine("Kör tester på Bankomat-klassen.");
 
             title = "Bankomat skapad med 10 konton innehåller 10 konton";
             bankomat = new Bankomat(10);
