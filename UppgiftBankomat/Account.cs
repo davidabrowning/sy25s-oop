@@ -34,8 +34,12 @@ namespace UppgiftBankomat
             AccountNumber = ++highestAccountNumber;
             Balance = 0;
         }
-        
-        // Methods
+
+        // ============================== METHOD ==============================
+        // Deposit. Accepts a decimal amount and attempts to deposit that
+        // amount into this account. Returns a Result object indicating whether
+        // the deposit was successful and a relevant message.
+        // ====================================================================
         internal Result Deposit(Decimal amount)
         {
             string resultMessage;
@@ -52,6 +56,12 @@ namespace UppgiftBankomat
                 Balance.ToString(CurrencyFormat));
             return new Result(true, resultMessage);
         }
+
+        // ============================== METHOD ==============================
+        // Withdraw. Accepts a decimal amount and attempts to withdraw that
+        // amount from this account. Returns a Result object indicating whether
+        // the withdrawal was successful and a relevant message.
+        // ====================================================================
         internal Result Withdraw(Decimal amount)
         {
             string resultMessage ;
@@ -74,12 +84,21 @@ namespace UppgiftBankomat
                 Balance.ToString(CurrencyFormat));
             return new Result(true, resultMessage);
         }
+
+        // ============================== METHOD ==============================
+        // ToString. Overrides the Object.ToString() method. Returns a string
+        // representation of this Account object.
+        // ====================================================================
         public override string ToString()
         {
             return String.Format(AccountSummaryString, 
                 AccountNumber.ToString(AccountNumberFormat), 
                 Balance.ToString(CurrencyFormat));
         }
+
+        // ============================== METHOD ==============================
+        // RunTests. Static method that runs unit tests for this class.
+        // ====================================================================
         internal static void RunTests()
         {
             // Variables to reuse during testing

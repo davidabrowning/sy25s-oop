@@ -7,18 +7,14 @@
 
         static void Main(string[] args)
         {
-            StartBankomat();
-            //RunTests();
-        }
-        private static void StartBankomat()
-        {
             Bankomat bankomat = new Bankomat(AccountsToCreate);
             bankomat.Start();
-        }
-        private static void RunTests()
-        {
-            TestRunner testRunner = new TestRunner();
-            testRunner.RunAllTests();
+
+            // The below TestRunner and RunAllTests() call can be uncommented
+            // to run unit tests. In that case you probably want to comment out
+            // the new Bankomat() and bankomat.Start() lines above.
+            //TestRunner testRunner = new TestRunner();
+            //testRunner.RunAllTests();
         }
     }
 }

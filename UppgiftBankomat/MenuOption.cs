@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace UppgiftBankomat
 {
+    // ================================= ENUM =================================
+    // MenuOption. Contains integer conversions for each menu option in the 
+    // Bankomat's main menu.
+    // ========================================================================
     internal enum MenuOption
     {
         Deposit = 1,
