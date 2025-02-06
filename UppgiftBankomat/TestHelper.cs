@@ -9,7 +9,7 @@ namespace UppgiftBankomat
     // ================================ CLASS =================================
     // TestHelper. Static class with static methods that support testing.
     // ========================================================================
-    public class TestHelper
+    internal class TestHelper
     {
         // ============================== METHOD ==============================
         // PrintSuccess. Accepts a string title and prints out that title was
@@ -35,7 +35,7 @@ namespace UppgiftBankomat
         // AssertEquals. Checks if two objects are equal and prints out an
         // appropriate success or failure message.
         // ====================================================================
-        internal void AssertEquals(string title, object expected, object actual)
+        public void AssertEquals(string title, object expected, object actual)
         {
             if (actual.Equals(expected))
             {
@@ -51,7 +51,7 @@ namespace UppgiftBankomat
         // AssertNotEquals. Checks if two objects are not equal and prints out
         // an appropriate success or failure message.
         // ====================================================================
-        internal void AssertNotEquals(string title, object a, object b)
+        public void AssertNotEquals(string title, object a, object b)
         {
             if (!a.Equals(b))
             {
@@ -67,7 +67,7 @@ namespace UppgiftBankomat
         // AssertTrue. Checks if a bool result is true and prints out an
         // appropriate success or failure message.
         // ====================================================================
-        internal void AssertTrue(string title, bool result)
+        public void AssertTrue(string title, bool result)
         {
             if (result)
             {
@@ -83,7 +83,7 @@ namespace UppgiftBankomat
         // AssertFalse. Checks if a bool result is false and prints out an
         // appropriate success or failure message.
         // ====================================================================
-        internal void AssertFalse(string title, bool result)
+        public void AssertFalse(string title, bool result)
         {
             if (!result)
             {

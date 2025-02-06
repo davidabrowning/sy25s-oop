@@ -11,7 +11,7 @@ namespace UppgiftBankomat
     // balance, as well as ways to interact with the account (deposit money,
     // withdraw money).
     // ========================================================================
-    public class Account
+    internal class Account
     {
         // Constants
         private const string DepositSuccessful = "Du har satt in {0} på konto #{1}. Nuvarande saldo är {2}.";
@@ -34,7 +34,7 @@ namespace UppgiftBankomat
         public string CurrencyFormat { get; } = "C";
 
         // Constructors
-        internal Account()
+        public Account()
         {
             AccountNumber = ++highestAccountNumber;
             Balance = 0;
@@ -45,7 +45,7 @@ namespace UppgiftBankomat
         // amount into this account. Returns a Result object indicating whether
         // the deposit was successful and a relevant message.
         // ====================================================================
-        internal Result Deposit(decimal amount)
+        public Result Deposit(decimal amount)
         {
             string resultMessage;
             if (amount < MinDeposit)
@@ -67,7 +67,7 @@ namespace UppgiftBankomat
         // amount from this account. Returns a Result object indicating whether
         // the withdrawal was successful and a relevant message.
         // ====================================================================
-        internal Result Withdraw(decimal amount)
+        public Result Withdraw(decimal amount)
         {
             string resultMessage ;
             if (amount < MinWithdrawal)

@@ -17,7 +17,7 @@ namespace UppgiftBankomat
         public string Message { get; private set; }
 
         // Constructor
-        internal Result(bool success, string message)
+        public Result(bool success, string message)
         {
             IsSuccessful = success;
             Message = message;

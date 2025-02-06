@@ -15,7 +15,7 @@ namespace UppgiftBankomat
         // ============================== METHOD ==============================
         // GetIntInput. Reads an int value from the user and returns it.
         // ====================================================================
-        internal int GetIntInput()
+        public int GetIntInput()
         {
             Int32.TryParse(Console.ReadLine().Trim(), out int userInput);
             return userInput;
@@ -24,7 +24,7 @@ namespace UppgiftBankomat
         // ============================== METHOD ==============================
         // GetdecimalInput. Reads a decimal value from the user and returns it.
         // ====================================================================
-        internal decimal GetdecimalInput()
+        public decimal GetdecimalInput()
         {
             decimal.TryParse(Console.ReadLine().Trim(), out decimal userInput);
             return userInput;

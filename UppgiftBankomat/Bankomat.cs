@@ -10,7 +10,7 @@ namespace UppgiftBankomat
     // Bankomat. Machine with a menu where users can interact with bank
     // accounts (deposit, withdraw, display one, and display all).
     // ========================================================================
-    public class Bankomat
+    internal class Bankomat
     {
         // Constants
         private const string MenuTitleMain 

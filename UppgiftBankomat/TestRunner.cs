@@ -17,7 +17,7 @@ namespace UppgiftBankomat
         // ============================== METHOD ==============================
         // Go. Runs unit tests for this project.
         // ====================================================================
-        internal void Go()
+        public void Go()
         {
             RunAccountTests();
             RunBankomatTests();

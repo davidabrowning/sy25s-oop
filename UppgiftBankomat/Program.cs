@@ -12,7 +12,7 @@
         // Main. Entry point for overall program. Creates and starts the
         // Bankomat object.
         // ====================================================================
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             //Bankomat bankomat = new Bankomat(AccountsToCreate);
             //bankomat.Start();
