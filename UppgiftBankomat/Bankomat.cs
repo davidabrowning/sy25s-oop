@@ -53,7 +53,6 @@ namespace UppgiftBankomat
             = "Lyckades inte hitta konto med det kontonumret. Försök igen.";
 
         // Fields
-        private bool run;
         private InputKeypad inputKeypad;
         private OutputScreen outputScreen;
 
@@ -64,7 +63,6 @@ namespace UppgiftBankomat
         public Bankomat() : this(0) { }
         public Bankomat(int accountsToCreate)
         {
-            run = true;
             inputKeypad = new InputKeypad();
             outputScreen = new OutputScreen();
             Accounts = new Account[accountsToCreate];
@@ -75,18 +73,13 @@ namespace UppgiftBankomat
         }
 
         // ============================== METHOD ==============================
-        // Start. Starts up the Bankomat, guides the user through the
+        // Go. Starts up the Bankomat, guides the user through the
         // Bankomat's menu, and shuts down the Bankomat.
         // ====================================================================
-        public void Start()
+        public void Go()
         {
             Startup();
-            do
-            {
-                ShowMenuOptions();
-                int menuSelection = GetMenuSelection();
-                HandleMenuSelection(menuSelection);
-            } while (run);
+            ShowMainMenu();
             Shutdown();
         }
 
@@ -113,10 +106,10 @@ namespace UppgiftBankomat
         }
 
         // ============================== METHOD ==============================
-        // ShowMenuOptions. Prints a list of main menu options for the user to
-        // choose from. Does not return anything.
+        // ShowMainMenu. Prints a list of main menu options for the user to
+        // choose from. Continues on to HandleMainMenuSelection.
         // ====================================================================
-        private void ShowMenuOptions()
+        private void ShowMainMenu()
         {
             outputScreen.PrintTitle(
                 MenuTitleMain);
@@ -130,52 +123,51 @@ namespace UppgiftBankomat
                 $"{(int)MenuOption.DisplayAllAcounts}. {MenuTextDisplayAll}");
             outputScreen.PrintInfo(
                 $"{(int)MenuOption.Quit}. {MenuTextQuit}");
+
+            HandleMainMenuSelection();
         }
 
         // ============================== METHOD ==============================
-        // GetMenuSelection. Prompts the user to enter an integer menu option.
-        // Returns the selected menu option as an int.
+        // HandleMainMenuSelection. Gets a menu selection as an int and routes
+        // to the appropriate submenu based on what the selection is. Prints a
+        // warning if the menu selection is an unexpected value. Returns void.
         // ====================================================================
-        private int GetMenuSelection()
+        private void HandleMainMenuSelection()
         {
             outputScreen.PrintPrompt(PromptYourSelection);
-            return inputKeypad.GetIntInput();
-        }
+            int menuSelection = inputKeypad.GetIntInput();
 
-        // ============================== METHOD ==============================
-        // HandleMenuSelection. Accepts a menu selection as an int and routes
-        // to the appropriate submenu based on what the selection is. Sets
-        // bool run to false if the user wants to quit. Prints a warning if the
-        // menu selection is an unexpected value. Returns void.
-        // ====================================================================
-        private void HandleMenuSelection(int menuSelection)
-        {
             switch (menuSelection)
             {
                 case (int)MenuOption.Deposit:
-                    ProcessDeposit();
-                    outputScreen.PrintContinueConfirmation();
+                    ShowDepositMenu();
                     break;
                 case (int)MenuOption.Withdraw:
-                    ProcessWithdrawal();
-                    outputScreen.PrintContinueConfirmation();
+                    ShowWithdrawalMenu();
                     break;
                 case (int)MenuOption.DisplayAccount:
                     DisplayOne();
-                    outputScreen.PrintContinueConfirmation();
                     break;
                 case (int)MenuOption.DisplayAllAcounts:
                     DisplayAll();
-                    outputScreen.PrintContinueConfirmation();
                     break;
                 case (int)MenuOption.Quit:
-                    run = false;
                     break;
                 default:
                     outputScreen.PrintWarning(WarningIllegalSelection);
-                    outputScreen.PrintContinueConfirmation();
+                    ReturnToMainMenu();
                     break;
                 }
+        }
+
+        // ============================== METHOD ==============================
+        // ReturnToMainMenu. Asks user to confirm that they want to continue.
+        // Then continues on to ShowMainMenu.
+        // ====================================================================
+        private void ReturnToMainMenu()
+        {
+            outputScreen.PrintContinueConfirmation();
+            ShowMainMenu();
         }
 
         // ============================== METHOD ==============================
@@ -191,11 +183,11 @@ namespace UppgiftBankomat
         }
 
         // ============================== METHOD ==============================
-        // ProcessDeposit. Asks the user to enter an account number and deposit
+        // ShowDepositMenu. Asks the user to enter an account number and deposit
         // amount, then attempts to deposit that amount into the desired
         // account. Returns void.
         // ====================================================================
-        private void ProcessDeposit()
+        private void ShowDepositMenu()
         {
             outputScreen.PrintTitle(MenuTitleDeposit);
             Account account = GetTargetAccount();
@@ -218,14 +210,16 @@ namespace UppgiftBankomat
             {
                 outputScreen.PrintWarning(String.Format(depositResult.Message));
             }
+
+            ReturnToMainMenu();
         }
 
         // ============================== METHOD ==============================
-        // ProcessWithdrawal. Asks the user to enter an account number and
+        // ShowWithdrawalMenu. Asks the user to enter an account number and
         // withdrawal amount, then attempts to withdraw that amount from the
         // desired account. Returns void.
         // ====================================================================
-        private void ProcessWithdrawal()
+        private void ShowWithdrawalMenu()
         {
             outputScreen.PrintTitle(MenuTitleWithdraw);
             Account account = GetTargetAccount();
@@ -249,6 +243,8 @@ namespace UppgiftBankomat
             {
                 outputScreen.PrintWarning(withdrawalResult.Message);
             }
+
+            ReturnToMainMenu();
         }
 
         // ============================== METHOD ==============================
@@ -269,6 +265,8 @@ namespace UppgiftBankomat
 
             // Display account
             outputScreen.PrintInfo(account.ToString());
+
+            ReturnToMainMenu();
         }
 
         // ============================== METHOD ==============================
@@ -286,6 +284,8 @@ namespace UppgiftBankomat
             {
                 outputScreen.PrintInfo(account.ToString());
             }
+
+            ReturnToMainMenu();
         }
 
         // ============================== METHOD ==============================
