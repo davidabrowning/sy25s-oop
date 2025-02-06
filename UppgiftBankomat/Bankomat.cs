@@ -56,7 +56,7 @@ namespace UppgiftBankomat
         private bool run;
         private InputKeypad inputKeypad;
         private OutputScreen outputScreen;
-        private Account[] Accounts;
+        private Account[] accounts;
 
         // Constructors
         public Bankomat() : this(0) { }
@@ -65,10 +65,10 @@ namespace UppgiftBankomat
             run = true;
             inputKeypad = new InputKeypad();
             outputScreen = new OutputScreen();
-            Accounts = new Account[accountsToCreate];
-            for (int i = 0; i < Accounts.Length; i++)
+            accounts = new Account[accountsToCreate];
+            for (int i = 0; i < accounts.Length; i++)
             {
-                Accounts[i] = new Account();
+                accounts[i] = new Account();
             }
         }
 
@@ -275,12 +275,12 @@ namespace UppgiftBankomat
         private void DisplayAll()
         {
             outputScreen.PrintTitle(MenuTitleDisplayAll);
-            if (Accounts.Length == 0)
+            if (accounts.Length == 0)
             {
                 outputScreen.PrintWarning(WarningNoAccountsToPrint);
                 return;
             }
-            foreach (Account account in Accounts)
+            foreach (Account account in accounts)
             {
                 outputScreen.PrintInfo(account.ToString());
             }
@@ -293,7 +293,7 @@ namespace UppgiftBankomat
         // ====================================================================
         private Account GetAccountByAccountNumber(int accountNumber)
         {
-            foreach (Account account in Accounts)
+            foreach (Account account in accounts)
             {
                 if (account.AccountNumber == accountNumber)
                 {
@@ -316,7 +316,7 @@ namespace UppgiftBankomat
 
             title = "Bankomat skapad med 10 konton innehåller 10 konton";
             bankomat = new Bankomat(10);
-            TestHelper.AssertEquals(title, 10, bankomat.Accounts.Length);
+            TestHelper.AssertEquals(title, 10, bankomat.accounts.Length);
 
             title = "GetAccount(11) initially returns null";
             bankomat = new Bankomat();

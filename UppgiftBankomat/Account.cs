@@ -20,9 +20,9 @@ namespace UppgiftBankomat
         private const string WithdrawalMustBeGreaterThanZero = "Summa måsta vara minst {0}.";
         private const string BalanceCannotBeLowerThanMinimum = "Saldo får inte bli mindre än {0}.";
         private const string AccountSummaryString = "Konto: #{0} Saldo: {1}";
-        private const decimal MinBalance = (decimal)0.00;
-        private const decimal MinDeposit = (decimal)0.01;
-        private const decimal MinWithdrawal = (decimal)0.01;
+        private const decimal MinBalance = 0.00M;
+        private const decimal MinDeposit = 0.01M;
+        private const decimal MinWithdrawal = 0.01M;
         private const string AccountNumberFormat = "D6";
         private const string CurrencyFormat = "C";
 
@@ -114,36 +114,36 @@ namespace UppgiftBankomat
 
             title = "Saldo är 0 i början";
             account = new Account();
-            TestHelper.AssertEquals(title, (decimal)0, account.Balance);
+            TestHelper.AssertEquals(title, 0.00M, account.Balance);
 
             title = "Saldo är 5000 efter insättning på 5000";
             account = new Account();
             account.Deposit(5000);
-            TestHelper.AssertEquals(title, (decimal)5000, account.Balance);
+            TestHelper.AssertEquals(title, 5000.00M, account.Balance);
 
             title = "Saldo 25 är 25 efter insättning på -5000";
             account = new Account();
             account.Deposit(25);
             account.Deposit(-5000);
-            TestHelper.AssertEquals(title, (decimal)25, account.Balance);
+            TestHelper.AssertEquals(title, 25.00M, account.Balance);
 
             title = "Saldo 200 blir 175 efter uttag på 25";
             account = new Account();
             account.Deposit(200);
             account.Withdraw(25);
-            TestHelper.AssertEquals(title, (decimal)175, account.Balance);
+            TestHelper.AssertEquals(title, 175.00M, account.Balance);
 
             title = "Saldo 200 är 200 efter uttag på 201";
             account = new Account();
             account.Deposit(200);
             account.Withdraw(201);
-            TestHelper.AssertEquals(title, (decimal)200, account.Balance);
+            TestHelper.AssertEquals(title, 200.00M, account.Balance);
 
             title = "Saldo 200 är 200 efter uttag på -3";
             account = new Account();
             account.Deposit(200);
             account.Withdraw(-3);
-            TestHelper.AssertEquals(title, (decimal)200, account.Balance);
+            TestHelper.AssertEquals(title, 200.00M, account.Balance);
 
             title = "Två konton har olika kontonummer";
             Account a1 = new Account();
