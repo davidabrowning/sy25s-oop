@@ -14,7 +14,9 @@
         // ====================================================================
         public static void Main(string[] args)
         {
-            Bankomat bankomat = new Bankomat(AccountsToCreate);
+            Bank bank = new Bank();
+            bank.CreateAccounts(10);
+            Bankomat bankomat = new Bankomat(bank);
             bankomat.Go();
 
             // The below TestRunner and Go() calls can be uncommented
