@@ -9,14 +9,13 @@ namespace UppgiftBankomat
     // ================================ CLASS =================================
     // TestHelper. Static class with static methods that support testing.
     // ========================================================================
-    internal static class TestHelper
+    public class TestHelper
     {
-
         // ============================== METHOD ==============================
         // PrintSuccess. Accepts a string title and prints out that title was
         // successful.
         // ====================================================================
-        private static void PrintSuccess(string title)
+        private void PrintSuccess(string title)
         {
             Console.WriteLine($"[Success] {title}");
         }
@@ -27,7 +26,7 @@ namespace UppgiftBankomat
         // message that title was unsuccessful and what the expected and actual
         // outputs were.
         // ====================================================================
-        private static void PrintFailure(string title, object expected, object actual)
+        private void PrintFailure(string title, object expected, object actual)
         {
             Console.WriteLine($"[Failure] {title} | Expected: {expected} | Actual: {actual}");
         }
@@ -36,7 +35,7 @@ namespace UppgiftBankomat
         // AssertEquals. Checks if two objects are equal and prints out an
         // appropriate success or failure message.
         // ====================================================================
-        internal static void AssertEquals(string title, object expected, object actual)
+        internal void AssertEquals(string title, object expected, object actual)
         {
             if (actual.Equals(expected))
             {
@@ -52,7 +51,7 @@ namespace UppgiftBankomat
         // AssertNotEquals. Checks if two objects are not equal and prints out
         // an appropriate success or failure message.
         // ====================================================================
-        internal static void AssertNotEquals(string title, object a, object b)
+        internal void AssertNotEquals(string title, object a, object b)
         {
             if (!a.Equals(b))
             {
@@ -68,7 +67,7 @@ namespace UppgiftBankomat
         // AssertTrue. Checks if a bool result is true and prints out an
         // appropriate success or failure message.
         // ====================================================================
-        internal static void AssertTrue(string title, bool result)
+        internal void AssertTrue(string title, bool result)
         {
             if (result)
             {
@@ -84,7 +83,7 @@ namespace UppgiftBankomat
         // AssertFalse. Checks if a bool result is false and prints out an
         // appropriate success or failure message.
         // ====================================================================
-        internal static void AssertFalse(string title, bool result)
+        internal void AssertFalse(string title, bool result)
         {
             if (!result)
             {
