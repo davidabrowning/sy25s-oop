@@ -48,9 +48,8 @@ namespace UppgiftBankomat
         }
 
         // ============================== METHOD ==============================
-        // GetAccountByAccountNumber. Accepts an int accountNumber and 
-        // returns the account with the matching account number. Returns null
-        // if no matches are found.
+        // GetAccountByAccountNumber. Returns the account with the desired
+        // account number, or null if no matches found.
         // ====================================================================
         public Account? GetAccountByAccountNumber(int accountNumber)
         {
@@ -69,7 +68,8 @@ namespace UppgiftBankomat
         }
 
         // ============================== METHOD ==============================
-        // IsValidDeposit. Checks if the deposit amount is valid.
+        // IsValidDeposit. Checks if the deposit amount is valid. Prints out a
+        // relevant message to the user.
         // ====================================================================
         private bool IsValidDeposit(
             Account account, decimal amount, Bankomat bankomat)
@@ -92,7 +92,8 @@ namespace UppgiftBankomat
         }
 
         // ============================== METHOD ==============================
-        // IsValidWithdrawal. Checks if the withdrawal amount is valid.
+        // IsValidWithdrawal. Checks if the withdrawal amount is valid. Prints
+        // out a relevant message to the user.
         // ====================================================================
         private bool IsValidWithdrawal(
             Account account, decimal amount, Bankomat bankomat)
@@ -115,7 +116,8 @@ namespace UppgiftBankomat
         }
 
         // ============================== METHOD ==============================
-        // Deposit. Deposits the fund amount in the account.
+        // Deposit. Deposits the fund amount in the account. Prints out a
+        // relevant message to the user.
         // ====================================================================
         public void Deposit(int accountNum, decimal amount, Bankomat bankomat)
         {
@@ -132,7 +134,8 @@ namespace UppgiftBankomat
         }
 
         // ============================== METHOD ==============================
-        // Withdraw. Withdraws the fund amount from the account.
+        // Withdraw. Withdraws the fund amount from the account. Prints out a
+        // relevant message to the user.
         // ====================================================================
         public void Withdraw(int accountNum, decimal amount, Bankomat bankomat)
         {

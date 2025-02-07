@@ -53,8 +53,6 @@ namespace UppgiftBankomat
         private OutputScreen outputScreen;
         private Bank bank;
 
-        // Properties
-
         // Constructor
         public Bankomat(Bank b)
         {
@@ -119,9 +117,8 @@ namespace UppgiftBankomat
         }
 
         // ============================== METHOD ==============================
-        // HandleMainMenuSelection. Gets a menu selection as an int and routes
-        // to the appropriate submenu based on what the selection is. Prints a
-        // warning if the menu selection is an unexpected value. Returns void.
+        // HandleMainMenuSelection. Gets user menu selection and routes user to
+        // next step in the program.
         // ====================================================================
         private void HandleMainMenuSelection()
         {
@@ -172,7 +169,7 @@ namespace UppgiftBankomat
             outputScreen.PrintPrompt(PromptAccountNumber);
             int accountNumber = inputKeypad.GetIntInput();
             outputScreen.PrintPrompt(PromptDepositAmount);
-            decimal amount = inputKeypad.GetdecimalInput();
+            decimal amount = inputKeypad.GetDecimalInput();
             bank.Deposit(accountNumber, amount, this);
 
             ReturnToMainMenu();
@@ -189,7 +186,7 @@ namespace UppgiftBankomat
             outputScreen.PrintPrompt(PromptAccountNumber);
             int accountNumber = inputKeypad.GetIntInput();
             outputScreen.PrintPrompt(PromptWithdrawalAmount);
-            decimal amount = inputKeypad.GetdecimalInput();
+            decimal amount = inputKeypad.GetDecimalInput();
             bank.Withdraw(accountNumber, amount, this);
 
             ReturnToMainMenu();
