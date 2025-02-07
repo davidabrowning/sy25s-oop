@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace UppgiftBankomat
 {
+    // ================================ CLASS =================================
+    // Bank. Contains accounts and makes changes to those accounts (create,
+    // deposit, withdraw).
+    // ========================================================================
     internal class Bank
     {
         // Constants
