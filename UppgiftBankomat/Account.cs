@@ -35,14 +35,23 @@ namespace UppgiftBankomat
             Balance = 0;
         }
 
+        // ============================== METHOD ==============================
+        // AddFunds. Accepts a decimal amount, checks if the amount is greater
+        // than 0, and adds the amount to this account's balance.
+        // ====================================================================
         public void AddFunds(decimal amount)
         {
             if (amount > 0) { Balance += amount; }
         }
 
+        // ============================== METHOD ==============================
+        // WithdrawFunds. Accepts a decimal amount, checks if the amount is
+        // greater than 0 and less than or equal to Balance, and removes the
+        // amount from this account's balance.
+        // ====================================================================
         public void WithdrawFunds(decimal amount)
         {
-            if (Balance >= amount) { Balance -= amount; }
+            if (amount > 0 && amount <= Balance) { Balance -= amount; }
         }
 
         // ============================== METHOD ==============================
