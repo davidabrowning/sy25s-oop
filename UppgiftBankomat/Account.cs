@@ -14,16 +14,19 @@ namespace UppgiftBankomat
     internal class Account
     {
         // Constants
-        private const string AccountSummaryString = "Konto: #{0} Saldo: {1}";
+        private const string accountNumberFormat = "D6";
+        private const string currencyFormat = "C";
 
         // Fields
         private static int highestAccountNumber = 0;
-
+        
         // Properties
         public int AccountNumber { get; private set; }
         public decimal Balance { get; private set; }
-        public string AccountNumberFormat { get; } = "D6";
-        public string CurrencyFormat { get; } = "C";
+        public string CurrencyFormat { get { return currencyFormat; } }
+        public string FormattedAccountNumber { get { return AccountNumber.ToString(accountNumberFormat); } }
+        public string FormattedBalance { get {  return Balance.ToString(currencyFormat); } }
+
 
         // Constructors
         public Account()
@@ -48,9 +51,7 @@ namespace UppgiftBankomat
         // ====================================================================
         public override string ToString()
         {
-            return String.Format(AccountSummaryString, 
-                AccountNumber.ToString(AccountNumberFormat), 
-                Balance.ToString(CurrencyFormat));
+            return $"Konto: {FormattedAccountNumber} Saldo: {FormattedBalance}";
         }
     }
 }

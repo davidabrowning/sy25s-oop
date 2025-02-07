@@ -50,7 +50,7 @@ namespace UppgiftBankomat
         public void PrintSuccess(string success)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"\t{success}");
+            Console.WriteLine($"\n\t{success}");
         }
 
         // ============================== METHOD ==============================
@@ -59,7 +59,7 @@ namespace UppgiftBankomat
         public void PrintWarning(string warning)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"\t{warning}");
+            Console.WriteLine($"\n\t{warning}");
         }
 
         // ============================== METHOD ==============================

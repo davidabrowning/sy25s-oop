@@ -10,9 +10,9 @@ namespace UppgiftBankomat
     {
         // Constants
         private const string WarningIllegalAccountNumber = "Lyckades inte hitta konto med det kontonumret. Försök igen.";
-        private const string DepositSuccessful = "Du har satt in {0} på konto #{1}. Nuvarande saldo är {2}.";
+        private const string DepositSuccessful = "Du har satt in {0} på konto #{1}.";
         private const string WarningDepositMustBeGreaterThanMinDeposit = "Insättning måste vara minst {0}.";
-        private const string WithdrawalSuccessful = "Du har tagit ut {0} från konto #{1}. Nuvarande saldo är {2}.";
+        private const string WithdrawalSuccessful = "Du har tagit ut {0} från konto #{1}.";
         private const string WarningWithdrawalMustBeGreaterThanMinWithdrawal = "Summa måsta vara minst {0}.";
         private const string WarningBalanceCannotBeLowerThanMinimum = "Saldo får inte bli mindre än {0}.";
         private const string WarningNoAccountsToPrint = "Det finns inga konton att skriva ut.";
@@ -82,8 +82,8 @@ namespace UppgiftBankomat
             bankomat.ShowSuccess(String.Format(
                 DepositSuccessful, 
                 amount.ToString(account.CurrencyFormat),
-                accountNumber.ToString(account.AccountNumberFormat),
-                account.Balance.ToString(account.CurrencyFormat)));
+                account.FormattedAccountNumber));
+            bankomat.ShowInfo(account.ToString());
         }
 
         // ============================== METHOD ==============================
@@ -117,8 +117,8 @@ namespace UppgiftBankomat
             bankomat.ShowSuccess(String.Format(
                 WithdrawalSuccessful,
                 amount.ToString(account.CurrencyFormat),
-                accountNumber.ToString(account.AccountNumberFormat),
-                account.Balance.ToString(account.CurrencyFormat)));
+                account.FormattedAccountNumber));
+            bankomat.ShowInfo(account.ToString());
         }
 
         // ============================== METHOD ==============================

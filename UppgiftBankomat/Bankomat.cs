@@ -56,11 +56,11 @@ namespace UppgiftBankomat
         // Properties
 
         // Constructor
-        public Bankomat(Bank bank)
+        public Bankomat(Bank b)
         {
-            this.inputKeypad = new InputKeypad();
-            this.outputScreen = new OutputScreen();
-            this.bank = bank;
+            inputKeypad = new InputKeypad();
+            outputScreen = new OutputScreen();
+            bank = b;
         }
 
         // ============================== METHOD ==============================
