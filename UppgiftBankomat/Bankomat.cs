@@ -34,7 +34,7 @@ namespace UppgiftBankomat
         private const string MenuTextDisplayOne 
             = "Visa saldot på ett konto";
         private const string MenuTextDisplayAll 
-            = "Skriv ut en lista på alla kontonr och saldon";
+            = "Skriv ut en lista på alla konton";
         private const string MenuTextQuit 
             = "Avsluta";
         private const string MenuTextHello

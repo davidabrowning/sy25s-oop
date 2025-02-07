@@ -18,7 +18,7 @@ namespace UppgiftBankomat
         private const decimal minDeposit = 0.01M;
         private const decimal minWithdrawal = 0.01M;
         private const string WarningIllegalAccountNumber 
-            = "Lyckades inte hitta konto med detta kontonummer. Försök igen.";
+            = "Lyckades inte hitta detta konto.";
         private const string DepositSuccessful 
             = "Du har satt in {0} på konto #{1}.";
         private const string WarningDepositMustBeGreaterThanMinDeposit 
