@@ -5,17 +5,15 @@
     // ========================================================================
     public class Program
     {
-        // Constants
-        private const int AccountsToCreate = 10;
-
         // ============================== METHOD ==============================
         // Main. Entry point for overall program. Creates and starts the
         // Bankomat object.
         // ====================================================================
         public static void Main(string[] args)
         {
+            int accountsToCreate = 10;
             Bank bank = new Bank();
-            bank.CreateAccounts(10);
+            bank.CreateAccounts(accountsToCreate);
             Bankomat bankomat = new Bankomat(bank);
             bankomat.Go();
 

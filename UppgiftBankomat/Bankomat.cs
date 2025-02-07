@@ -14,7 +14,7 @@ namespace UppgiftBankomat
     {
         // Constants
         private const string MenuTitleMain 
-            = "Bankomat huvudmeny";
+            = "Huvudmeny";
         private const string MenuTitleDeposit
             = "Insättning på ett konto";
         private const string MenuTitleWithdraw 
@@ -23,6 +23,10 @@ namespace UppgiftBankomat
             = "Visa saldot på ett konto";
         private const string MenuTitleDisplayAll 
             = "Lista på alla konton";
+        private const string MenuTitleHello
+            = "Bankomat";
+        private const string MenuTitleGoodbye
+            = "Bankomat";
         private const string MenuTextDeposit 
             = "Gör en insättning på ett konto";
         private const string MenuTextWithdraw 
@@ -77,7 +81,7 @@ namespace UppgiftBankomat
         // ====================================================================
         private void Startup()
         {
-            outputScreen.PrintTitle(MenuTitleMain);
+            outputScreen.PrintTitle(MenuTitleHello);
             outputScreen.PrintInfo(MenuTextHello);
             outputScreen.PrintContinueConfirmation();
             outputScreen.Reset();
@@ -88,7 +92,7 @@ namespace UppgiftBankomat
         // ====================================================================
         private void Shutdown()
         {
-            outputScreen.PrintTitle(MenuTitleMain);
+            outputScreen.PrintTitle(MenuTitleGoodbye);
             outputScreen.PrintInfo(MenuTextGoodbye);
             outputScreen.PrintContinueConfirmation();
             outputScreen.Reset();

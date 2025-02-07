@@ -18,7 +18,7 @@ namespace UppgiftBankomat
         private const decimal minDeposit = 0.01M;
         private const decimal minWithdrawal = 0.01M;
         private const string WarningIllegalAccountNumber 
-            = "Lyckades inte hitta konto med det kontonumret. Försök igen.";
+            = "Lyckades inte hitta konto med detta kontonummer. Försök igen.";
         private const string DepositSuccessful 
             = "Du har satt in {0} på konto #{1}.";
         private const string WarningDepositMustBeGreaterThanMinDeposit 
@@ -30,7 +30,7 @@ namespace UppgiftBankomat
         private const string WarningBalanceCannotBeLowerThanMinimum 
             = "Saldo får inte bli mindre än {0}.";
         private const string WarningNoAccountsToPrint 
-            = "Det finns inga konton att skriva ut.";
+            = "Lyckades inte hitta några konton.";
 
         // Properties
         public Account[]? Accounts { get; private set; }
@@ -51,10 +51,11 @@ namespace UppgiftBankomat
         // GetAccountByAccountNumber. Returns the account with the desired
         // account number, or null if no matches found.
         // ====================================================================
-        public Account? GetAccountByAccountNumber(int accountNumber)
+        public Account? GetAccountByAccountNumber(int accountNumber, Bankomat bankomat)
         {
             if (Accounts == null)
             {
+                bankomat.ShowError(WarningNoAccountsToPrint);
                 return null;
             }
             foreach (Account account in Accounts)
@@ -64,6 +65,7 @@ namespace UppgiftBankomat
                     return account;
                 }
             }
+            bankomat.ShowError(WarningIllegalAccountNumber);
             return null;
         }
 
@@ -121,7 +123,7 @@ namespace UppgiftBankomat
         // ====================================================================
         public void Deposit(int accountNum, decimal amount, Bankomat bankomat)
         {
-            Account? account = GetAccountByAccountNumber(accountNum);
+            Account? account = GetAccountByAccountNumber(accountNum, bankomat);
             if (account != null && IsValidDeposit(account, amount, bankomat))
             {
                 account.AddFunds(amount);
@@ -139,7 +141,7 @@ namespace UppgiftBankomat
         // ====================================================================
         public void Withdraw(int accountNum, decimal amount, Bankomat bankomat)
         {
-            Account? account = GetAccountByAccountNumber(accountNum);
+            Account? account = GetAccountByAccountNumber(accountNum, bankomat);
             if (account != null 
                 && IsValidWithdrawal(account, amount, bankomat))
             {
@@ -157,13 +159,11 @@ namespace UppgiftBankomat
         // ====================================================================
         public void DisplayAccount(int accountNumber, Bankomat bankomat)
         {
-            Account? account = GetAccountByAccountNumber(accountNumber);
-            if (account == null)
+            Account? account = GetAccountByAccountNumber(accountNumber, bankomat);
+            if (account != null)
             {
-                bankomat.ShowError(WarningIllegalAccountNumber);
-                return;
+                bankomat.ShowInfo(account.ToString());
             }
-            bankomat.ShowInfo(account.ToString());
         }
 
         // ============================== METHOD ==============================

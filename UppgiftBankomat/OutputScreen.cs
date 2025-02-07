@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 namespace UppgiftBankomat
 {
     // ================================ CLASS =================================
-    // OutputScreen. Displays output messages from the Bankomat.
+    // OutputScreen. Displays messages to the user on the virtual screen.
     // ========================================================================
     internal class OutputScreen
     {
         // Constants
-        private const string TitleBorder = "==========";
+        private const int TitleHeadingWidth = 40;
+        private const string TitleBorder = "#";
+        private const string TitleSpacer = " ";
         private const string ConfirmContinue = "Tryck ENTER för att fortsätta.";
 
         // ============================== METHOD ==============================
@@ -32,7 +34,33 @@ namespace UppgiftBankomat
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Clear();
-            Console.WriteLine($"\n\t{TitleBorder} {title} {TitleBorder}");
+
+            // Top line
+            Console.Write("\n\t");
+            for (int i = 0; i < TitleHeadingWidth; i++)
+            {
+                Console.Write(TitleBorder);
+            }
+
+            // Middle line
+            Console.Write($"\n\t#");
+            for (int i = 0; i < (TitleHeadingWidth - title.Length - 2) / 2; i++)
+            {
+                Console.Write(TitleSpacer);
+            }
+            Console.Write(title);
+            for (int i = 0; i < (TitleHeadingWidth - title.Length - 1) / 2; i++)
+            {
+                Console.Write(TitleSpacer);
+            }
+
+            // Bottom line
+            Console.Write("#\n\t");
+            for (int i = 0; i < TitleHeadingWidth; i++)
+            {
+                Console.Write(TitleBorder);
+            }
+            Console.WriteLine();
         }
 
         // ============================== METHOD ==============================
@@ -50,7 +78,7 @@ namespace UppgiftBankomat
         public void PrintSuccess(string success)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"\n\t{success}");
+            Console.WriteLine($"\t{success}");
         }
 
         // ============================== METHOD ==============================
@@ -59,7 +87,7 @@ namespace UppgiftBankomat
         public void PrintWarning(string warning)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"\n\t{warning}");
+            Console.WriteLine($"\t{warning}");
         }
 
         // ============================== METHOD ==============================

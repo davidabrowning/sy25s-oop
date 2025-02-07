@@ -94,6 +94,7 @@ namespace UppgiftBankomat
             // Variables to reuse during testing
             Bank bank;
             string title;
+            Bankomat bankomat;
 
             title = "Bank skapad med 10 konton innehåller 10 konton";
             bank = new Bank();
@@ -102,13 +103,15 @@ namespace UppgiftBankomat
 
             title = "GetAccount(11) initially returns null";
             bank = new Bank();
-            testHelper.AssertTrue(title, bank.GetAccountByAccountNumber(5) == null);
+            bankomat = new Bankomat(bank);
+            testHelper.AssertTrue(title, bank.GetAccountByAccountNumber(5, bankomat) == null);
 
             title = "GetAccount(8) returns account #5 after 5 accounts have been created twice";
             bank = new Bank();
+            bankomat = new Bankomat(bank);
             bank.CreateAccounts(5);
             bank.CreateAccounts(5);
-            testHelper.AssertFalse(title, bank.GetAccountByAccountNumber(8) == null);
+            testHelper.AssertFalse(title, bank.GetAccountByAccountNumber(8, bankomat) == null);
         }
 
         // ============================== METHOD ==============================
