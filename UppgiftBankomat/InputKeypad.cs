@@ -13,21 +13,48 @@ namespace UppgiftBankomat
     {
 
         // ============================== METHOD ==============================
-        // GetIntInput. Reads an int value from the user and returns it.
+        // GetStringInput. Reads a string value from the user and returns it.
+        // Returns null as a default.
         // ====================================================================
-        internal int GetIntInput()
+        public string? GetStringInput()
         {
-            Int32.TryParse(Console.ReadLine().Trim(), out int userInput);
-            return userInput;
+            return Console.ReadLine();
         }
 
         // ============================== METHOD ==============================
-        // GetdecimalInput. Reads a decimal value from the user and returns it.
+        // GetIntInput. Reads an int value from the user and returns it.
+        // Returns 0 as a default.
         // ====================================================================
-        internal decimal GetdecimalInput()
+        public int GetIntInput()
         {
-            decimal.TryParse(Console.ReadLine().Trim(), out decimal userInput);
-            return userInput;
+            string? stringInput = GetStringInput();
+            if (stringInput != null && Int32.TryParse(
+                stringInput.Trim(), out int intInput))
+            {
+                return intInput;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        // ============================== METHOD ==============================
+        // GetDecimalInput. Reads a decimal value from the user and returns it.
+        // Returns 0.00 as a default.
+        // ====================================================================
+        public decimal GetDecimalInput()
+        {
+            string? stringInput = GetStringInput();
+            if (stringInput != null && decimal.TryParse(
+                stringInput.Trim(), out decimal decimalInput))
+            {
+                return decimalInput;
+            }
+            else
+            {
+                return 0.00M;
+            }
         }
     }
 }
