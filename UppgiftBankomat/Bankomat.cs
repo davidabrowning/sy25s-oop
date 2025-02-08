@@ -163,9 +163,9 @@ namespace UppgiftBankomat
         }
 
         // ============================== METHOD ==============================
-        // ShowDepositMenu. Asks the user to enter an account number and deposit
-        // amount, then attempts to deposit that amount into the desired
-        // account. Returns void.
+        // ShowDepositMenu. Asks the user to enter an account number and
+        // deposit amount, then attempts to deposit that amount into the
+        // desired account.
         // ====================================================================
         private void ShowDepositMenu()
         {
