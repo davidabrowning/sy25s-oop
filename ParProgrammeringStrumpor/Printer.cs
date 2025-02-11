@@ -12,41 +12,41 @@ namespace ParProgrammeringStrumpor
         {
             Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
-            Console.WriteLine($"===== {title.ToUpper()} =====");
+            Console.WriteLine($"\n\t===== {title.ToUpper()} =====");
         }
         public void PrintSubtitle(string subtitle)
         {
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"\n===== {subtitle} =====");
+            Console.WriteLine($"\n\t===== {subtitle} =====");
         }
         public void PrintArray(object[] array)
         {
             Console.ForegroundColor = ConsoleColor.White;
             foreach (object obj in array)
             {
-                Console.WriteLine(obj.ToString());
+                Console.WriteLine($"\t{obj.ToString()}");
             }
         }
         public void PrintPrompt(string prompt)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.Write($"{prompt}: ");
+            Console.Write($"\t{prompt}: ");
         }
         public void PrintUpdate(string update)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(update);
+            Console.WriteLine($"\t{update}");
             Thread.Sleep(1000);
         }
         public void PrintInfo(string info)
         {
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(info);
+            Console.WriteLine($"\t{info}");
         }
         public void ConfirmContinue(string message)
         {
             Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine($"\n{message}");
+            Console.WriteLine($"\n\t{message}");
             Console.ReadLine();
             Console.Clear();
         }

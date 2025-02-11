@@ -174,7 +174,7 @@ namespace ParProgrammeringStrumpor
             int counter = 1;
             foreach (Sock sock in socks)
             {
-                Console.WriteLine($"Par {counter++}. {sock.ToString()}");
+                printer.PrintInfo($"Par {counter++}. {sock.ToString()}");
             }
         }
 
