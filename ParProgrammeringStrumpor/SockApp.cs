@@ -5,11 +5,44 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text.Json;
+using System.Drawing;
+using System.Diagnostics;
 
 namespace ParProgrammeringStrumpor
 {
     internal class SockApp
     {
+        // Constants
+        private const string MenuTitle = "Meny";
+        private const string MenuPrompt = "Ditt val";
+        private readonly string[] MenuOptions =
+        {
+            $"{(int)MainMenu.AddSock}. Lägg till en socka",
+            $"{(int)MainMenu.SaveSocks}. Spara sockar",
+            $"{(int)MainMenu.LoadFromFile}. Ladda sockar",
+            $"{(int)MainMenu.DisplayAll}. Skriv ut sockar",
+            $"{(int)MainMenu.Quit}. Avsluta programmet"
+        };
+        private const string AddTitle = "Lägg till socka";
+        private const string SaveTitle = "Sparar till fil";
+        private const string LoadTitle = "Laddar från fil";
+        private const string DisplayAllTitle = "Visar alla";
+        private const string QuitTitle = "Avslutar";
+        private const string EnterToContinue = "Tryck ENTER för att fortsätta.";
+        private const string SizePrompt = "Ange storlek (5-99)";
+        private const string ColorPrompt = "Ange färg";
+        private const string GradePrompt = "Ange betyg (1-5 där 1 är bäst)";
+        private const string AddSockSucceeded = "Lyckades lägga till ny socka.";
+        private const string UpdateSaveStarted = "Sparar Davids sockar til fil...";
+        private const string UpdateSaveSucceeded = "Socklistan sparad.";
+        private const string UpdateSaveFailed = "Lyckades inte spara til fil.";
+        private const string UpdateLoadStarted = "Läser in Sigges sockar från fil...";
+        private const string UpdateLoadSucceeded = "Lyckades läsa in från fil.";
+        private const string UpdateLoadFailed = "Lyckades inte läsa in socklistan från filen.";
+        private const string QuitMessage = "Programmet avslutas. Tack och hej då!";
+
+        // Private fields
+        private Printer printer = new Printer();
         private List<Sock> davidsSocks = new List<Sock>();
         private List<Sock> siggesSocks = new List<Sock>();
 
@@ -20,45 +53,31 @@ namespace ParProgrammeringStrumpor
 
         private void ShowMenu()
         {
-            PrintTitle("MENY");
-            Console.WriteLine("1. Lägg till en socka");
-            Console.WriteLine("2. Spara sockar");
-            Console.WriteLine("3. Ladda sockar");
-            Console.WriteLine("4. Skriv ut sockar");
-            Console.WriteLine("5. Avsluta programmet");
+            printer.PrintTitle(MenuTitle);
+            printer.PrintArray(MenuOptions);
             HandleMenuInput();
-        }
-
-        private void PrintTitle(string title)
-        {
-            Console.Clear();
-            Console.WriteLine($"===== {title} =====");
         }
 
         private void HandleMenuInput()
         {
-            Console.Write("Ditt val: ");
-            string userInput = Console.ReadLine();
-            switch (userInput)
+            printer.PrintPrompt(MenuPrompt);
+            string menuSelectionString = Console.ReadLine().Trim();
+            int.TryParse(menuSelectionString, out int menuSelectionInt);
+            switch ((MainMenu) menuSelectionInt)
             {
-                case "1":
-                    PrintTitle("Lägg till socka");
+                case MainMenu.AddSock:
                     AddSock();
                     break;
-                case "2":
-                    PrintTitle("Sparar till fil");
+                case MainMenu.SaveSocks:
                     Save();
                     break;
-                case "3":
-                    PrintTitle("Laddar från fil");
+                case MainMenu.LoadFromFile:
                     Load();
                     break;
-                case "4":
-                    PrintTitle("Visar alla");
+                case MainMenu.DisplayAll:
                     DisplayAllSocks();
                     break;
-                case "5":
-                    PrintTitle("Avslutar");
+                case MainMenu.Quit:
                     Quit();
                     break;
                 default:
@@ -69,87 +88,109 @@ namespace ParProgrammeringStrumpor
 
         private void AddSock()
         {
+            printer.PrintTitle(AddTitle);
+
+            // Create sock
+            int size = GetSockSize();
+            string color = GetSockColor();
+            GradeEnum grade = GetSockGrade();
+            Sock newSock = new Sock(size, color, grade);
+
+            // Add sock to list
+            davidsSocks.Add(newSock);
+            printer.PrintUpdate(AddSockSucceeded);
+
+            ReturnToMenu();
+        }
+
+        private int GetSockSize()
+        {
             int size = 0;
-            string color = "";
-            GradeEnum grade = GradeEnum.None;
-            
-            // Get size
-            while (size < 5 || size > 99)
+            while (size < Sock.MinSize || size > Sock.MaxSize)
             {
-                Console.Write("Ange storlek (5-99): ");
+                printer.PrintPrompt(SizePrompt);
                 int.TryParse(Console.ReadLine(), out size);
             }
+            return size;
+        }
 
-            // Get color
+        private string GetSockColor()
+        {
+            string color = "";
             while (color.Length == 0)
             {
-                Console.Write("Ange färg: ");
+                printer.PrintPrompt(ColorPrompt);
                 color = Console.ReadLine().Trim();
             }
-            
-            // Get grade
+            return color;
+        }
+
+        private GradeEnum GetSockGrade()
+        {
+            GradeEnum grade = GradeEnum.None;
             while (grade == GradeEnum.None)
             {
-                Console.Write("Ange betyg (1-5 där 1 är bäst): ");
+                printer.PrintPrompt(GradePrompt);
                 int.TryParse(Console.ReadLine(), out int gradeInputAsInt);
                 if (1 <= gradeInputAsInt && gradeInputAsInt <= 5)
                 {
                     grade = (GradeEnum)gradeInputAsInt;
                 }
             }
-
-            // Add sock to list
-            Sock newSock = new Sock(size, color, grade);
-            davidsSocks.Add(newSock);
-
-            ReturnToMenu();
+            return grade;
         }
 
         private void Save()
         {
-            Console.WriteLine("Sparar Davids sockar til fil...");
+            printer.PrintTitle(SaveTitle);
+            printer.PrintUpdate(UpdateSaveStarted);
 
-            string sockListJson = JsonSerializer.Serialize(davidsSocks);
-            File.WriteAllText("socklista.json", sockListJson);
-
-            Console.WriteLine("Socklistan sparad.");
+            try
+            {
+                string sockListJson = JsonSerializer.Serialize(davidsSocks);
+                File.WriteAllText("socklista.json", sockListJson);
+                printer.PrintUpdate(UpdateSaveSucceeded);
+            }
+            catch (Exception ex)
+            {
+                printer.PrintUpdate(UpdateSaveFailed);
+                printer.PrintUpdate(ex.Message);
+            }
 
             ReturnToMenu();
         }
 
         private void Load()
         {
-            Console.WriteLine("Läser in Sigges sockar från fil...");
+            printer.PrintTitle(LoadTitle);
+            printer.PrintUpdate(UpdateLoadStarted);
 
             try
             {
                 string sockListFileText = File.ReadAllText("siggessockar.json");
                 siggesSocks = JsonSerializer.Deserialize<List<Sock>>(sockListFileText) ?? new List<Sock>();
-                Console.WriteLine("Lyckades läsa in från fil.");
+                printer.PrintUpdate(UpdateLoadSucceeded);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Lyckades inte läsa in socklistan från filen.");
-                Console.WriteLine(ex.Message);
+                printer.PrintUpdate(UpdateLoadFailed);
+                printer.PrintUpdate(ex.Message);
             }
-
 
             ReturnToMenu();
         }
 
         private void DisplayAllSocks()
         {
-            Console.WriteLine("Davids sockar:");
-            DisplaySockList(davidsSocks);
-
-            Console.WriteLine("Sigges sockar (från fil):");
-            DisplaySockList(siggesSocks);
-
+            printer.PrintTitle(DisplayAllTitle);
+            DisplaySockList("Davids sockar", davidsSocks);
+            DisplaySockList("Sigges sockar (från fil)", siggesSocks);
             ReturnToMenu();
         }
 
-        private void DisplaySockList(List<Sock> socks)
+        private void DisplaySockList(string sockListName, List<Sock> socks)
         {
+            printer.PrintSubtitle(sockListName);
             int counter = 1;
             foreach (Sock sock in socks)
             {
@@ -159,21 +200,15 @@ namespace ParProgrammeringStrumpor
 
         private void Quit()
         {
-            Console.WriteLine("Programmet avslutas. Tack och hej då!");
-            ConfirmContinue();
+            printer.PrintTitle(QuitTitle);
+            printer.PrintUpdate(QuitMessage);
+            printer.ConfirmContinue(EnterToContinue);
         }
 
         private void ReturnToMenu()
         {
-            ConfirmContinue();
+            printer.ConfirmContinue(EnterToContinue);
             ShowMenu();
-        }
-
-        private void ConfirmContinue()
-        {
-            Console.WriteLine("Tryck ENTER för att fortsätta.");
-            Console.ReadLine();
-            Console.Clear();
         }
     }
 }

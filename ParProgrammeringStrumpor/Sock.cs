@@ -8,6 +8,10 @@ namespace ParProgrammeringStrumpor
 {
     internal class Sock
     {
+        // Constants
+        public const int MinSize = 2;
+        public const int MaxSize = 99;
+
         // Properties
         public int Size { get; set; }
         public string Color { get; set; }
