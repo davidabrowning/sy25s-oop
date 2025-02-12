@@ -13,8 +13,8 @@ namespace ParProgrammeringStrumpor
         public const int MaxSize = 99;
 
         // Properties
-        public int Size { get; set; }
-        public string Color { get; set; }
+        public int Size { get; }
+        public string Color { get; }
         public GradeEnum Grade { get; }
 
         // Constructor
@@ -25,12 +25,10 @@ namespace ParProgrammeringStrumpor
             Grade = grade;
         }
 
-        public override string? ToString()
+        // Methods
+        public override string ToString()
         {
             return $"Storlek: {Size}, färg: {Color}, betyg: {(int)Grade}";
         }
-
-        // Methods
-
     }
 }
