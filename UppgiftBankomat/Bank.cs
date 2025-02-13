@@ -124,8 +124,13 @@ namespace UppgiftBankomat
         public void Deposit(int accountNum, decimal amount, Bankomat bankomat)
         {
             Account? account = GetAccountByAccountNumber(accountNum, bankomat);
-            if (account != null && IsValidDeposit(account, amount, bankomat))
+            if (account == null)
             {
+                return;
+            }
+            bankomat.ShowInfo(account.ToString());
+            if (IsValidDeposit(account, amount, bankomat))
+            { 
                 account.AddFunds(amount);
                 bankomat.ShowSuccess(String.Format(
                     DepositSuccessful,
@@ -142,8 +147,11 @@ namespace UppgiftBankomat
         public void Withdraw(int accountNum, decimal amount, Bankomat bankomat)
         {
             Account? account = GetAccountByAccountNumber(accountNum, bankomat);
-            if (account != null 
-                && IsValidWithdrawal(account, amount, bankomat))
+            if (account == null) {
+                return;
+            }
+            bankomat.ShowInfo(account.ToString());
+            if (IsValidWithdrawal(account, amount, bankomat))
             {
                 account.WithdrawFunds(amount);
                 bankomat.ShowSuccess(String.Format(
