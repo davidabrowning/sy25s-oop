@@ -36,13 +36,14 @@
             }
 
             // LINQ method syntax WHERE
-            var students5 = students.Where(x => x.StudyGroup == 3)
+            var students5 = students
+                .Where(x => x.StudyGroup == 1 && x.City == "Stockholm")
                 .OrderByDescending(x => x.FirstName)
                 .ThenByDescending(x => x.LastName);
-            Console.WriteLine("\nGrouped and selected for group 3");
+            Console.WriteLine("\nGrouped and selected for group 1 and Stockholm");
             foreach (Student student in students5)
             {
-                Console.WriteLine(student.FirstName + " " + student.StudyGroup);
+                Console.WriteLine(student.FirstName + " " + student.StudyGroup + " " + student.City);
             }
 
             // LINQ grouping
