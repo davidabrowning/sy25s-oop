@@ -26,7 +26,7 @@ namespace ÖvningarLinq
             // Övning 2: GroupBy
             Console.WriteLine("2. GroupBy");
             List<Product> products = ProductHelper.GetProducts();
-            List<IGrouping<string, Product>> categories = products
+            var categories = products
                 .GroupBy(p => p.Category)           // Group by cat
                 .OrderByDescending(c => c.Count())  // Order by cat count
                 .ThenBy(c => c.Key)                 // Order by cat name
@@ -47,11 +47,11 @@ namespace ÖvningarLinq
             Console.WriteLine("3. Kombinera OrderBy, GroupBy och ThenBy");
             List<Student> students = StudentHelper.GetStudents();
             var courses = students
-                .OrderBy(s => s.Age)
+                .OrderBy(s => s.Course)
+                .ThenBy(s => s.Age)
                 .ThenBy(s => s.FirstName)
                 .ThenBy(s => s.LastName)
-                .GroupBy(s => s.Course)
-                .OrderBy(c => c.Key);
+                .GroupBy(s => s.Course);
             foreach (var course in courses)
             {
                 Console.WriteLine(course.Key);
