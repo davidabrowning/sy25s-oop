@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35806.99 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Battleship", "Battleship.csproj", "{3CA54116-8E32-4627-815C-39DC963F4C98}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ÖvningarLinq", "ÖvningarLinq\ÖvningarLinq.csproj", "{9C2BFBA4-7597-47A4-A632-8DA5A4D66962}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3CA54116-8E32-4627-815C-39DC963F4C98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3CA54116-8E32-4627-815C-39DC963F4C98}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3CA54116-8E32-4627-815C-39DC963F4C98}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3CA54116-8E32-4627-815C-39DC963F4C98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C2BFBA4-7597-47A4-A632-8DA5A4D66962}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C2BFBA4-7597-47A4-A632-8DA5A4D66962}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C2BFBA4-7597-47A4-A632-8DA5A4D66962}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C2BFBA4-7597-47A4-A632-8DA5A4D66962}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {69775E2F-5798-4565-AE39-DB7FE5674288}
+		SolutionGuid = {6B0900EC-98CD-4043-9ABC-24BC48D63DEB}
 	EndGlobalSection
 EndGlobal
