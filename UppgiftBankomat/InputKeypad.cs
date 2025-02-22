@@ -9,7 +9,7 @@ namespace UppgiftBankomat
     // ================================ CLASS =================================
     // InputKeypad. Collects user input.
     // ========================================================================
-    internal class InputKeypad
+    internal class InputKeypad : IInputDevice
     {
 
         // ============================== METHOD ==============================
