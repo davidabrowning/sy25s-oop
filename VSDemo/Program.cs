@@ -4,6 +4,23 @@
     {
         static void Main(string[] args)
         {
+            bool runProgram = true;
+            while (runProgram)
+            {
+                VisaMenyn();
+                switch(Console.ReadLine().ToLower())
+                {
+                    case "1":
+                        Countdown();
+                        break;
+                    case "q":
+                        runProgram = false;
+                        break;
+                    default:
+                        Console.WriteLine("Ogiltig inmatning.");
+                        break;
+                }
+            }
             Hälsa();
             KollaLängd();
             KollaNorrlänning();
@@ -17,6 +34,25 @@
             ÖvningMedelvärdet(2, 2, 4);
             ÖvningJämntEllerUdda(5);
             ÖvningJämntEllerUdda(5000);
+        }
+        
+        static void Countdown()
+        {
+            sbyte countdown = 10;
+            while (countdown >= 0)
+            {
+                Console.WriteLine(countdown);
+                Thread.Sleep(1000);
+                countdown--;
+            }
+            Console.WriteLine("Engine sequence started. Lift off!");
+        }
+
+        static void VisaMenyn()
+        {
+            Console.WriteLine("Meny");
+            Console.WriteLine("[1] Countdown");
+            Console.WriteLine("[Q] Avsluta");
         }
 
         static void ÖvningJämntEllerUdda(int tal)
