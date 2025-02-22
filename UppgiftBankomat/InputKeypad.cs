@@ -14,11 +14,12 @@ namespace UppgiftBankomat
 
         // ============================== METHOD ==============================
         // GetStringInput. Reads a string value from the user and returns it.
-        // Returns null as a default.
+        // Returns "" as a default.
         // ====================================================================
-        public string? GetStringInput()
+        public string GetStringInput()
         {
-            return Console.ReadLine();
+            string stringInput = Console.ReadLine() ?? "";
+            return stringInput.Trim();
         }
 
         // ============================== METHOD ==============================
@@ -27,9 +28,8 @@ namespace UppgiftBankomat
         // ====================================================================
         public int GetIntInput()
         {
-            string? stringInput = GetStringInput();
-            if (stringInput != null && Int32.TryParse(
-                stringInput.Trim(), out int intInput))
+            string stringInput = GetStringInput();
+            if (Int32.TryParse(stringInput, out int intInput))
             {
                 return intInput;
             }
@@ -45,9 +45,8 @@ namespace UppgiftBankomat
         // ====================================================================
         public decimal GetDecimalInput()
         {
-            string? stringInput = GetStringInput();
-            if (stringInput != null && decimal.TryParse(
-                stringInput.Trim(), out decimal decimalInput))
+            string stringInput = GetStringInput();
+            if (decimal.TryParse(stringInput, out decimal decimalInput))
             {
                 return decimalInput;
             }

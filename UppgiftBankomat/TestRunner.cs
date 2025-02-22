@@ -100,10 +100,10 @@ namespace UppgiftBankomat
             bank.CreateAccounts(10);
             testHelper.AssertEquals(title, 10, bank.Accounts.Length);
 
-            title = "Bank börjar som null";
+            title = "Bank har 0 konton i början";
             bank = new Bank();
             bankomat = new Bankomat(bank);
-            testHelper.AssertTrue(title, bank.Accounts == null);
+            testHelper.AssertEquals(title, 0, bank.Accounts.Length);
 
             title = "Bank har 10 konton efter 5 kontons skapats två gånger";
             bank = new Bank();

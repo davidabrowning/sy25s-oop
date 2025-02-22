@@ -33,14 +33,19 @@ namespace UppgiftBankomat
             = "Lyckades inte hitta några konton.";
 
         // Properties
-        public Account[]? Accounts { get; private set; }
+        public Account[] Accounts { get; private set; }
+
+        public Bank()
+        {
+            Accounts = new Account[0];
+        }
 
         // ============================== METHOD ==============================
         // CreateAccounts. Creates the specified number of new blank accounts.
         // ====================================================================
         public void CreateAccounts(int accountsToCreate)
         {
-            Account[] existingAccounts = Accounts ?? new Account[0];
+            Account[] existingAccounts = Accounts;
             int totalAccounts = existingAccounts.Length + accountsToCreate;
             Accounts = new Account[totalAccounts];
 
@@ -58,15 +63,10 @@ namespace UppgiftBankomat
 
         // ============================== METHOD ==============================
         // GetAccountByAccountNumber. Returns the account with the desired
-        // account number, or null if no matches found.
+        // account number. Throws an exception if no matches found.
         // ====================================================================
-        public Account? GetAccountByAccountNumber(int accountNumber, Bankomat bankomat)
+        public Account GetAccountByAccountNumber(int accountNumber, Bankomat bankomat)
         {
-            if (Accounts == null)
-            {
-                bankomat.ShowError(WarningNoAccountsToPrint);
-                return null;
-            }
             foreach (Account account in Accounts)
             {
                 if (account.AccountNumber == accountNumber)
@@ -74,8 +74,7 @@ namespace UppgiftBankomat
                     return account;
                 }
             }
-            bankomat.ShowError(WarningIllegalAccountNumber);
-            return null;
+            throw new Exception(WarningIllegalAccountNumber);
         }
 
         // ============================== METHOD ==============================
@@ -132,20 +131,23 @@ namespace UppgiftBankomat
         // ====================================================================
         public void Deposit(int accountNum, decimal amount, Bankomat bankomat)
         {
-            Account? account = GetAccountByAccountNumber(accountNum, bankomat);
-            if (account == null)
+            try
             {
-                return;
-            }
-            bankomat.ShowInfo(account.ToString());
-            if (IsValidDeposit(account, amount, bankomat))
-            { 
-                account.AddFunds(amount);
-                bankomat.ShowSuccess(String.Format(
-                    DepositSuccessful,
-                    amount.ToString(account.CurrencyFormat),
-                    account.FormattedAccountNumber));
+                Account account = GetAccountByAccountNumber(accountNum, bankomat);
                 bankomat.ShowInfo(account.ToString());
+                if (IsValidDeposit(account, amount, bankomat))
+                {
+                    account.AddFunds(amount);
+                    bankomat.ShowSuccess(String.Format(
+                        DepositSuccessful,
+                        amount.ToString(account.CurrencyFormat),
+                        account.FormattedAccountNumber));
+                    bankomat.ShowInfo(account.ToString());
+                }
+            }
+            catch (Exception e)
+            {
+                bankomat.ShowError(e.Message);
             }
         }
 
@@ -155,20 +157,24 @@ namespace UppgiftBankomat
         // ====================================================================
         public void Withdraw(int accountNum, decimal amount, Bankomat bankomat)
         {
-            Account? account = GetAccountByAccountNumber(accountNum, bankomat);
-            if (account == null) {
-                return;
-            }
-            bankomat.ShowInfo(account.ToString());
-            if (IsValidWithdrawal(account, amount, bankomat))
-            {
-                account.WithdrawFunds(amount);
-                bankomat.ShowSuccess(String.Format(
-                    WithdrawalSuccessful,
-                    amount.ToString(account.CurrencyFormat),
-                    account.FormattedAccountNumber));
+            try {
+                Account account = GetAccountByAccountNumber(accountNum, bankomat);
                 bankomat.ShowInfo(account.ToString());
+                if (IsValidWithdrawal(account, amount, bankomat))
+                {
+                    account.WithdrawFunds(amount);
+                    bankomat.ShowSuccess(String.Format(
+                        WithdrawalSuccessful,
+                        amount.ToString(account.CurrencyFormat),
+                        account.FormattedAccountNumber));
+                    bankomat.ShowInfo(account.ToString());
+                }
             }
+            catch (Exception e)
+            {
+                bankomat.ShowError(e.Message);
+            }
+
         }
 
         // ============================== METHOD ==============================
@@ -176,10 +182,14 @@ namespace UppgiftBankomat
         // ====================================================================
         public void DisplayAccount(int accountNumber, Bankomat bankomat)
         {
-            Account? account = GetAccountByAccountNumber(accountNumber, bankomat);
-            if (account != null)
+            try 
             {
+                Account account = GetAccountByAccountNumber(accountNumber, bankomat);
                 bankomat.ShowInfo(account.ToString());
+            }
+            catch (Exception e)
+            {
+                bankomat.ShowError(e.Message);
             }
         }
 
@@ -188,7 +198,7 @@ namespace UppgiftBankomat
         // ====================================================================
         public void DisplayAllAccounts(Bankomat bankomat)
         {
-            if (Accounts == null || Accounts.Length == 0)
+            if (Accounts.Length == 0)
             {
                 bankomat.ShowError(WarningNoAccountsToPrint);
                 return;
