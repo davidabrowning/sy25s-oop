@@ -21,7 +21,6 @@ namespace UppgiftBankomat
         {
             RunAccountTests();
             RunBankTests();
-            RunBankomatTests();
         }
 
         // ============================== METHOD ==============================
@@ -101,30 +100,17 @@ namespace UppgiftBankomat
             bank.CreateAccounts(10);
             testHelper.AssertEquals(title, 10, bank.Accounts.Length);
 
-            title = "GetAccount(11) initially returns null";
+            title = "Bank börjar som null";
             bank = new Bank();
             bankomat = new Bankomat(bank);
-            testHelper.AssertTrue(title, bank.GetAccountByAccountNumber(5, bankomat) == null);
+            testHelper.AssertTrue(title, bank.Accounts == null);
 
-            title = "GetAccount(8) returns account #5 after 5 accounts have been created twice";
+            title = "Bank har 10 konton efter 5 kontons skapats två gånger";
             bank = new Bank();
             bankomat = new Bankomat(bank);
             bank.CreateAccounts(5);
             bank.CreateAccounts(5);
-            testHelper.AssertFalse(title, bank.GetAccountByAccountNumber(8, bankomat) == null);
-        }
-
-        // ============================== METHOD ==============================
-        // RunBankomatTests. Runs unit tests for the Bankomat class.
-        // ====================================================================
-        private void RunBankomatTests()
-        {
-            Console.WriteLine("Kör tester på Bankomat-klassen");
-
-            // Variables to reuse during testing
-            Bank bank;
-            Bankomat bankomat;
-            string title;
+            testHelper.AssertEquals(title, 10, bank.Accounts.Length);
         }
     }
 }

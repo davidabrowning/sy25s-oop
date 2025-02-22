@@ -84,7 +84,7 @@ namespace UppgiftBankomat
             outputScreen.PrintTitle(MenuTitleHello);
             outputScreen.PrintInfo(MenuTextHello);
             outputScreen.PrintContinueConfirmation();
-            outputScreen.Reset();
+            outputScreen.ResetSettings();
         }
 
         // ============================== METHOD ==============================
@@ -95,7 +95,7 @@ namespace UppgiftBankomat
             outputScreen.PrintTitle(MenuTitleGoodbye);
             outputScreen.PrintInfo(MenuTextGoodbye);
             outputScreen.PrintContinueConfirmation();
-            outputScreen.Reset();
+            outputScreen.ResetSettings();
         }
 
         // ============================== METHOD ==============================

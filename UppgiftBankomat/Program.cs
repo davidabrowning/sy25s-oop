@@ -11,17 +11,24 @@
         // ====================================================================
         public static void Main(string[] args)
         {
-            int accountsToCreate = 10;
-            Bank bank = new Bank();
-            bank.CreateAccounts(accountsToCreate);
-            Bankomat bankomat = new Bankomat(bank);
-            bankomat.Go();
+            // ============================ REGION ============================
+            // Application. Starts the Bankomat application.
+            // ================================================================
+            #region application            
+            //Bank bank = new Bank();
+            //Bankomat bankomat = new Bankomat(bank);
+            //int accountsToCreate = 10;
+            //bank.CreateAccounts(accountsToCreate);
+            //bankomat.Go();
+            #endregion application
 
-            // The below TestRunner and Go() calls can be uncommented
-            // to run unit tests. In that case you probably want to comment out
-            // the new Bankomat() and bankomat.Go() lines above.
-            //TestRunner testRunner = new TestRunner();
-            //testRunner.Go();
+            // ============================ REGION ============================
+            // Tests. Uncomment to run unit tests.
+            // ================================================================
+            #region tests
+            TestRunner testRunner = new TestRunner();
+            testRunner.Go();
+            #endregion tests
         }
     }
 }

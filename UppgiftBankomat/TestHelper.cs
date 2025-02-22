@@ -17,6 +17,7 @@ namespace UppgiftBankomat
         // ====================================================================
         private void PrintSuccess(string title)
         {
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"[Success] {title}");
         }
 
@@ -28,6 +29,7 @@ namespace UppgiftBankomat
         // ====================================================================
         private void PrintFailure(string title, object expected, object actual)
         {
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"[Failure] {title} | Expected: {expected} | Actual: {actual}");
         }
 
