@@ -32,7 +32,7 @@ namespace UppgiftBankomat
         public Account()
         {
             AccountNumber = ++highestAccountNumber;
-            Balance = 0;
+            Balance = 0.00M;
         }
 
         // ============================== METHOD ==============================

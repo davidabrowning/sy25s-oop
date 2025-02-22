@@ -53,8 +53,8 @@ namespace UppgiftBankomat
             = "Ogiltigt menyval. Försök igen.";
 
         // Fields
-        private InputKeypad inputKeypad;
-        private OutputScreen outputScreen;
+        private IInputDevice inputKeypad;
+        private IOutputDevice outputScreen;
         private Bank bank;
 
         // Constructor
@@ -84,7 +84,7 @@ namespace UppgiftBankomat
             outputScreen.PrintTitle(MenuTitleHello);
             outputScreen.PrintInfo(MenuTextHello);
             outputScreen.PrintContinueConfirmation();
-            outputScreen.Reset();
+            outputScreen.ResetSettings();
         }
 
         // ============================== METHOD ==============================
@@ -95,7 +95,7 @@ namespace UppgiftBankomat
             outputScreen.PrintTitle(MenuTitleGoodbye);
             outputScreen.PrintInfo(MenuTextGoodbye);
             outputScreen.PrintContinueConfirmation();
-            outputScreen.Reset();
+            outputScreen.ResetSettings();
         }
 
         // ============================== METHOD ==============================

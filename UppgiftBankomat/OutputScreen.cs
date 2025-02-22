@@ -9,7 +9,7 @@ namespace UppgiftBankomat
     // ================================ CLASS =================================
     // OutputScreen. Displays messages to the user on the virtual screen.
     // ========================================================================
-    internal class OutputScreen
+    internal class OutputScreen : IOutputDevice
     {
         // Constants
         private const int TitleHeadingWidth = 40;
@@ -18,9 +18,9 @@ namespace UppgiftBankomat
         private const string ConfirmContinue = "Tryck ENTER för att fortsätta.";
 
         // ============================== METHOD ==============================
-        // Reset. Resets the Console colors and clears it.
+        // ResetSettings. Resets the Console colors and clears it.
         // ====================================================================
-        public void Reset()
+        public void ResetSettings()
         {
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.Black;
@@ -35,32 +35,50 @@ namespace UppgiftBankomat
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Clear();
 
-            // Top line
+            PrintTitleBorder();
+            PrintTitleSpacerLeft(title);
+            Console.Write(title);
+            PrintTitleSpacerRight(title);
+            PrintTitleBorder();
+        }
+
+        // ============================== METHOD ==============================
+        // PrintTItleBorder. Outputs the border above and below the title.
+        // ====================================================================
+        private void PrintTitleBorder()
+        {
             Console.Write("\n\t");
             for (int i = 0; i < TitleHeadingWidth; i++)
             {
                 Console.Write(TitleBorder);
             }
-
-            // Middle line
-            Console.Write($"\n\t#");
-            for (int i = 0; i < (TitleHeadingWidth - title.Length - 2) / 2; i++)
-            {
-                Console.Write(TitleSpacer);
-            }
-            Console.Write(title);
-            for (int i = 0; i < (TitleHeadingWidth - title.Length - 1) / 2; i++)
-            {
-                Console.Write(TitleSpacer);
-            }
-
-            // Bottom line
-            Console.Write("#\n\t");
-            for (int i = 0; i < TitleHeadingWidth; i++)
-            {
-                Console.Write(TitleBorder);
-            }
             Console.WriteLine();
+        }
+
+        // ============================== METHOD ==============================
+        // PrintTitleSpacerLeft. Outputs the buffer space to the left of the
+        // title.
+        // ====================================================================
+        private void PrintTitleSpacerLeft(string title)
+        {
+            Console.Write($"\t##");
+            for (int i = 0; i < (TitleHeadingWidth - title.Length - 4) / 2; i++)
+            {
+                Console.Write(TitleSpacer);
+            }
+        }
+
+        // ============================== METHOD ==============================
+        // PrintTitleSpacerRight. Outputs the buffer space to the right of the
+        // title.
+        // ====================================================================
+        private void PrintTitleSpacerRight(string title)
+        {
+            for (int i = 0; i < (TitleHeadingWidth - title.Length - 3) / 2; i++)
+            {
+                Console.Write(TitleSpacer);
+            }
+            Console.Write("##");
         }
 
         // ============================== METHOD ==============================
@@ -91,6 +109,15 @@ namespace UppgiftBankomat
         }
 
         // ============================== METHOD ==============================
+        // PrintPrompt. Outputs a user prompt.
+        // ====================================================================
+        public void PrintPrompt(string prompt)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write($"\t{prompt} ");
+        }
+
+        // ============================== METHOD ==============================
         // PrintContinueConfirmation. Outputs a message asking the user to press
         // ENTER to continue. Waits for the user to enter a new line before
         // continuing.
@@ -101,23 +128,6 @@ namespace UppgiftBankomat
             Console.WriteLine($"\n\t{ConfirmContinue}");
             Console.Write("\n\t");
             Console.ReadLine();
-        }
-
-        // ============================== METHOD ==============================
-        // PrintPrompt. Outputs a user prompt.
-        // ====================================================================
-        public void PrintPrompt(string prompt)
-        {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.Write($"\t{prompt} ");
-        }
-
-        // ============================== METHOD ==============================
-        // PrintTab. Outputs a buffer tab.
-        // ====================================================================
-        public void PrintTab()
-        {
-            Console.Write("\t");
         }
     }
 }

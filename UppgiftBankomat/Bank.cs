@@ -40,10 +40,19 @@ namespace UppgiftBankomat
         // ====================================================================
         public void CreateAccounts(int accountsToCreate)
         {
-            Accounts = new Account[accountsToCreate];
-            for (int i = 0; i < Accounts.Length; i++)
+            Account[] existingAccounts = Accounts ?? new Account[0];
+            int totalAccounts = existingAccounts.Length + accountsToCreate;
+            Accounts = new Account[totalAccounts];
+
+            // Transfer over existing accounts
+            for (int i = 0; i < existingAccounts.Length; i++)
             {
-                Accounts[i] = new Account();
+                Accounts[i] = existingAccounts[i];
+            }
+            // Add newly requested accounts
+            for (int i = 0; i < accountsToCreate; i++)
+            {
+                Accounts[existingAccounts.Length + i] = new Account();
             }
         }
 
@@ -184,7 +193,7 @@ namespace UppgiftBankomat
                 bankomat.ShowError(WarningNoAccountsToPrint);
                 return;
             }
-            foreach (Account account in Accounts)
+            foreach (Account account in Accounts.OrderBy(a => a.AccountNumber))
             {
                 bankomat.ShowInfo(account.ToString());
             }
