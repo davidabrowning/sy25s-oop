@@ -58,7 +58,6 @@
                 throw new Exception(String.Format(WarningBalanceCannotBeLowerThanMinimum, minBalance));
 
             account.AddFunds(depositAmount);
-            
         }
 
         public void Withdraw(int accountNumber, decimal withdrawalAmount)
