@@ -2,7 +2,7 @@
 {
     internal class TestRunner
     {
-        TestHelper testHelper = new TestHelper();
+        private TestHelper testHelper = new TestHelper();
 
         public void Go()
         {

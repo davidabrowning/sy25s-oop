@@ -7,7 +7,7 @@
         private const decimal minWithdrawal = 0.01M;
         private const string WarningAccountNotFound  = "Lyckades inte hitta detta konto.";
         private const string WarningDepositMustBeGreaterThanMinDeposit  = "Insättning måste vara minst {0}.";
-        private const string WarningWithdrawalMustBeGreaterThanMinWithdrawal  = "Summa måsta vara minst {0}.";
+        private const string WarningWithdrawalMustBeGreaterThanMinWithdrawal  = "Uttag måsta vara minst {0}.";
         private const string WarningBalanceCannotBeLowerThanMinimum  = "Saldo får inte bli mindre än {0}.";
         private const string WarningNoAccountsToPrint   = "Lyckades inte hitta några konton.";
 
@@ -44,6 +44,7 @@
 
         public void Deposit(int accountNumber, decimal depositAmount)
         {
+
             if (!AccountExists(accountNumber))
                 throw new Exception(WarningAccountNotFound);
 
@@ -58,7 +59,6 @@
                 throw new Exception(String.Format(WarningBalanceCannotBeLowerThanMinimum, minBalance));
 
             account.AddFunds(depositAmount);
-            
         }
 
         public void Withdraw(int accountNumber, decimal withdrawalAmount)
@@ -80,7 +80,7 @@
             account.WithdrawFunds(withdrawalAmount);
         }
 
-        public bool AccountExists(int accountNumber)
+        private bool AccountExists(int accountNumber)
         {
             foreach (Account account in Accounts)
                 if (account.AccountNumber == accountNumber)
@@ -88,7 +88,7 @@
             return false;
         }
 
-        public Account GetAccount(int accountNumber)
+        private Account GetAccount(int accountNumber)
         {
             foreach (Account account in Accounts)
                 if (account.AccountNumber == accountNumber)
