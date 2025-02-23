@@ -80,7 +80,7 @@
             account.WithdrawFunds(withdrawalAmount);
         }
 
-        public bool AccountExists(int accountNumber)
+        private bool AccountExists(int accountNumber)
         {
             foreach (Account account in Accounts)
                 if (account.AccountNumber == accountNumber)
@@ -88,7 +88,7 @@
             return false;
         }
 
-        public Account GetAccount(int accountNumber)
+        private Account GetAccount(int accountNumber)
         {
             foreach (Account account in Accounts)
                 if (account.AccountNumber == accountNumber)
