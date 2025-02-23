@@ -2,19 +2,13 @@
 
 ## Författare info
 
-### Skola
-YH Akademin
+### Skola: YH Akademin
+- Program: Systemutvecklare .NET 2025-2026
+- Kurs: Objektorienterad programmering med C#
 
-### Program
-Systemutvecklare .NET 2025-2026
-
-### Kurs
-Objektorienterad programmering med C#
-
-### Författare
-David Arne Browning
-david.browning@studerande.yh.se
-david.a.browning@gmail.com
+### Författare: David Arne Browning
+- david.browning@studerande.yh.se
+- david.a.browning@gmail.com
 
 ## Mjukvaruprogram info
 
