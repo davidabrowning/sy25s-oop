@@ -61,22 +61,23 @@
             
         }
 
-        public void Withdraw(int accountNumber, decimal amount)
+        public void Withdraw(int accountNumber, decimal withdrawalAmount)
         {
             if (!AccountExists(accountNumber))
                 throw new Exception(WarningAccountNotFound);
 
             Account account = GetAccount(accountNumber);
 
-            if (amount < minWithdrawal)
+            if (withdrawalAmount < minWithdrawal)
                 throw new Exception(String.Format(WarningWithdrawalMustBeGreaterThanMinWithdrawal, 
                     minWithdrawal.ToString(account.CurrencyFormat)));
 
-            if (account.Balance - amount < minBalance)
+            decimal newBalance = account.Balance - withdrawalAmount;
+            if (newBalance < minBalance)
                 throw new Exception(String.Format(WarningBalanceCannotBeLowerThanMinimum, 
                     minBalance.ToString(account.CurrencyFormat)));
 
-            account.WithdrawFunds(amount);
+            account.WithdrawFunds(withdrawalAmount);
         }
 
         public bool AccountExists(int accountNumber)
