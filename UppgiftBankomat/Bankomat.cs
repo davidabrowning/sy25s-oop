@@ -24,7 +24,7 @@ namespace UppgiftBankomat
         private const string PromptWithdrawalAmount  = "Ange summa i SEK att ta ut:";
         private const string WarningIllegalSelection  = "Ogiltigt menyval. Försök igen.";
         private const string DepositSuccessful = "Insättning lyckades.";
-        private const string WithdrawalSuccessful = "Uttagning lyckades.";
+        private const string WithdrawalSuccessful = "Uttag lyckades.";
 
         private IInputDevice inputKeypad;
         private IOutputDevice outputScreen;
@@ -113,7 +113,6 @@ namespace UppgiftBankomat
             int accountNumber = inputKeypad.GetIntInput();
             outputScreen.PrintPrompt(PromptDepositAmount);
             decimal amount = inputKeypad.GetDecimalInput();
-            outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
             MakeDeposit(accountNumber, amount);
 
             ReturnToMainMenu();
@@ -123,6 +122,7 @@ namespace UppgiftBankomat
         {
             try
             {
+                outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
                 bank.Deposit(accountNumber, amount);
                 outputScreen.PrintSuccess(String.Format(DepositSuccessful));
                 outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
@@ -140,7 +140,6 @@ namespace UppgiftBankomat
             int accountNumber = inputKeypad.GetIntInput();
             outputScreen.PrintPrompt(PromptWithdrawalAmount);
             decimal amount = inputKeypad.GetDecimalInput();
-            outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
             MakeWithdrawal(accountNumber, amount);
 
             ReturnToMainMenu();
@@ -150,6 +149,7 @@ namespace UppgiftBankomat
         {
             try
             {
+                outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
                 bank.Withdraw(accountNumber, amount);
                 outputScreen.PrintSuccess(String.Format(WithdrawalSuccessful));
                 outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
