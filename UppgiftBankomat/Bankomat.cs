@@ -1,63 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Security.Principal;
 
 namespace UppgiftBankomat
 {
-    // ================================ CLASS =================================
-    // Bankomat. Machine with a menu where users can interact with bank
-    // accounts (deposit, withdraw, display one, and display all).
-    // ========================================================================
     internal class Bankomat
     {
-        // Constants
-        private const string MenuTitleMain 
-            = "Huvudmeny";
-        private const string MenuTitleDeposit
-            = "Insättning på ett konto";
-        private const string MenuTitleWithdraw 
-            = "Uttag på ett konto";
-        private const string MenuTitleDisplayOne 
-            = "Visa saldot på ett konto";
-        private const string MenuTitleDisplayAll 
-            = "Lista på alla konton";
-        private const string MenuTitleHello
-            = "Bankomat";
-        private const string MenuTitleGoodbye
-            = "Bankomat";
-        private const string MenuTextDeposit 
-            = "Gör en insättning på ett konto";
-        private const string MenuTextWithdraw 
-            = "Gör ett uttag på ett konto";
-        private const string MenuTextDisplayOne 
-            = "Visa saldot på ett konto";
-        private const string MenuTextDisplayAll 
-            = "Skriv ut en lista på alla konton";
-        private const string MenuTextQuit 
-            = "Avsluta";
-        private const string MenuTextHello
-            = "Hej och välkommen till Bankomaten.";
-        private const string MenuTextGoodbye 
-            = "Programmet avslutas. Tack och hej då!";
-        private const string PromptYourSelection
-            = "Ditt val:";
-        private const string PromptAccountNumber 
-            = "Ange kontonummer:";
-        private const string PromptDepositAmount 
-            = "Ange summa i SEK att sätta in:";
-        private const string PromptWithdrawalAmount 
-            = "Ange summa i SEK att ta ut:";
-        private const string WarningIllegalSelection 
-            = "Ogiltigt menyval. Försök igen.";
+        private const string MenuTitleMain  = "Huvudmeny";
+        private const string MenuTitleDeposit = "Insättning på ett konto";
+        private const string MenuTitleWithdraw  = "Uttag på ett konto";
+        private const string MenuTitleDisplayOne  = "Visa saldot på ett konto";
+        private const string MenuTitleDisplayAll  = "Lista på alla konton";
+        private const string MenuTitleHello = "Bankomat";
+        private const string MenuTitleGoodbye = "Bankomat";
+        private const string MenuTextDeposit  = "Gör en insättning på ett konto";
+        private const string MenuTextWithdraw  = "Gör ett uttag på ett konto";
+        private const string MenuTextDisplayOne  = "Visa saldot på ett konto";
+        private const string MenuTextDisplayAll  = "Skriv ut en lista på alla konton";
+        private const string MenuTextQuit  = "Avsluta";
+        private const string MenuTextHello = "Hej och välkommen till Bankomaten.";
+        private const string MenuTextGoodbye  = "Programmet avslutas. Tack och hej då!";
+        private const string PromptYourSelection  = "Ditt val:";
+        private const string PromptAccountNumber  = "Ange kontonummer:";
+        private const string PromptDepositAmount  = "Ange summa i SEK att sätta in:";
+        private const string PromptWithdrawalAmount  = "Ange summa i SEK att ta ut:";
+        private const string WarningIllegalSelection  = "Ogiltigt menyval. Försök igen.";
+        private const string DepositSuccessful = "Insättning lyckades.";
+        private const string WithdrawalSuccessful = "Uttagning lyckades.";
 
-        // Fields
         private IInputDevice inputKeypad;
         private IOutputDevice outputScreen;
         private Bank bank;
 
-        // Constructor
         public Bankomat(Bank b)
         {
             inputKeypad = new InputKeypad();
@@ -65,10 +37,6 @@ namespace UppgiftBankomat
             bank = b;
         }
 
-        // ============================== METHOD ==============================
-        // Go. Starts up the Bankomat, guides the user through the
-        // Bankomat's menu, and shuts down the Bankomat.
-        // ====================================================================
         public void Go()
         {
             Startup();
@@ -76,9 +44,6 @@ namespace UppgiftBankomat
             Shutdown();
         }
 
-        // ============================== METHOD ==============================
-        // Startup. Prints a hello message and resets the Console screen.
-        // ====================================================================
         private void Startup()
         {
             outputScreen.PrintTitle(MenuTitleHello);
@@ -87,9 +52,6 @@ namespace UppgiftBankomat
             outputScreen.ResetSettings();
         }
 
-        // ============================== METHOD ==============================
-        // Shutdown. Prints a goodbye message and resets the Console screen.
-        // ====================================================================
         private void Shutdown()
         {
             outputScreen.PrintTitle(MenuTitleGoodbye);
@@ -98,32 +60,18 @@ namespace UppgiftBankomat
             outputScreen.ResetSettings();
         }
 
-        // ============================== METHOD ==============================
-        // ShowMainMenu. Prints a list of main menu options for the user to
-        // choose from. Continues on to HandleMainMenuSelection.
-        // ====================================================================
         private void ShowMainMenu()
         {
-            outputScreen.PrintTitle(
-                MenuTitleMain);
-            outputScreen.PrintInfo(
-                $"{(int)MenuOption.Deposit}. {MenuTextDeposit}");
-            outputScreen.PrintInfo(
-                $"{(int)MenuOption.Withdraw}. {MenuTextWithdraw}");
-            outputScreen.PrintInfo(
-                $"{(int)MenuOption.DisplayAccount}. {MenuTextDisplayOne}");
-            outputScreen.PrintInfo(
-                $"{(int)MenuOption.DisplayAllAcounts}. {MenuTextDisplayAll}");
-            outputScreen.PrintInfo(
-                $"{(int)MenuOption.Quit}. {MenuTextQuit}");
+            outputScreen.PrintTitle(MenuTitleMain);
+            outputScreen.PrintInfo($"{(int)MenuOption.Deposit}. {MenuTextDeposit}");
+            outputScreen.PrintInfo($"{(int)MenuOption.Withdraw}. {MenuTextWithdraw}");
+            outputScreen.PrintInfo($"{(int)MenuOption.DisplayAccount}. {MenuTextDisplayOne}");
+            outputScreen.PrintInfo($"{(int)MenuOption.DisplayAllAcounts}. {MenuTextDisplayAll}");
+            outputScreen.PrintInfo($"{(int)MenuOption.Quit}. {MenuTextQuit}");
 
             HandleMainMenuSelection();
         }
 
-        // ============================== METHOD ==============================
-        // HandleMainMenuSelection. Gets user menu selection and routes user to
-        // next step in the program.
-        // ====================================================================
         private void HandleMainMenuSelection()
         {
             outputScreen.PrintPrompt(PromptYourSelection);
@@ -152,21 +100,12 @@ namespace UppgiftBankomat
                 }
         }
 
-        // ============================== METHOD ==============================
-        // ReturnToMainMenu. Asks user to confirm that they want to continue.
-        // Then continues on to ShowMainMenu.
-        // ====================================================================
         private void ReturnToMainMenu()
         {
             outputScreen.PrintContinueConfirmation();
             ShowMainMenu();
         }
 
-        // ============================== METHOD ==============================
-        // ShowDepositMenu. Asks the user to enter an account number and
-        // deposit amount, then attempts to deposit that amount into the
-        // desired account.
-        // ====================================================================
         private void ShowDepositMenu()
         {
             outputScreen.PrintTitle(MenuTitleDeposit);
@@ -174,16 +113,26 @@ namespace UppgiftBankomat
             int accountNumber = inputKeypad.GetIntInput();
             outputScreen.PrintPrompt(PromptDepositAmount);
             decimal amount = inputKeypad.GetDecimalInput();
-            bank.Deposit(accountNumber, amount, this);
+            outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
+            MakeDeposit(accountNumber, amount);
 
             ReturnToMainMenu();
         }
 
-        // ============================== METHOD ==============================
-        // ShowWithdrawalMenu. Asks the user to enter an account number and
-        // withdrawal amount, then attempts to withdraw that amount from the
-        // desired account. Returns void.
-        // ====================================================================
+        private void MakeDeposit(int accountNumber, decimal amount)
+        {
+            try
+            {
+                bank.Deposit(accountNumber, amount);
+                outputScreen.PrintSuccess(String.Format(DepositSuccessful));
+                outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
+            }
+            catch (Exception e)
+            {
+                outputScreen.PrintWarning(e.Message);
+            }
+        }
+
         private void ShowWithdrawalMenu()
         {
             outputScreen.PrintTitle(MenuTitleWithdraw);
@@ -191,59 +140,59 @@ namespace UppgiftBankomat
             int accountNumber = inputKeypad.GetIntInput();
             outputScreen.PrintPrompt(PromptWithdrawalAmount);
             decimal amount = inputKeypad.GetDecimalInput();
-            bank.Withdraw(accountNumber, amount, this);
+            outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
+            MakeWithdrawal(accountNumber, amount);
 
             ReturnToMainMenu();
         }
 
-        // ============================== METHOD ==============================
-        // DisplayOne. Asks for an account number and displays that account.
-        // Returns void.
-        // ====================================================================
+        private void MakeWithdrawal(int accountNumber, decimal amount)
+        {
+            try
+            {
+                bank.Withdraw(accountNumber, amount);
+                outputScreen.PrintSuccess(String.Format(WithdrawalSuccessful));
+                outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
+            }
+            catch (Exception e)
+            {
+                outputScreen.PrintWarning(e.Message);
+            }
+        }
+
         private void DisplayOne()
         {
             outputScreen.PrintTitle(MenuTitleDisplayOne);
             outputScreen.PrintPrompt(PromptAccountNumber);
             int accountNumber = inputKeypad.GetIntInput();
-            bank.DisplayAccount(accountNumber, this);
+            try
+            {
+                outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
+            }
+            catch (Exception e)
+            {
+                outputScreen.PrintWarning(e.Message);
+            }
 
             ReturnToMainMenu();
         }
 
-        // ============================== METHOD ==============================
-        // DisplayAll. Displays a summary of all accounts. Returns void.
-        // ====================================================================
         private void DisplayAll()
         {
             outputScreen.PrintTitle(MenuTitleDisplayAll);
-            bank.DisplayAllAccounts(this);
+            try
+            {
+                foreach (string accountSummary in bank.GetAllAccountSummaries())
+                {
+                    outputScreen.PrintInfo(accountSummary);
+                }
+            }
+            catch (Exception e)
+            {
+                outputScreen.PrintWarning(e.Message);
+            }
 
             ReturnToMainMenu();
-        }
-
-
-        // ============================== METHOD ==============================
-        // ShowInfo. Prints an informational message.
-        // ====================================================================
-        public void ShowInfo(string message)
-        {
-            outputScreen.PrintInfo(message);
-        }
-
-        // ============================== METHOD ==============================
-        // ShowSuccess. Prints a successful message.
-        // ====================================================================
-        public void ShowSuccess(string message)
-        {
-            outputScreen.PrintSuccess(message);
-        }
-
-        // ============================== METHOD ==============================
-        // ShowError. Prints an error message.
-        // ====================================================================
-        public void ShowError(string message)
-        {
-            outputScreen.PrintWarning(message);
         }
     }
 }

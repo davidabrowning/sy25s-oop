@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UppgiftBankomat
+﻿namespace UppgiftBankomat
 {
-    // ================================= ENUM =================================
-    // MenuOption. Contains integer conversions for each menu option in the 
-    // Bankomat's main menu.
-    // ========================================================================
     internal enum MenuOption
     {
         Deposit = 1,

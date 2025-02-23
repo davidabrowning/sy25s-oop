@@ -1,14 +1,7 @@
 ﻿namespace UppgiftBankomat
 {
-    // ================================ CLASS =================================
-    // Program. Contains Main method.
-    // ========================================================================
     public class Program
     {
-        // ============================== METHOD ==============================
-        // Main. Entry point for overall program. Creates and starts the
-        // Bankomat object.
-        // ====================================================================
         public static void Main(string[] args)
         {
             // ============================ REGION ============================
@@ -18,7 +11,7 @@
             Bank bank = new Bank();
             Bankomat bankomat = new Bankomat(bank);
             int accountsToCreate = 10;
-            bank.CreateAccounts(accountsToCreate);
+            bank.AddAccounts(accountsToCreate);
             bankomat.Go();
             #endregion application
 

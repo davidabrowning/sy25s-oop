@@ -1,35 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UppgiftBankomat
+﻿namespace UppgiftBankomat
 {
-    // ================================ CLASS =================================
-    // TestRunner. Entry point for unit testing. 
-    // ========================================================================
     internal class TestRunner
     {
-        // Fields
         TestHelper testHelper = new TestHelper();
 
-        // ============================== METHOD ==============================
-        // Go. Runs unit tests for this project.
-        // ====================================================================
         public void Go()
         {
             RunAccountTests();
             RunBankTests();
         }
 
-        // ============================== METHOD ==============================
-        // RunAccountTests. Runs unit tests for the Account class.
-        // ====================================================================
         private void RunAccountTests()
         {
-            Console.WriteLine("Kör tester på Account-klassen");
-
             // Variables to reuse during testing
             Account account;
             string title;
@@ -83,33 +65,30 @@ namespace UppgiftBankomat
             testHelper.AssertTrue(title, accString.Contains(accNo) && accString.Contains(accBal));
         }
 
-        // ============================== METHOD ==============================
-        // RunBankTests. Runs unit tests for the Bank class.
-        // ====================================================================
         private void RunBankTests()
         {
-            Console.WriteLine("Kör tester på Bank-klassen");
-
             // Variables to reuse during testing
             Bank bank;
             string title;
             Bankomat bankomat;
 
+            Console.WriteLine("Kör tester på Bank-klassen");
+
             title = "Bank skapad med 10 konton innehåller 10 konton";
             bank = new Bank();
-            bank.CreateAccounts(10);
+            bank.AddAccounts(10);
             testHelper.AssertEquals(title, 10, bank.Accounts.Length);
 
-            title = "Bank börjar som null";
+            title = "Bank har 0 konton i början";
             bank = new Bank();
             bankomat = new Bankomat(bank);
-            testHelper.AssertTrue(title, bank.Accounts == null);
+            testHelper.AssertEquals(title, 0, bank.Accounts.Length);
 
             title = "Bank har 10 konton efter 5 kontons skapats två gånger";
             bank = new Bank();
             bankomat = new Bankomat(bank);
-            bank.CreateAccounts(5);
-            bank.CreateAccounts(5);
+            bank.AddAccounts(5);
+            bank.AddAccounts(5);
             testHelper.AssertEquals(title, 10, bank.Accounts.Length);
         }
     }
