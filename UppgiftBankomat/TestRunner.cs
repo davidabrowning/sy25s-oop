@@ -1,35 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UppgiftBankomat
+﻿namespace UppgiftBankomat
 {
-    // ================================ CLASS =================================
-    // TestRunner. Entry point for unit testing. 
-    // ========================================================================
     internal class TestRunner
     {
-        // Fields
         TestHelper testHelper = new TestHelper();
 
-        // ============================== METHOD ==============================
-        // Go. Runs unit tests for this project.
-        // ====================================================================
         public void Go()
         {
             RunAccountTests();
             RunBankTests();
         }
 
-        // ============================== METHOD ==============================
-        // RunAccountTests. Runs unit tests for the Account class.
-        // ====================================================================
         private void RunAccountTests()
         {
-            Console.WriteLine("Kör tester på Account-klassen");
-
             // Variables to reuse during testing
             Account account;
             string title;
@@ -83,17 +65,14 @@ namespace UppgiftBankomat
             testHelper.AssertTrue(title, accString.Contains(accNo) && accString.Contains(accBal));
         }
 
-        // ============================== METHOD ==============================
-        // RunBankTests. Runs unit tests for the Bank class.
-        // ====================================================================
         private void RunBankTests()
         {
-            Console.WriteLine("Kör tester på Bank-klassen");
-
             // Variables to reuse during testing
             Bank bank;
             string title;
             Bankomat bankomat;
+
+            Console.WriteLine("Kör tester på Bank-klassen");
 
             title = "Bank skapad med 10 konton innehåller 10 konton";
             bank = new Bank();

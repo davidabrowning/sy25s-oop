@@ -1,38 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UppgiftBankomat
+﻿namespace UppgiftBankomat
 {
-    // ================================ CLASS =================================
-    // Bank. Contains accounts and makes changes to those accounts (create,
-    // deposit, withdraw).
-    // ========================================================================
     internal class Bank
     {
-        // Constants
         private const decimal minBalance = 0.00M;
         private const decimal minDeposit = 0.01M;
         private const decimal minWithdrawal = 0.01M;
-        private const string WarningIllegalAccountNumber 
-            = "Lyckades inte hitta detta konto.";
-        private const string DepositSuccessful 
-            = "Du har satt in {0} på konto #{1}.";
-        private const string WarningDepositMustBeGreaterThanMinDeposit 
-            = "Insättning måste vara minst {0}.";
-        private const string WithdrawalSuccessful 
-            = "Du har tagit ut {0} från konto #{1}.";
-        private const string WarningWithdrawalMustBeGreaterThanMinWithdrawal 
-            = "Summa måsta vara minst {0}.";
-        private const string WarningBalanceCannotBeLowerThanMinimum 
-            = "Saldo får inte bli mindre än {0}.";
-        private const string WarningNoAccountsToPrint 
-            = "Lyckades inte hitta några konton.";
+        private const string WarningAccountNotFound  = "Lyckades inte hitta detta konto.";
+        private const string DepositSuccessful  = "Du har satt in {0} på konto #{1}.";
+        private const string WarningDepositMustBeGreaterThanMinDeposit  = "Insättning måste vara minst {0}.";
+        private const string WithdrawalSuccessful  = "Du har tagit ut {0} från konto #{1}.";
+        private const string WarningWithdrawalMustBeGreaterThanMinWithdrawal  = "Summa måsta vara minst {0}.";
+        private const string WarningBalanceCannotBeLowerThanMinimum  = "Saldo får inte bli mindre än {0}.";
+        private const string WarningNoAccountsToPrint   = "Lyckades inte hitta några konton.";
 
-        // Properties
         public Account[] Accounts { get; private set; }
 
         public Bank()
@@ -40,47 +20,31 @@ namespace UppgiftBankomat
             Accounts = new Account[0];
         }
 
-        // ============================== METHOD ==============================
-        // CreateAccounts. Creates the specified number of new blank accounts.
-        // ====================================================================
         public void CreateAccounts(int accountsToCreate)
         {
             Account[] existingAccounts = Accounts;
-            int totalAccounts = existingAccounts.Length + accountsToCreate;
-            Accounts = new Account[totalAccounts];
+            Account[] newAccounts = new Account[accountsToCreate];
+            Accounts = new Account[existingAccounts.Length + newAccounts.Length];
 
-            // Transfer over existing accounts
+            // Create new accounts
+            for (int i = 0; i < newAccounts.Length; i++)
+                newAccounts[i] = new Account();
+            // Transfer existing accounts
             for (int i = 0; i < existingAccounts.Length; i++)
-            {
                 Accounts[i] = existingAccounts[i];
-            }
-            // Add newly requested accounts
+            // Transfer new accounts
             for (int i = 0; i < accountsToCreate; i++)
-            {
-                Accounts[existingAccounts.Length + i] = new Account();
-            }
+                Accounts[existingAccounts.Length + i] = newAccounts[i];
         }
 
-        // ============================== METHOD ==============================
-        // GetAccountByAccountNumber. Returns the account with the desired
-        // account number. Throws an exception if no matches found.
-        // ====================================================================
         public Account GetAccountByAccountNumber(int accountNumber, Bankomat bankomat)
         {
             foreach (Account account in Accounts)
-            {
                 if (account.AccountNumber == accountNumber)
-                {
                     return account;
-                }
-            }
-            throw new Exception(WarningIllegalAccountNumber);
+            throw new Exception(WarningAccountNotFound);
         }
 
-        // ============================== METHOD ==============================
-        // IsValidDeposit. Checks if the deposit amount is valid. Prints out a
-        // relevant message to the user.
-        // ====================================================================
         private bool IsValidDeposit(
             Account account, decimal amount, Bankomat bankomat)
         {
@@ -101,10 +65,6 @@ namespace UppgiftBankomat
             return true;
         }
 
-        // ============================== METHOD ==============================
-        // IsValidWithdrawal. Checks if the withdrawal amount is valid. Prints
-        // out a relevant message to the user.
-        // ====================================================================
         private bool IsValidWithdrawal(
             Account account, decimal amount, Bankomat bankomat)
         {
@@ -125,10 +85,6 @@ namespace UppgiftBankomat
             return true;
         }
 
-        // ============================== METHOD ==============================
-        // Deposit. Deposits the fund amount in the account. Prints out a
-        // relevant message to the user.
-        // ====================================================================
         public void Deposit(int accountNum, decimal amount, Bankomat bankomat)
         {
             try
@@ -151,10 +107,6 @@ namespace UppgiftBankomat
             }
         }
 
-        // ============================== METHOD ==============================
-        // Withdraw. Withdraws the fund amount from the account. Prints out a
-        // relevant message to the user.
-        // ====================================================================
         public void Withdraw(int accountNum, decimal amount, Bankomat bankomat)
         {
             try {
@@ -177,9 +129,6 @@ namespace UppgiftBankomat
 
         }
 
-        // ============================== METHOD ==============================
-        // DisplayAccount. Prints one account's info.
-        // ====================================================================
         public void DisplayAccount(int accountNumber, Bankomat bankomat)
         {
             try 
@@ -193,20 +142,12 @@ namespace UppgiftBankomat
             }
         }
 
-        // ============================== METHOD ==============================
-        // DisplayAllAccounts. Prints info for all accounts in this bank.
-        // ====================================================================
         public void DisplayAllAccounts(Bankomat bankomat)
         {
             if (Accounts.Length == 0)
-            {
                 bankomat.ShowError(WarningNoAccountsToPrint);
-                return;
-            }
             foreach (Account account in Accounts.OrderBy(a => a.AccountNumber))
-            {
                 bankomat.ShowInfo(account.ToString());
-            }
         }
     }
 }
