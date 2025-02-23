@@ -1,4 +1,6 @@
-﻿namespace UppgiftBankomat
+﻿using System.Security.Principal;
+
+namespace UppgiftBankomat
 {
     internal class Bankomat
     {
@@ -21,6 +23,8 @@
         private const string PromptDepositAmount  = "Ange summa i SEK att sätta in:";
         private const string PromptWithdrawalAmount  = "Ange summa i SEK att ta ut:";
         private const string WarningIllegalSelection  = "Ogiltigt menyval. Försök igen.";
+        private const string DepositSuccessful = "Insättning lyckades.";
+        private const string WithdrawalSuccessful = "Uttagning lyckades.";
 
         private IInputDevice inputKeypad;
         private IOutputDevice outputScreen;
@@ -109,9 +113,24 @@
             int accountNumber = inputKeypad.GetIntInput();
             outputScreen.PrintPrompt(PromptDepositAmount);
             decimal amount = inputKeypad.GetDecimalInput();
-            bank.Deposit(accountNumber, amount, this);
+            outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
+            MakeDeposit(accountNumber, amount);
 
             ReturnToMainMenu();
+        }
+
+        private void MakeDeposit(int accountNumber, decimal amount)
+        {
+            try
+            {
+                bank.Deposit(accountNumber, amount);
+                outputScreen.PrintSuccess(String.Format(DepositSuccessful));
+                outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
+            }
+            catch (Exception e)
+            {
+                outputScreen.PrintWarning(e.Message);
+            }
         }
 
         private void ShowWithdrawalMenu()
@@ -121,9 +140,24 @@
             int accountNumber = inputKeypad.GetIntInput();
             outputScreen.PrintPrompt(PromptWithdrawalAmount);
             decimal amount = inputKeypad.GetDecimalInput();
-            bank.Withdraw(accountNumber, amount, this);
+            outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
+            MakeWithdrawal(accountNumber, amount);
 
             ReturnToMainMenu();
+        }
+
+        private void MakeWithdrawal(int accountNumber, decimal amount)
+        {
+            try
+            {
+                bank.Withdraw(accountNumber, amount);
+                outputScreen.PrintSuccess(String.Format(WithdrawalSuccessful));
+                outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
+            }
+            catch (Exception e)
+            {
+                outputScreen.PrintWarning(e.Message);
+            }
         }
 
         private void DisplayOne()
@@ -131,7 +165,14 @@
             outputScreen.PrintTitle(MenuTitleDisplayOne);
             outputScreen.PrintPrompt(PromptAccountNumber);
             int accountNumber = inputKeypad.GetIntInput();
-            bank.DisplayAccount(accountNumber, this);
+            try
+            {
+                outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
+            }
+            catch (Exception e)
+            {
+                outputScreen.PrintWarning(e.Message);
+            }
 
             ReturnToMainMenu();
         }
@@ -139,24 +180,19 @@
         private void DisplayAll()
         {
             outputScreen.PrintTitle(MenuTitleDisplayAll);
-            bank.DisplayAllAccounts(this);
+            try
+            {
+                foreach (string accountSummary in bank.GetAllAccountSummaries())
+                {
+                    outputScreen.PrintInfo(accountSummary);
+                }
+            }
+            catch (Exception e)
+            {
+                outputScreen.PrintWarning(e.Message);
+            }
 
             ReturnToMainMenu();
-        }
-
-        public void ShowInfo(string message)
-        {
-            outputScreen.PrintInfo(message);
-        }
-
-        public void ShowSuccess(string message)
-        {
-            outputScreen.PrintSuccess(message);
-        }
-
-        public void ShowError(string message)
-        {
-            outputScreen.PrintWarning(message);
         }
     }
 }

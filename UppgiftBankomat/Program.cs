@@ -11,7 +11,7 @@
             Bank bank = new Bank();
             Bankomat bankomat = new Bankomat(bank);
             int accountsToCreate = 10;
-            bank.CreateAccounts(accountsToCreate);
+            bank.AddAccounts(accountsToCreate);
             bankomat.Go();
             #endregion application
 

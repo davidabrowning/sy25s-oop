@@ -76,7 +76,7 @@
 
             title = "Bank skapad med 10 konton innehåller 10 konton";
             bank = new Bank();
-            bank.CreateAccounts(10);
+            bank.AddAccounts(10);
             testHelper.AssertEquals(title, 10, bank.Accounts.Length);
 
             title = "Bank har 0 konton i början";
@@ -87,8 +87,8 @@
             title = "Bank har 10 konton efter 5 kontons skapats två gånger";
             bank = new Bank();
             bankomat = new Bankomat(bank);
-            bank.CreateAccounts(5);
-            bank.CreateAccounts(5);
+            bank.AddAccounts(5);
+            bank.AddAccounts(5);
             testHelper.AssertEquals(title, 10, bank.Accounts.Length);
         }
     }
