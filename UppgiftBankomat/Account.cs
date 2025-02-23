@@ -20,12 +20,14 @@
 
         public void AddFunds(decimal amount)
         {
-            if (amount > 0) { Balance += amount; }
+            if (amount > 0)
+                Balance += amount;
         }
 
         public void WithdrawFunds(decimal amount)
         {
-            if (amount > 0 && amount <= Balance) { Balance -= amount; }
+            if (amount > 0 && amount <= Balance)
+                Balance -= amount;
         }
 
         public override string ToString()
