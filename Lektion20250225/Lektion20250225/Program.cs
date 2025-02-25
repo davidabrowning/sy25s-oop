@@ -15,13 +15,19 @@
             myList.Add(4);
             myList.Add(5);
             myList.ShowAll();
+
+            Console.WriteLine("Compare tester");
+            CustomList<string> aliLista = new CustomList<string>();
+            aliLista.Add("Hej");
+            aliLista.Add("Hej");
+            // Console.WriteLine(aliLista.Compare("Hej", "Hej"));
+            //Console.WriteLine(aliLista.Compare(aliLista.Get(0), aliLista.Get(1)));
+            Console.WriteLine(aliLista.CompareAtIndex(0, 1));
         }
 
-        private static void PrintAndCompare<T>(T firstValue, T secondValue) 
+        private static void PrintAndCompare<T>(T firstValue, T secondValue)
             => Console.WriteLine($"{firstValue} == {secondValue} : {CompareValues(firstValue, secondValue)}");
-
-        private static bool CompareValues<T>(T firstValue, T secondValue)
-            => firstValue.Equals(secondValue);
+        private static bool CompareValues<T>(T firstValue, T secondValue) => Equals(firstValue, secondValue);
     }
 
     internal class CustomList<T>
@@ -34,11 +40,11 @@
         {
             int counter = 0;
             foreach (T item in items)
-            {
                 Console.Write(counter++ + ". " + item.ToString() + "  ");
-            }
             Console.WriteLine();
         }
+        public bool Compare(T firstValue, T secondValue) => Equals(firstValue, secondValue);
+        public bool CompareAtIndex(int firstIndex, int secondIndex) => Compare(Get(firstIndex), Get(secondIndex));
     }
 
     internal class Storage<T>
