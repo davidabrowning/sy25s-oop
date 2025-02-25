@@ -1,6 +1,6 @@
 ﻿namespace UppgiftBankomat
 {
-    internal class Bank
+    internal class Bank : IAccountRepository
     {
         private const decimal minBalance = 0.00M;
         private const decimal minDeposit = 0.01M;

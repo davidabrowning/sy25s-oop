@@ -26,15 +26,15 @@ namespace UppgiftBankomat
         private const string DepositSuccessful = "Insättning lyckades.";
         private const string WithdrawalSuccessful = "Uttag lyckades.";
 
-        private IInputDevice inputKeypad;
-        private IOutputDevice outputScreen;
-        private Bank bank;
+        private IInputDevice inputDevice;
+        private IOutputDevice outputDevice;
+        private IAccountRepository accountRepository;
 
-        public Bankomat(Bank b)
+        public Bankomat(IAccountRepository accountRepository)
         {
-            inputKeypad = new InputKeypad();
-            outputScreen = new OutputScreen();
-            bank = b;
+            this.inputDevice = new InputKeypad();
+            this.outputDevice = new OutputScreen();
+            this.accountRepository = accountRepository;
         }
 
         public void Go()
@@ -46,36 +46,36 @@ namespace UppgiftBankomat
 
         private void Startup()
         {
-            outputScreen.PrintTitle(MenuTitleHello);
-            outputScreen.PrintNeutral(MenuTextHello);
-            outputScreen.PrintContinueConfirmation();
-            outputScreen.ResetSettings();
+            outputDevice.PrintTitle(MenuTitleHello);
+            outputDevice.PrintNeutral(MenuTextHello);
+            outputDevice.PrintContinueConfirmation();
+            outputDevice.ResetSettings();
         }
 
         private void Shutdown()
         {
-            outputScreen.PrintTitle(MenuTitleGoodbye);
-            outputScreen.PrintNeutral(MenuTextGoodbye);
-            outputScreen.PrintContinueConfirmation();
-            outputScreen.ResetSettings();
+            outputDevice.PrintTitle(MenuTitleGoodbye);
+            outputDevice.PrintNeutral(MenuTextGoodbye);
+            outputDevice.PrintContinueConfirmation();
+            outputDevice.ResetSettings();
         }
 
         private void ShowMainMenu()
         {
-            outputScreen.PrintTitle(MenuTitleMain);
-            outputScreen.PrintNeutral($"{(int)MenuOption.Deposit}. {MenuTextDeposit}");
-            outputScreen.PrintNeutral($"{(int)MenuOption.Withdraw}. {MenuTextWithdraw}");
-            outputScreen.PrintNeutral($"{(int)MenuOption.DisplayAccount}. {MenuTextDisplayOne}");
-            outputScreen.PrintNeutral($"{(int)MenuOption.DisplayAllAcounts}. {MenuTextDisplayAll}");
-            outputScreen.PrintNeutral($"{(int)MenuOption.Quit}. {MenuTextQuit}");
+            outputDevice.PrintTitle(MenuTitleMain);
+            outputDevice.PrintNeutral($"{(int)MenuOption.Deposit}. {MenuTextDeposit}");
+            outputDevice.PrintNeutral($"{(int)MenuOption.Withdraw}. {MenuTextWithdraw}");
+            outputDevice.PrintNeutral($"{(int)MenuOption.DisplayAccount}. {MenuTextDisplayOne}");
+            outputDevice.PrintNeutral($"{(int)MenuOption.DisplayAllAcounts}. {MenuTextDisplayAll}");
+            outputDevice.PrintNeutral($"{(int)MenuOption.Quit}. {MenuTextQuit}");
 
             HandleMainMenuSelection();
         }
 
         private void HandleMainMenuSelection()
         {
-            outputScreen.PrintPrompt(PromptYourSelection);
-            int menuSelection = inputKeypad.GetIntInput();
+            outputDevice.PrintPrompt(PromptYourSelection);
+            int menuSelection = inputDevice.GetIntInput();
 
             switch (menuSelection)
             {
@@ -94,7 +94,7 @@ namespace UppgiftBankomat
                 case (int)MenuOption.Quit:
                     break;
                 default:
-                    outputScreen.PrintWarning(WarningIllegalSelection);
+                    outputDevice.PrintWarning(WarningIllegalSelection);
                     ReturnToMainMenu();
                     break;
                 }
@@ -102,17 +102,17 @@ namespace UppgiftBankomat
 
         private void ReturnToMainMenu()
         {
-            outputScreen.PrintContinueConfirmation();
+            outputDevice.PrintContinueConfirmation();
             ShowMainMenu();
         }
 
         private void ShowDepositMenu()
         {
-            outputScreen.PrintTitle(MenuTitleDeposit);
-            outputScreen.PrintPrompt(PromptAccountNumber);
-            int accountNumber = inputKeypad.GetIntInput();
-            outputScreen.PrintPrompt(PromptDepositAmount);
-            decimal amount = inputKeypad.GetDecimalInput();
+            outputDevice.PrintTitle(MenuTitleDeposit);
+            outputDevice.PrintPrompt(PromptAccountNumber);
+            int accountNumber = inputDevice.GetIntInput();
+            outputDevice.PrintPrompt(PromptDepositAmount);
+            decimal amount = inputDevice.GetDecimalInput();
             MakeDeposit(accountNumber, amount);
 
             ReturnToMainMenu();
@@ -122,24 +122,24 @@ namespace UppgiftBankomat
         {
             try
             {
-                outputScreen.PrintNeutral(bank.GetAccountSummary(accountNumber));
-                bank.Deposit(accountNumber, amount);
-                outputScreen.PrintSuccess(String.Format(DepositSuccessful));
-                outputScreen.PrintNeutral(bank.GetAccountSummary(accountNumber));
+                outputDevice.PrintNeutral(accountRepository.GetAccountSummary(accountNumber));
+                accountRepository.Deposit(accountNumber, amount);
+                outputDevice.PrintSuccess(String.Format(DepositSuccessful));
+                outputDevice.PrintNeutral(accountRepository.GetAccountSummary(accountNumber));
             }
             catch (Exception e)
             {
-                outputScreen.PrintWarning(e.Message);
+                outputDevice.PrintWarning(e.Message);
             }
         }
 
         private void ShowWithdrawalMenu()
         {
-            outputScreen.PrintTitle(MenuTitleWithdraw);
-            outputScreen.PrintPrompt(PromptAccountNumber);
-            int accountNumber = inputKeypad.GetIntInput();
-            outputScreen.PrintPrompt(PromptWithdrawalAmount);
-            decimal amount = inputKeypad.GetDecimalInput();
+            outputDevice.PrintTitle(MenuTitleWithdraw);
+            outputDevice.PrintPrompt(PromptAccountNumber);
+            int accountNumber = inputDevice.GetIntInput();
+            outputDevice.PrintPrompt(PromptWithdrawalAmount);
+            decimal amount = inputDevice.GetDecimalInput();
             MakeWithdrawal(accountNumber, amount);
 
             ReturnToMainMenu();
@@ -149,29 +149,29 @@ namespace UppgiftBankomat
         {
             try
             {
-                outputScreen.PrintNeutral(bank.GetAccountSummary(accountNumber));
-                bank.Withdraw(accountNumber, amount);
-                outputScreen.PrintSuccess(String.Format(WithdrawalSuccessful));
-                outputScreen.PrintNeutral(bank.GetAccountSummary(accountNumber));
+                outputDevice.PrintNeutral(accountRepository.GetAccountSummary(accountNumber));
+                accountRepository.Withdraw(accountNumber, amount);
+                outputDevice.PrintSuccess(String.Format(WithdrawalSuccessful));
+                outputDevice.PrintNeutral(accountRepository.GetAccountSummary(accountNumber));
             }
             catch (Exception e)
             {
-                outputScreen.PrintWarning(e.Message);
+                outputDevice.PrintWarning(e.Message);
             }
         }
 
         private void DisplayOne()
         {
-            outputScreen.PrintTitle(MenuTitleDisplayOne);
-            outputScreen.PrintPrompt(PromptAccountNumber);
-            int accountNumber = inputKeypad.GetIntInput();
+            outputDevice.PrintTitle(MenuTitleDisplayOne);
+            outputDevice.PrintPrompt(PromptAccountNumber);
+            int accountNumber = inputDevice.GetIntInput();
             try
             {
-                outputScreen.PrintNeutral(bank.GetAccountSummary(accountNumber));
+                outputDevice.PrintNeutral(accountRepository.GetAccountSummary(accountNumber));
             }
             catch (Exception e)
             {
-                outputScreen.PrintWarning(e.Message);
+                outputDevice.PrintWarning(e.Message);
             }
 
             ReturnToMainMenu();
@@ -179,15 +179,15 @@ namespace UppgiftBankomat
 
         private void DisplayAll()
         {
-            outputScreen.PrintTitle(MenuTitleDisplayAll);
+            outputDevice.PrintTitle(MenuTitleDisplayAll);
             try
             {
-                foreach (string accountSummary in bank.GetAllAccountSummaries())
-                    outputScreen.PrintNeutral(accountSummary);
+                foreach (string accountSummary in accountRepository.GetAllAccountSummaries())
+                    outputDevice.PrintNeutral(accountSummary);
             }
             catch (Exception e)
             {
-                outputScreen.PrintWarning(e.Message);
+                outputDevice.PrintWarning(e.Message);
             }
 
             ReturnToMainMenu();
