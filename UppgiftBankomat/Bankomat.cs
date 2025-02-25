@@ -47,7 +47,7 @@ namespace UppgiftBankomat
         private void Startup()
         {
             outputScreen.PrintTitle(MenuTitleHello);
-            outputScreen.PrintInfo(MenuTextHello);
+            outputScreen.PrintNeutral(MenuTextHello);
             outputScreen.PrintContinueConfirmation();
             outputScreen.ResetSettings();
         }
@@ -55,7 +55,7 @@ namespace UppgiftBankomat
         private void Shutdown()
         {
             outputScreen.PrintTitle(MenuTitleGoodbye);
-            outputScreen.PrintInfo(MenuTextGoodbye);
+            outputScreen.PrintNeutral(MenuTextGoodbye);
             outputScreen.PrintContinueConfirmation();
             outputScreen.ResetSettings();
         }
@@ -63,11 +63,11 @@ namespace UppgiftBankomat
         private void ShowMainMenu()
         {
             outputScreen.PrintTitle(MenuTitleMain);
-            outputScreen.PrintInfo($"{(int)MenuOption.Deposit}. {MenuTextDeposit}");
-            outputScreen.PrintInfo($"{(int)MenuOption.Withdraw}. {MenuTextWithdraw}");
-            outputScreen.PrintInfo($"{(int)MenuOption.DisplayAccount}. {MenuTextDisplayOne}");
-            outputScreen.PrintInfo($"{(int)MenuOption.DisplayAllAcounts}. {MenuTextDisplayAll}");
-            outputScreen.PrintInfo($"{(int)MenuOption.Quit}. {MenuTextQuit}");
+            outputScreen.PrintNeutral($"{(int)MenuOption.Deposit}. {MenuTextDeposit}");
+            outputScreen.PrintNeutral($"{(int)MenuOption.Withdraw}. {MenuTextWithdraw}");
+            outputScreen.PrintNeutral($"{(int)MenuOption.DisplayAccount}. {MenuTextDisplayOne}");
+            outputScreen.PrintNeutral($"{(int)MenuOption.DisplayAllAcounts}. {MenuTextDisplayAll}");
+            outputScreen.PrintNeutral($"{(int)MenuOption.Quit}. {MenuTextQuit}");
 
             HandleMainMenuSelection();
         }
@@ -122,10 +122,10 @@ namespace UppgiftBankomat
         {
             try
             {
-                outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
+                outputScreen.PrintNeutral(bank.GetAccountSummary(accountNumber));
                 bank.Deposit(accountNumber, amount);
                 outputScreen.PrintSuccess(String.Format(DepositSuccessful));
-                outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
+                outputScreen.PrintNeutral(bank.GetAccountSummary(accountNumber));
             }
             catch (Exception e)
             {
@@ -149,10 +149,10 @@ namespace UppgiftBankomat
         {
             try
             {
-                outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
+                outputScreen.PrintNeutral(bank.GetAccountSummary(accountNumber));
                 bank.Withdraw(accountNumber, amount);
                 outputScreen.PrintSuccess(String.Format(WithdrawalSuccessful));
-                outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
+                outputScreen.PrintNeutral(bank.GetAccountSummary(accountNumber));
             }
             catch (Exception e)
             {
@@ -167,7 +167,7 @@ namespace UppgiftBankomat
             int accountNumber = inputKeypad.GetIntInput();
             try
             {
-                outputScreen.PrintInfo(bank.GetAccountSummary(accountNumber));
+                outputScreen.PrintNeutral(bank.GetAccountSummary(accountNumber));
             }
             catch (Exception e)
             {
@@ -183,7 +183,7 @@ namespace UppgiftBankomat
             try
             {
                 foreach (string accountSummary in bank.GetAllAccountSummaries())
-                    outputScreen.PrintInfo(accountSummary);
+                    outputScreen.PrintNeutral(accountSummary);
             }
             catch (Exception e)
             {

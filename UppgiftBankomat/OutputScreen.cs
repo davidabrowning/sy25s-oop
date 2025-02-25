@@ -48,7 +48,7 @@
             Console.Write("##");
         }
 
-        public void PrintInfo(string info)
+        public void PrintNeutral(string info)
         {
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"\t{info}");

@@ -4,7 +4,7 @@
     {
         void ResetSettings();
         void PrintTitle(string title);
-        void PrintInfo(string info);
+        void PrintNeutral(string info);
         void PrintSuccess(string success);
         void PrintWarning(string warning);
         void PrintPrompt(string prompt);
