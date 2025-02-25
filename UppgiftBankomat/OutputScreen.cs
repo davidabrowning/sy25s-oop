@@ -48,35 +48,28 @@
             Console.Write("##");
         }
 
-        public void PrintNeutral(string info)
+        private void PrintMessage(string text, ConsoleColor color)
         {
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine($"\t{info}");
+            Console.ForegroundColor = color;
+            Console.WriteLine($"\t{text}");
+        }
+        private void PrintPartialMessage(string text, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.Write($"\t{text}");
         }
 
-        public void PrintSuccess(string success)
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"\t{success}");
-        }
-
-        public void PrintWarning(string warning)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"\t{warning}");
-        }
-
-        public void PrintPrompt(string prompt)
-        {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.Write($"\t{prompt} ");
-        }
+        public void PrintNeutral(string text) => PrintMessage(text, ConsoleColor.White);
+        public void PrintInactive(string text) => PrintMessage(text, ConsoleColor.Gray);
+        public void PrintSuccess(string text) => PrintMessage(text, ConsoleColor.Green);
+        public void PrintWarning(string text) => PrintMessage(text, ConsoleColor.Red);
+        public void PrintPrompt(string text) => PrintPartialMessage(text + " ", ConsoleColor.Cyan);
 
         public void PrintContinueConfirmation()
         {
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine($"\n\t{ConfirmContinue}");
-            Console.Write("\n\t");
+            PrintInactive("");
+            PrintInactive($"{ConfirmContinue}");
+            PrintPartialMessage("", default); // Purpose of this partial message is to indent the cursor location
             Console.ReadLine(); // Purpose of this ReadLine() is to wait for ENTER before continuing
         }
     }
