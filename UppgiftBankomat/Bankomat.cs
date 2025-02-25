@@ -183,9 +183,7 @@ namespace UppgiftBankomat
             try
             {
                 foreach (string accountSummary in bank.GetAllAccountSummaries())
-                {
                     outputScreen.PrintInfo(accountSummary);
-                }
             }
             catch (Exception e)
             {

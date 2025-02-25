@@ -30,9 +30,7 @@
         {
             Console.Write("\n\t");
             for (int i = 0; i < TitleHeadingWidth; i++)
-            {
                 Console.Write(TitleBorder);
-            }
             Console.WriteLine();
         }
 
@@ -40,17 +38,13 @@
         {
             Console.Write($"\t##");
             for (int i = 0; i < (TitleHeadingWidth - title.Length - 4) / 2; i++)
-            {
                 Console.Write(TitleSpacer);
-            }
         }
 
         private void PrintTitleSpacerRight(string title)
         {
             for (int i = 0; i < (TitleHeadingWidth - title.Length - 3) / 2; i++)
-            {
                 Console.Write(TitleSpacer);
-            }
             Console.Write("##");
         }
 
